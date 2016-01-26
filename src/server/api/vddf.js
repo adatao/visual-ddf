@@ -14,7 +14,7 @@ export async function create(app, request) {
   let body = request.body;
 
   // make sure all parameters are available
-  if (!body.data || !body.visualization || !body.schema) {
+  if (!body.data) {
     throw new Error('Not enough parameter');
   }
 

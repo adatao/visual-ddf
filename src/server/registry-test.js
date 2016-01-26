@@ -42,6 +42,17 @@ describe('DbRegistry', () => {
 
   it('should validate data correctly');
 
+  it('should extract schema from data', () => {
+    let detectResult = DbRegistry.extractSchema([
+      {test: 1}, {test: 2}
+    ]);
+
+    assert.lengthOf(detectResult.schema, 1);
+    assert.equal(detectResult.schema[0].name, 'test');
+    assert.lengthOf(detectResult.data, 2);
+    assert.equal(2, detectResult.data[1][0]);
+  });
+
   it('should load existing ddf', async() => {
     const checkUuid = '123';
 

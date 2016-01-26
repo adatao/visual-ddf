@@ -11,12 +11,16 @@ export default function setupRoutes(app) {
     this.body = 'Hello world';
   });
 
+  router.get('/vddf/create', async function() {
+    this.body = {'test': 1};
+  });
+
   router.get('/vddf/:uuid', async function() {
     let [ uuid, type ] = this.params.uuid.split('.');
 
-    let vddf = await app.registry.load(uuid);
-
     if (type === 'json') {
+      let vddf = await app.registry.load(uuid);
+
       if (!vddf) {
         this.response.statusCode = 404;
         this.response = {

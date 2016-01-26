@@ -11,7 +11,15 @@ export default class DbRegistry {
     // additional validation
     if (vddf.data.length === 0) {
       throw new Error('vDDF data can not be empty');
-    } else if (vddf.schema.length === 0) {
+    }
+
+    if (!vddf.schema) {
+      const schemaResult = this.constructor.extractSchema(vddf.data);
+      vddf.data = schemaResult.data;
+      vddf.schema = schemaResult.schema;
+    }
+
+    if (vddf.schema.length === 0) {
       throw new Error('Schema can not be empty');
     } else {
       let rowId;
@@ -30,6 +38,13 @@ export default class DbRegistry {
       if (rowId !== undefined) {
         throw new Error(`Data is mismatch at row ${rowId}.`);
       }
+    }
+
+    // fallback to data table
+    if (!vddf.visualization) {
+      vddf.visualization = {
+        type: 'datatable'
+      };
     }
 
     await this.db.table('vddf').insert({
@@ -55,6 +70,28 @@ export default class DbRegistry {
       data: JSON.parse(row[0].data),
       schema: JSON.parse(row[0].schema),
       visualization: JSON.parse(row[0].visualization)
+    };
+  }
+
+  static extractSchema(data) {
+    let schema = [];
+    let newData = data.map(d => {
+      const row = Object.values(d);
+
+      if (schema.length === 0) {
+        schema = Object.keys(d).map(f => {
+          return {
+            name: f
+          };
+        });
+      }
+
+      return row;
+    });
+
+    return {
+      data: newData,
+      schema: schema
     };
   }
 }
