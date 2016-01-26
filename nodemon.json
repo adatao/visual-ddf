@@ -1,0 +1,11 @@
+{
+  "verbose": false,
+  "ignore": [
+    "*-test.js",
+    "webpack",
+    "assets/*",
+    "src/browser"
+  ],
+  "exec": "npm run start-server",
+  "ext": "js"
+}

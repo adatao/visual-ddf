@@ -1,0 +1,9 @@
+{
+  "port": 5001,
+  "database": {
+    "client": "sqlite3",
+    "connection": {
+      "filename": "./data.sqlite"
+    }
+  }
+}

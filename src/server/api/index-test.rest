@@ -1,0 +1,19 @@
+POST http://localhost:5001/api/vddf/create
+Content-Type: application/json
+
+{
+  "visualization": {
+  },
+  "data": [
+    [1,2],
+    [4,5]
+  ],
+  "schema": [
+    {},
+    {}
+  ]
+}
+
+
+# Retrieve a vDDF
+GET http://localhost:5001/api/vddf/858a9667-4fc6-426d-bd40-f94728d6d465
