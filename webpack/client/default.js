@@ -4,18 +4,19 @@ var path    = require('path');
 var webpack = require('webpack');
 var config  = require('../config.json');
 var ROOT    = require('../path-helper').ROOT;
-var CopyWebpackPlugin = require('copy-webpack-plugin');
+
 
 module.exports = {
   context: ROOT,
   entry: {
-    vddf: path.join(ROOT, config.path.src, 'browser')
+    app: path.join(ROOT, config.path.src, 'browser'),
+    embed: path.join(ROOT, config.path.src, 'browser/embed')
   },
   output: {
     path: path.join(ROOT, config.path.assetBuild),
     publicPath: config.path.build,
     filename: '[name].js',
-    chunkFilename: '[id].js'
+    chunkFilename: '[name].chunk.[id].js'
   },
   externals: {
     'fetch': 'fetch'
@@ -29,7 +30,6 @@ module.exports = {
   },
   module: {
     loaders: [
-      {test: require.resolve('react'), loader: 'expose?React'},
       {
         test: /.js$/,
         exclude: /node_modules/,
@@ -42,6 +42,7 @@ module.exports = {
     ]
   },
   plugins: [
+    new webpack.optimize.CommonsChunkPlugin("init.js"),
     new webpack.optimize.AggressiveMergingPlugin(),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.OccurenceOrderPlugin(),
@@ -50,8 +51,6 @@ module.exports = {
     ]),
     new webpack.DefinePlugin({
       'process.env.runtimeEnv': '"client"'
-    }),
-    new CopyWebpackPlugin([
-    ])
+    })
   ]
 };

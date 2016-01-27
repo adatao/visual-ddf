@@ -11,11 +11,15 @@ module.exports = _.merge(defaultConfig, {
   entry: {
 
   }, // Hot Module Replacement
+  output: {
+    publicPath: 'http://localhost:8080/build/'
+  },
   cache: true,
   debug: true,
   outputPathinfo: true,
   devtool: 'source-map',
   devServer: {
+    port: 8080,
     contentBase: ROOT,
     noInfo: true,
     hot: true,
@@ -50,7 +54,6 @@ module.exports = _.merge(defaultConfig, {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(), // Hot Module Replacement
-    /*new webpack.optimize.CommonsChunkPlugin('common', 'common.bundle.js'),*/ // Code splitting
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': '"development"'
     })
