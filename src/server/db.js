@@ -8,7 +8,9 @@ export default function setupDatabase(app) {
     .then((exists) => {
       return !exists ? app.db.schema.createTableIfNotExists('vddf', (table) => {
         table.increments('id');
-        table.uuid('uuid', 255).unique();
+        table.uuid('uuid').unique();
+        table.text('title');
+        table.text('source');
         table.json('data');
         table.json('schema');
         table.json('visualization');

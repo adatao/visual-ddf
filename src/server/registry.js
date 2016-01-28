@@ -49,6 +49,8 @@ export default class DbRegistry {
 
     await this.db.table('vddf').insert({
       uuid: newUuid,
+      title: vddf.title,
+      source: vddf.source,
       data: JSON.stringify(vddf.data),
       schema: JSON.stringify(vddf.schema),
       visualization: JSON.stringify(vddf.visualization)
@@ -67,6 +69,8 @@ export default class DbRegistry {
 
     return {
       uuid: row[0].uuid,
+      title: row[0].title,
+      source: row[0].source,
       data: JSON.parse(row[0].data),
       schema: JSON.parse(row[0].schema),
       visualization: JSON.parse(row[0].visualization)

@@ -32,6 +32,7 @@ export default class vDDF extends BasevDDF {
       }
 
       this.vddf = await response.json();
+      this.title = this.vddf.title;
     }
 
     return this.vddf;

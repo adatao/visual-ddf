@@ -19,12 +19,17 @@ export async function create(app, request) {
   }
 
   const vddfUuid = await app.registry.create(body);
+  const baseUri = request.origin;
+  const vddfUri = `${baseUri}/vddf/${vddfUuid}`;
+  const embedCode = `<div data-vddf="${vddfUri}"></div>` +
+          `<script type="text/javascript" href="${baseUri}/assets/vddf.js"></script>`;
 
   return {
     status: "success",
     result: {
       uuid: vddfUuid,
-      uri: `${request.origin}/vddf/${vddfUuid}`
+      uri: vddfUri,
+      embedCode: embedCode
     }
   };
 }

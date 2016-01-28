@@ -37,7 +37,6 @@ const style = {
 export default class Chart extends React.Component {
 
   static defaultProps = {
-    title: 'Untitled Chart',
     width: 600,
     height: 400
   };
@@ -123,10 +122,12 @@ export default class Chart extends React.Component {
   }
 
   render() {
+    let title = this.vddf.title || 'Untititled Chart';
+
     return (
       <div style={Object.assign(style.container, {width: this.props.width})}>
         <div className='viz-title' style={style.title}>
-        {this.props.title}
+        {title}
         <div style={{float: 'right'}}>
         {this.getChartTypePopover()}
         <FontIcon style={style.menuIcon} className='material-icons'>filter_list</FontIcon>

@@ -30,12 +30,7 @@ export default function setupRoutes(app) {
         };
       }
 
-      this.body = {
-        uuid: vddf.uuid,
-        data: vddf.data,
-        schema: vddf.schema,
-        visualization: vddf.visualization
-      };
+      this.body = vddf;
     } else {
       let template = swig.renderFile(`${app.rootDir}/templates/embed.html`, {
         uuid: this.params.uuid,
