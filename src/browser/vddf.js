@@ -14,9 +14,13 @@ export default class vDDF extends BasevDDF {
     this.uri = uri;
   }
 
+  changeChartType(type) {
+    this.visualization.type = type;
+  }
+
   getAvailableCharts() {
     // XXX: figure out by schema
-    return ['bar', 'pie', 'datatable'];
+    return ['donut', 'bar', 'pie', 'datatable'];
   }
 
   async load() {

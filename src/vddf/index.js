@@ -63,4 +63,11 @@ export default class vDDF extends EventEmitter {
   getSchema() {
     throw new Error('Not implemented');
   }
+
+  /**
+   * Persist current change
+   */
+  async persist() {
+    throw new Error('Not implemented');
+  }
 }
