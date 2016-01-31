@@ -48,10 +48,12 @@ export default class vDDF extends BasevDDF {
     return this.vddf.visualization;
   }
 
-  async fetch() {
-    await this.load();
-
+  fetch() {
     return this.vddf.data;
+  }
+
+  update(data) {
+    this.vddf.data = data;
   }
 
   getSchema() {

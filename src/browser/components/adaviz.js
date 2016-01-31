@@ -8,7 +8,7 @@ export default class AdaVizChart extends React.Component {
   };
 
   shouldComponentUpdate(nextProps) {
-    console.log(nextProps.spec.toJS());
+    // console.log(nextProps.spec.toJS());
     return nextProps.spec !== this.props.spec;
   }
 

@@ -1,9 +1,9 @@
 import React from 'react';
-import FontIcon from 'material-ui/lib/font-icon';
+import AdaVizChart from './adaviz';
 import DropdownMenu from './dropdown-menu';
 import Popover from './popover';
 import ChangeChartDropdown from './change-chart-dropdown';
-import AdaVizChart from './adaviz';
+import DataEditModal from './data-edit-modal';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 import autobind from 'autobind-decorator';
 import Immutable from 'immutable';
@@ -44,7 +44,8 @@ export default class Chart extends React.Component {
     super(props);
 
     this.state = {
-      adaviz: null
+      adaviz: null,
+      showEditModal: false
     };
   }
 
@@ -59,25 +60,23 @@ export default class Chart extends React.Component {
 
   renderChart() {
     const vddf = this.props.vddf;
+    const raw = vddf.fetch();
 
-    this.props.vddf.fetch()
-      .then(raw => {
-        // convert to adaviz structure
-        let data = raw.map(d => {
-          return this.props.vddf.getSchema().reduce((obj,column,idx) => {
-            return Object.assign(obj, {[column.name]: d[idx] });
-          }, {});
-        });
+    // convert to adaviz structure
+    let data = raw.map(d => {
+      return this.props.vddf.getSchema().reduce((obj,column,idx) => {
+        return Object.assign(obj, {[column.name]: d[idx] });
+      }, {});
+    });
 
-        this.setState({
-          adaviz: Immutable.fromJS({
-            ...vddf.visualization,
-            width: this.props.width,
-            height: this.props.height,
-            data
-          })
-        });
-      });
+    this.setState({
+      adaviz: Immutable.fromJS({
+          ...vddf.visualization,
+        width: this.props.width,
+        height: this.props.height,
+        data
+      })
+    });
   }
 
   @autobind
@@ -87,13 +86,27 @@ export default class Chart extends React.Component {
     this.renderChart();
   }
 
+  @autobind
+  toggleEditModal() {
+    this.setState({
+      showEditModal: !this.state.showEditModal
+    });
+  }
+
+  @autobind
+  saveData(data) {
+    this.vddf.update(data);
+    this.toggleEditModal();
+    this.renderChart();
+  }
+
   getMenu() {
     let menus = null;
 
     menus = (
         <DropdownMenu>
         <MenuItem primaryText='Rename ...'/>
-        <MenuItem primaryText='Edit data ...'/>
+        <MenuItem onClick={this.toggleEditModal} primaryText='Edit data ...'/>
         <MenuItem primaryText='Publish ...'/>
         </DropdownMenu>
     );
@@ -105,6 +118,10 @@ export default class Chart extends React.Component {
     return (
         <ChangeChartDropdown charts={this.vddf.getAvailableCharts()} onClick={this.changeChartType} />
     );
+  }
+
+  getEditModal() {
+    return <DataEditModal vddf={this.vddf} onRequestClose={this.toggleEditModal} onSave={this.saveData} />;
   }
 
   getChart() {
@@ -126,6 +143,7 @@ export default class Chart extends React.Component {
         </div>
         </div>
         {this.state.adaviz && this.getChart()}
+        {this.state.showEditModal && this.getEditModal()}
       </div>
     );
   }

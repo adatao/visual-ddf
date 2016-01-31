@@ -56,7 +56,7 @@ export default class vDDF extends EventEmitter {
   /**
    * Fetch data
    */
-  async fetch() {
+  fetch() {
     throw new Error('Not implemented');
   }
 
