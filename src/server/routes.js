@@ -19,18 +19,18 @@ export default function setupRoutes(app) {
     let [ uuid, type ] = this.params.uuid.split('.');
 
     if (type === 'json') {
-      let vddf = await app.registry.load(uuid);
+      try {
+        let vddf = await app.registry.load(uuid);
 
-      if (!vddf) {
+        this.body = vddf;
+      } catch (ex) {
         this.response.statusCode = 404;
-        this.response = {
+        this.body = {
           error: {
-            message: 'VDDF is not available'
+            message: ex.message
           }
         };
       }
-
-      this.body = vddf;
     } else {
       let template = swig.renderFile(`${app.rootDir}/templates/embed.html`, {
         uuid: this.params.uuid,

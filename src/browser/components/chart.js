@@ -2,10 +2,9 @@ import React from 'react';
 import FontIcon from 'material-ui/lib/font-icon';
 import DropdownMenu from './dropdown-menu';
 import Popover from './popover';
+import ChangeChartDropdown from './change-chart-dropdown';
 import AdaVizChart from './adaviz';
 import MenuItem from 'material-ui/lib/menus/menu-item';
-import List from 'material-ui/lib/lists/list';
-import ListItem from 'material-ui/lib/lists/list-item';
 import autobind from 'autobind-decorator';
 import Immutable from 'immutable';
 
@@ -81,6 +80,7 @@ export default class Chart extends React.Component {
       });
   }
 
+  @autobind
   changeChartType(type) {
     let vddf = this.props.vddf;
     vddf.changeChartType(type);
@@ -102,16 +102,8 @@ export default class Chart extends React.Component {
   }
 
   getChartTypePopover() {
-    const items = this.vddf.getAvailableCharts().map(type => {
-      return <ListItem onClick={this.changeChartType.bind(this, type)} key={type} primaryText={type}  innerDivStyle={{padding: '8px 16px', fontSize: 15}}/>;
-    });
-
     return (
-      <Popover icon='assessment'>
-        <List>
-        {items}
-        </List>
-      </Popover>
+        <ChangeChartDropdown charts={this.vddf.getAvailableCharts()} onClick={this.changeChartType} />
     );
   }
 
@@ -130,7 +122,6 @@ export default class Chart extends React.Component {
         {title}
         <div style={{float: 'right'}}>
         {this.getChartTypePopover()}
-        <FontIcon style={style.menuIcon} className='material-icons'>filter_list</FontIcon>
         {this.getMenu()}
         </div>
         </div>

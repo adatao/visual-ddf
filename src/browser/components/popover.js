@@ -30,7 +30,8 @@ const style = {
 export default class Popover extends React.Component {
   static propTypes = {
     icon: React.PropTypes.string,
-    iconStyle: React.PropTypes.object
+    iconStyle: React.PropTypes.object,
+    paperStyle: React.PropTypes.object
   };
 
   static defaultProps = {
@@ -55,7 +56,7 @@ export default class Popover extends React.Component {
     return (
         <div style={style.popover}>
         <Paper>
-          <div style={style.paper}>
+          <div style={Object.assign(style.paper, this.props.paperStyle)}>
            {this.props.children}
           </div>
         </Paper>

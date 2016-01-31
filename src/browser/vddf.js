@@ -31,7 +31,13 @@ export default class vDDF extends BasevDDF {
         throw new Error(`Unable to retrieve vDDF`);
       }
 
-      this.vddf = await response.json();
+      let json = await response.json();
+
+      if (json.error) {
+        throw new Error(json.error.message);
+      }
+
+      this.vddf = json;
       this.title = this.vddf.title;
     }
 
@@ -54,6 +60,7 @@ export default class vDDF extends BasevDDF {
 
   async render() {
     try {
+      await this.load();
       ReactDOM.render(<Chart vddf={this} />, this.element);
     } catch (ex) {
       this.element.innerHTML = `Error: ${ex.message}`;
@@ -61,4 +68,3 @@ export default class vDDF extends BasevDDF {
     }
   }
 }
-
