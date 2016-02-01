@@ -34,10 +34,9 @@ const style = {
 };
 
 export default class Chart extends React.Component {
-
   static defaultProps = {
-    width: 600,
-    height: 400
+    width: 750,
+    height: 500
   };
 
   constructor(props) {
