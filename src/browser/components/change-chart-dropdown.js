@@ -4,11 +4,12 @@ import FlatButton from 'material-ui/lib/flat-button';
 
 const style = {
   popoverPaper: {
-    minWidth: '192px',
+    minWidth: '208px',
     paddingTop: '8px',
     paddingBottom: '8px',
     paddingLeft: '8px',
-    paddingRight: '8px'
+    paddingRight: '8px',
+    boxSizing: 'border-box'
   },
   heading: {
     margin: '8px 8px 16px',
@@ -43,8 +44,13 @@ export default class ChangeChartDropdown extends React.Component {
     charts: React.PropTypes.array.isRequired
   };
 
+  static contextTypes = {
+    baseUrl: React.PropTypes.string
+  };
+
   getChartButton(type) {
-    const iconUrl = `/chart-icons/${type}.svg`;
+    const baseUrl = this.context.baseUrl;
+    const iconUrl = `${baseUrl}chart-icons/${type}.svg`;
     const onClick = (...args) => {
       this.props.onClick(type, ...args);
     };

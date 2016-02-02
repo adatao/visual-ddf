@@ -18,6 +18,7 @@ function injectResources() {
 function loadVDDF() {
   // TODO: this may not be compatible with old browsers
 
+  let config = window.VDDF && window.VDDF.config ? window.VDDF.config : {};
   let elements = document.querySelectorAll('[data-vddf]');
 
   for (let i = 0; i < elements.length; i++) {
@@ -26,7 +27,7 @@ function loadVDDF() {
 
     if (!el.className.includes('vddf-chart')) {
       el.className = 'vddf-chart';
-      let vddf = new vDDF(el, uri);
+      let vddf = new vDDF(el, uri, config);
       vddf.render();
       el.__vddf__ = vddf;
     }
@@ -40,4 +41,3 @@ if (document.readyState === 'complete') {
 }
 
 injectResources();
-

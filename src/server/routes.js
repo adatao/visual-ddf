@@ -39,6 +39,19 @@ export default function setupRoutes(app) {
     }
   });
 
+  router.get('/embed.js', async function() {
+    const origin = this.request.origin;
+    const scriptUrl = process.env.NODE_ENV === 'production' ?
+            `${origin}/build/embed.js` :
+            'http://localhost:8080/build/embed.js'
+
+    this.set('Content-Type', 'text/javascript');
+    this.body = swig.renderFile(`${app.rootDir}/templates/embed.js`, {
+      baseUrl: origin,
+      scriptUrl
+    });
+  });
+
   app
     .use(koaStatic(app.rootDir + '/assets'))
     .use(koaBodyParser())

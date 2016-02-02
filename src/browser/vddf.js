@@ -8,10 +8,11 @@ import BasevDDF from 'src/vddf';
  * vDDF implementation with React and AdaViz
  */
 export default class vDDF extends BasevDDF {
-  constructor(el, uri) {
+  constructor(el, uri, config) {
     super(uri);
     this.element = el;
     this.uri = uri;
+    this.config = config;
   }
 
   changeChartType(type) {
@@ -77,7 +78,7 @@ export default class vDDF extends BasevDDF {
         height = width * 3/4;
       }
 
-      ReactDOM.render(<Chart vddf={this} width={width} height={height} />, this.element);
+      ReactDOM.render(<Chart vddf={this} width={width} height={height} baseUrl={this.config.baseUrl} />, this.element);
     } catch (ex) {
       this.element.innerHTML = `Error: ${ex.message}`;
       console.log(ex.stack);

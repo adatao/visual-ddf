@@ -39,12 +39,22 @@ export default class Chart extends React.Component {
     height: 500
   };
 
+  static childContextTypes = {
+    baseUrl: React.PropTypes.string
+  };
+
   constructor(props) {
     super(props);
 
     this.state = {
       adaviz: null,
       showEditModal: false
+    };
+  }
+
+  getChildContext() {
+    return {
+      baseUrl: `${this.props.baseUrl}/`
     };
   }
 
