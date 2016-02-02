@@ -63,7 +63,21 @@ export default class vDDF extends BasevDDF {
   async render() {
     try {
       await this.load();
-      ReactDOM.render(<Chart vddf={this} />, this.element);
+
+      let width = this.element.getAttribute('data-width');
+      let height = this.element.getAttribute('data-height');
+
+      // if not specify width, try to get element outer width
+      if (!width) {
+        width = this.element.offsetWidth;
+      }
+
+      // TODO: support full screen
+      if (!height) {
+        height = width * 3/4;
+      }
+
+      ReactDOM.render(<Chart vddf={this} width={width} height={height} />, this.element);
     } catch (ex) {
       this.element.innerHTML = `Error: ${ex.message}`;
       console.log(ex.stack);

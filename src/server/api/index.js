@@ -9,6 +9,7 @@ export default function setupApi(app) {
 
   router.use('/', function*(next) {
     try {
+      this.set('Access-Control-Allow-Origin', '*');
       yield next;
     } catch (ex) {
       console.log(`API request error: ${ex.message}`);

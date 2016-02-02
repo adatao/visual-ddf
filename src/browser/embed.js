@@ -1,4 +1,5 @@
 import 'babel-polyfill';
+import './styles.css';
 import './lib/adaviz';
 import vDDF from './vddf';
 
@@ -14,7 +15,7 @@ function injectResources() {
   }
 }
 
-window.addEventListener('load', () => {
+function loadVDDF() {
   // TODO: this may not be compatible with old browsers
 
   let elements = document.querySelectorAll('[data-vddf]');
@@ -30,6 +31,13 @@ window.addEventListener('load', () => {
       el.__vddf__ = vddf;
     }
   }
-});
+}
+
+if (document.readyState === 'complete') {
+  loadVDDF();
+} else {
+  window.addEventListener('load', loadVDDF);
+}
 
 injectResources();
+

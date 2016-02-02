@@ -99,6 +99,7 @@ export default class DataEditModal extends React.Component {
       return (<div></div>);
     }
 
+    // TODO: detect height by window height
     return (
       <Dialog open={true} bodyStyle={style.dialog.body} onRequestClose={this.props.onRequestClose}>
         <div style={style.dialog.header}>Edit data</div>
@@ -110,7 +111,7 @@ export default class DataEditModal extends React.Component {
              onRowUpdated={this.handleRowUpdate}
              enableCellSelect={true}
              toolbar={this.getToolbar()}
-             minHeight={500} />
+             minHeight={400} />
         </div>
         <div style={style.dialog.footer}>
           <RaisedButton onClick={this.props.onRequestClose} label='Cancel'/>

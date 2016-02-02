@@ -15,19 +15,23 @@ module.exports = _.merge(defaultConfig, {
     loaders: [
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract('style-loader', 'css-loader!autoprefixer-loader')
+        // loader: ExtractTextPlugin.extract('style-loader', 'css-loader!autoprefixer-loader')
+        loader: 'style!css!autoprefixer'
       },
       {
         test: /\.less$/,
-        loader: ExtractTextPlugin.extract('style-loader', 'css-loader!autoprefixer-loader!less-loader')
+        // loader: ExtractTextPlugin.extract('style-loader', 'css-loader!autoprefixer-loader!less-loader')
+        loader: 'style!css!autoprefixer!less'
       },
       {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract('style-loader', 'css-loader!autoprefixer-loader!sass-loader')
+        // loader: ExtractTextPlugin.extract('style-loader', 'css-loader!autoprefixer-loader!sass-loader')
+        loader: 'style!css!autoprefixer!sass'
       },
       {
         test: /\.styl$/,
-        loader: ExtractTextPlugin.extract('style-loader', 'css-loader!autoprefixer-loader!stylus-loader')
+        // loader: ExtractTextPlugin.extract('style-loader', 'css-loader!autoprefixer-loader!stylus-loader')
+        loader: 'style!css!autoprefixer!stylus'
       }
     ]
   },
@@ -35,7 +39,7 @@ module.exports = _.merge(defaultConfig, {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': '"production"'
     }),
-    new ExtractTextPlugin('[name]-[contenthash].css'),
+    //new ExtractTextPlugin('[name]-[contenthash].css'),
     new ManifestPlugin({
       fileName: 'webpack-asset-manifest.json'
     }),

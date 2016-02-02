@@ -106,7 +106,8 @@ export default class Chart extends React.Component {
         <DropdownMenu>
         <MenuItem primaryText='Rename ...'/>
         <MenuItem onClick={this.toggleEditModal} primaryText='Edit data ...'/>
-        <MenuItem primaryText='Publish ...'/>
+        <MenuItem primaryText='Download data'/>
+        <MenuItem primaryText='Export ...'/>
         </DropdownMenu>
     );
 

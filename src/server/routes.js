@@ -8,14 +8,12 @@ export default function setupRoutes(app) {
   let router = koaRouter();
 
   router.get('/', async function() {
-    this.body = 'Hello world';
-  });
-
-  router.get('/vddf/create', async function() {
-    this.body = {'test': 1};
+    this.body = 'VDDF Server 1.0.0';
   });
 
   router.get('/vddf/:uuid', async function() {
+    this.set('Access-Control-Allow-Origin', '*');
+
     let [ uuid, type ] = this.params.uuid.split('.');
 
     if (type === 'json') {
@@ -36,7 +34,6 @@ export default function setupRoutes(app) {
         uuid: this.params.uuid,
         uri: `${this.request.origin}/vddf/${this.params.uuid}`
       });
-
 
       this.body = template;
     }

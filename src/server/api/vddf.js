@@ -22,7 +22,7 @@ export async function create(app, request) {
   const baseUri = request.origin;
   const vddfUri = `${baseUri}/vddf/${vddfUuid}`;
   const embedCode = `<div data-vddf="${vddfUri}"></div>` +
-          `<script type="text/javascript" href="${baseUri}/assets/vddf.js"></script>`;
+          `<script type="text/javascript" src="${baseUri}/build/embed.js"></script>`;
 
   return {
     status: "success",
