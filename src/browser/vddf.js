@@ -21,7 +21,11 @@ export default class vDDF extends BasevDDF {
 
   getAvailableCharts() {
     // XXX: figure out by schema
-    return ['donut', 'bar', 'pie', 'datatable'];
+    if (this.visualization.alternatives) {
+      return this.visualization.alternatives.split(',');
+    }
+
+    return [this.visualization.type, 'datatable'];
   }
 
   async load() {

@@ -80,9 +80,10 @@ export default class Chart extends React.Component {
 
     this.setState({
       adaviz: Immutable.fromJS({
-          ...vddf.visualization,
-        width: this.props.width,
-        height: this.props.height,
+        input: Object.assign(vddf.visualization, {
+          width: this.props.width,
+          height: this.props.height
+        }),
         data
       })
     });

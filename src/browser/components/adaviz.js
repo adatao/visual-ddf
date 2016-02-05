@@ -29,6 +29,12 @@ export default class AdaVizChart extends React.Component {
       console.warning('Spec is not immutable, chart update may not work correctly.');
     }
 
+    spec.theme = {
+      background: {
+        fill: 'white'
+      }
+    };
+
     // AdaViz does not clean up data table properly
     // so we need to do this trick
     this.refs.chart.innerHTML = '';
