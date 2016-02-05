@@ -1,19 +1,14 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Menu from 'material-ui/lib/menus/menu';
 import FontIcon from 'material-ui/lib/font-icon';
 import autobind from 'autobind-decorator';
+import Popover from './popover';
 
 const style = {
   root: {
     position: 'relative',
     display: 'inline-block'
-  },
-  menuRoot: {
-    position: 'absolute',
-    marginTop: '100%',
-    top: 0,
-    right: 0,
-    zIndex: 10
   },
   menuIcon: {
     color: '#cecece',
@@ -30,7 +25,8 @@ const style = {
 export default class DropdownMenu extends React.Component {
   static propTypes = {
     icon: React.PropTypes.string,
-    iconStyle: React.PropTypes.object
+    iconStyle: React.PropTypes.object,
+    onRequestClose: React.PropTypes.func
   };
 
   static defaultProps = {
@@ -44,29 +40,13 @@ export default class DropdownMenu extends React.Component {
     };
   }
 
-  @autobind
-  toggleMenu() {
-    this.setState({
-      open: !this.state.open
-    });
-  }
-
-  getMenu() {
-    return (
-      <div style={style.menuRoot}>
-      <Menu desktop autowidth={false} listStyle={style.menuList}>
-        {this.props.children}
-      </Menu>
-      </div>
-    );
-  }
-
   render() {
     return (
-      <div style={style.root}>
-        <FontIcon onClick={this.toggleMenu} style={style.menuIcon} className='material-icons'>{this.props.icon}</FontIcon>
-        {this.state.open && this.getMenu()}
-      </div>
+      <Popover icon='keyboard_arrow_down' onRequestClose={this.props.onRequestClose}>
+        <Menu desktop autowidth={false} listStyle={style.menuList}>
+          {this.props.children}
+        </Menu>
+      </Popover>
     );
   }
 }

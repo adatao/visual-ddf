@@ -110,16 +110,25 @@ export default class Chart extends React.Component {
     this.renderChart();
   }
 
+  getToolbar() {
+    return (
+      <div style={{float: 'right'}}>
+        {this.getChartTypePopover()}
+        {this.getMenu()}
+      </div>
+    );
+  }
+
   getMenu() {
     let menus = null;
 
     menus = (
-        <DropdownMenu>
+      <DropdownMenu>
         <MenuItem primaryText='Rename ...'/>
         <MenuItem onClick={this.toggleEditModal} primaryText='Edit data ...'/>
         <MenuItem primaryText='Download data'/>
         <MenuItem primaryText='Export ...'/>
-        </DropdownMenu>
+      </DropdownMenu>
     );
 
     return menus;
@@ -127,7 +136,7 @@ export default class Chart extends React.Component {
 
   getChartTypePopover() {
     return (
-        <ChangeChartDropdown charts={this.vddf.getAvailableCharts()} onClick={this.changeChartType} />
+      <ChangeChartDropdown charts={this.vddf.getAvailableCharts()} onClick={this.changeChartType}/>
     );
   }
 
@@ -148,10 +157,7 @@ export default class Chart extends React.Component {
       <div style={Object.assign(style.container, {width: this.props.width})}>
         <div className='viz-title' style={style.title}>
         {title}
-        <div style={{float: 'right'}}>
-        {this.getChartTypePopover()}
-        {this.getMenu()}
-        </div>
+        {this.getToolbar()}
         </div>
         {this.state.adaviz && this.getChart()}
         {this.state.showEditModal && this.getEditModal()}

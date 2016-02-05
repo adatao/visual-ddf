@@ -41,7 +41,8 @@ const style = {
 
 export default class ChangeChartDropdown extends React.Component {
   static propTypes = {
-    charts: React.PropTypes.array.isRequired
+    charts: React.PropTypes.array.isRequired,
+    onRequestClose: React.PropTypes.func
   };
 
   static contextTypes = {
@@ -69,7 +70,7 @@ export default class ChangeChartDropdown extends React.Component {
     const items = this.props.charts.map(type => this.getChartButton(type));
 
     return (
-      <Popover paperStyle={style.popoverPaper} icon='assessment'>
+      <Popover paperStyle={style.popoverPaper} icon='assessment' onRequestClose={this.props.onRequestClose}>
         <h4 style={style.heading}>Recommended Charts</h4>
         {items}
       </Popover>

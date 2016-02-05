@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Paper from 'material-ui/lib/paper';
 import Menu from 'material-ui/lib/menus/menu';
 import FontIcon from 'material-ui/lib/font-icon';
@@ -17,8 +18,7 @@ const style = {
   },
   popover: {
     position: 'absolute',
-    marginTop: '100%',
-    top: 0,
+    top: '100%',
     right: 0,
     zIndex: 10
   },
@@ -31,7 +31,8 @@ export default class Popover extends React.Component {
   static propTypes = {
     icon: React.PropTypes.string,
     iconStyle: React.PropTypes.object,
-    paperStyle: React.PropTypes.object
+    paperStyle: React.PropTypes.object,
+    onRequestClose: React.PropTypes.func
   };
 
   static defaultProps = {
@@ -52,11 +53,37 @@ export default class Popover extends React.Component {
     });
   }
 
+  componentDidMount() {
+    document.addEventListener('click', this.handleDocumentClick);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleDocumentClick);
+  }
+
+  @autobind
+  handleDocumentClick(event) {
+    if (event.target && this.state.open) {
+      let elem = ReactDOM.findDOMNode(this.refs.root);
+
+      if (elem !== event.target && !elem.contains(event.target)) {
+        const shouldClose = !this.props.onRequestClose || this.props.onRequestClose();
+
+        if (shouldClose) {
+          this.toggle();
+        }
+      }
+    }
+  }
+
+
   getPopover() {
+    let paperStyle = {...style.paper, ...this.props.paperStyle};
+
     return (
         <div style={style.popover}>
         <Paper>
-          <div style={Object.assign(style.paper, this.props.paperStyle)}>
+          <div style={paperStyle}>
            {this.props.children}
           </div>
         </Paper>
@@ -66,7 +93,7 @@ export default class Popover extends React.Component {
 
   render() {
     return (
-      <div style={style.root}>
+      <div ref='root' style={style.root}>
         <FontIcon onClick={this.toggle} style={style.toggleIcon} className='material-icons'>{this.props.icon}</FontIcon>
         {this.state.open && this.getPopover()}
       </div>
