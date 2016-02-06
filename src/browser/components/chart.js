@@ -17,7 +17,6 @@ const style = {
   title: {
     background: '#f2f2f2',
     color: '#448afd',
-    fontFamily: '\'Open Sans\', \'Helvetica Neue\', Helvetica, Arial, sans-serif',
     padding: '6px 10px',
     position: 'relative'
   },
@@ -30,6 +29,15 @@ const style = {
   menuItem: {
     paddingLeft: '16px',
     paddingRight: '16px'
+  },
+  modificationNotice: {
+    background: '#FCFCE0',
+    fontSize: '0.85em',
+    padding: '4px 8px'
+  },
+  noticeLink: {
+    color: 'rgb(29, 170, 241)',
+    cursor: 'pointer'
   }
 };
 
@@ -63,7 +71,16 @@ export default class Chart extends React.Component {
   }
 
   componentDidMount() {
-    // TODO: listen to vddf update event
+    this.renderChart();
+    this.vddf.on('update', this.handleUpdate);
+  }
+
+  componentWillUnmount() {
+    this.vddf.off('update', this.handleUpdate);
+  }
+
+  @autobind
+  handleUpdate() {
     this.renderChart();
   }
 
@@ -93,7 +110,6 @@ export default class Chart extends React.Component {
   changeChartType(type) {
     let vddf = this.props.vddf;
     vddf.changeChartType(type);
-    this.renderChart();
   }
 
   @autobind
@@ -107,7 +123,6 @@ export default class Chart extends React.Component {
   saveData(data) {
     this.vddf.update(data);
     this.toggleEditModal();
-    this.renderChart();
   }
 
   getToolbar() {
@@ -150,15 +165,31 @@ export default class Chart extends React.Component {
     );
   }
 
+  getNotificationNotice() {
+    if (this.vddf.isModified()) {
+      return (
+        <div style={style.modificationNotice}>
+          You have customized this visualization. <span style={style.noticeLink} onClick={this.revertChange}>Revert</span>
+        </div>
+      );
+    }
+  }
+
+  @autobind
+  revertChange() {
+    this.vddf.revert();
+  }
+
   render() {
     let title = this.vddf.title || 'Untititled Chart';
 
     return (
       <div style={Object.assign(style.container, {width: this.props.width})}>
         <div className='viz-title' style={style.title}>
-        {title}
-        {this.getToolbar()}
+          {title}
+          {this.getToolbar()}
         </div>
+        {this.getNotificationNotice()}
         {this.state.adaviz && this.getChart()}
         {this.state.showEditModal && this.getEditModal()}
       </div>

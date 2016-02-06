@@ -3,24 +3,34 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Chart from './components/chart';
 import BasevDDF from 'src/vddf';
+import Immutable from 'immutable';
 
 /**
  * vDDF implementation with React and AdaViz
  */
 export default class vDDF extends BasevDDF {
-  constructor(el, uri, config) {
+  constructor(uri, config) {
     super(uri);
-    this.element = el;
     this.uri = uri;
     this.config = config;
   }
 
   changeChartType(type) {
-    this.visualization.type = type;
+    this.payload = this.payload.mergeDeep({
+      visualization: {
+        type: type
+      }
+    });
+
+    this.emit('update');
+  }
+
+  getChartType() {
+    return this.visualization.type;
   }
 
   getAvailableCharts() {
-    // XXX: figure out by schema
+    // TODO: figure out metadata by schema
     if (this.visualization.alternatives) {
       return this.visualization.alternatives.split(',');
     }
@@ -28,53 +38,41 @@ export default class vDDF extends BasevDDF {
     return [this.visualization.type, 'datatable'];
   }
 
-  async load() {
-    if (!this.vddf) {
-      let response = await fetch(this.uri + '.json', {});
+  get title() {
+    return this.payload.get('title');
+  }
 
-      if (response.status !== 200) {
-        throw new Error(`Unable to retrieve vDDF`);
-      }
-
-      let json = await response.json();
-
-      if (json.error) {
-        throw new Error(json.error.message);
-      }
-
-      this.vddf = json;
-      this.title = this.vddf.title;
-    }
-
-    return this.vddf;
+  set title(value) {
+    this.payload.set('title', value);
   }
 
   get visualization() {
-    return this.vddf.visualization;
+    // we should expose explicitly each visualization attribute
+    // to vDDF propert instead of one single chunk
+    return this.payload.get('visualization').toJS();
   }
 
   fetch() {
-    return this.vddf.data;
+    return this.payload.get('data').toJS();
   }
 
   update(data) {
-    this.vddf.data = data;
+    this.payload = this.payload.set('data', Immutable.fromJS(data));
+    this.emit('update');
   }
 
   getSchema() {
-    return this.vddf.schema;
+    return this.payload.get('schema').toJS();
   }
 
-  async render() {
+  async render(el) {
     try {
-      await this.load();
-
-      let width = this.element.getAttribute('data-width');
-      let height = this.element.getAttribute('data-height');
+      let width = el.getAttribute('data-width');
+      let height = el.getAttribute('data-height');
 
       // if not specify width, try to get element outer width
       if (!width) {
-        width = this.element.offsetWidth;
+        width = el.offsetWidth;
       }
 
       // TODO: support full screen
@@ -82,10 +80,45 @@ export default class vDDF extends BasevDDF {
         height = width * 3/4;
       }
 
-      ReactDOM.render(<Chart vddf={this} width={width} height={height} baseUrl={this.config.baseUrl} />, this.element);
+      ReactDOM.render(<Chart vddf={this} width={width} height={height} baseUrl={this.config.baseUrl} />, el);
     } catch (ex) {
-      this.element.innerHTML = `Error: ${ex.message}`;
+      el.innerHTML = `Error: ${ex.message}`;
       console.log(ex.stack);
     }
+  }
+
+  deserialize(payload) {
+    this.originalPayload = Immutable.fromJS(payload);
+    this.payload = this.originalPayload;
+  }
+
+  isModified() {
+    return this.payload !== this.originalPayload;
+  }
+
+  revert() {
+    if (this.isModified()) {
+      this.payload = this.originalPayload;
+      this.emit('update');
+    }
+  }
+
+  static async load(uri, config) {
+    let response = await fetch(uri + '.json', {});
+
+    if (response.status !== 200) {
+      throw new Error(`Unable to retrieve vDDF`);
+    }
+
+    let json = await response.json();
+
+    if (json.error) {
+      throw new Error(json.error.message);
+    }
+
+    let vddf = new vDDF(uri, config);
+    vddf.deserialize(json);
+
+    return vddf;
   }
 }

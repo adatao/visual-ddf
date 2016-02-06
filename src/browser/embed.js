@@ -15,29 +15,37 @@ function injectResources() {
   }
 }
 
-function loadVDDF() {
+function mountAllvDDF() {
   // TODO: this may not be compatible with old browsers
 
-  let config = window.VDDF && window.VDDF.config ? window.VDDF.config : {};
+  let config = window.vDDF && window.vDDF.config ? window.vDDF.config : {};
   let elements = document.querySelectorAll('[data-vddf]');
 
   for (let i = 0; i < elements.length; i++) {
     const el = elements[i];
-    const uri = el.getAttribute('data-vddf');
 
     if (!el.className.includes('vddf-chart')) {
+      const uri = el.getAttribute('data-vddf');
+
       el.className = 'vddf-chart';
-      let vddf = new vDDF(el, uri, config);
-      vddf.render();
-      el.__vddf__ = vddf;
+      vDDF.load(uri, config)
+        .then((vddf) => {
+          el.__vddf__ = vddf;
+          vddf.render(el);
+        });
     }
   }
 }
 
-if (document.readyState === 'complete') {
-  loadVDDF();
-} else {
-  window.addEventListener('load', loadVDDF);
+if (window.vDDF) {
+  window.vDDF.load = vDDF.load;
 }
 
 injectResources();
+
+
+if (document.readyState === 'complete') {
+  mountAllvDDF();
+} else {
+  window.addEventListener('load', mountAllvDDF);
+}

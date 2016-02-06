@@ -24,6 +24,10 @@ export default class vDDF extends EventEmitter {
     throw new Error('Not implemented');
   }
 
+  getChartType() {
+    throw new Error('Not implemented');
+  }
+
   /**
    * Get current filters
    */
@@ -68,6 +72,14 @@ export default class vDDF extends EventEmitter {
    * Persist current change
    */
   async persist() {
+    throw new Error('Not implemented');
+  }
+
+  serialize() {
+    throw new Error('Not implemented');
+  }
+
+  deserialize(data) {
     throw new Error('Not implemented');
   }
 }

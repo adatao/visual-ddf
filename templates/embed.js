@@ -1,6 +1,6 @@
 if (typeof window.VDDF === 'undefined') {
   // create a placeholder for VDDF interface
-  window.VDDF = {
+  window.vDDF = {
     config: {
       baseUrl: '{{ baseUrl }}'
     }
