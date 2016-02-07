@@ -12,6 +12,30 @@ export default class Manager {
     this.storage = storage;
   }
 
+  async export(vddf) {
+    const apiUrl = `${this.config.baseUrl}/api/vddf/create`;
+    let body = vddf.serialize();
+
+    // remove uuid and change the source
+    delete body.uuid;
+    body.source = vddf.uri;
+
+    let response = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    });
+
+    let result = await response.json();
+    if (result.error) {
+      throw new Error(result.error);
+    }
+
+    return result.result;
+  }
+
   async load(uri) {
     let response = await fetch(uri + '.json', {});
 

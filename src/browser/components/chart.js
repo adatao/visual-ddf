@@ -4,6 +4,7 @@ import DropdownMenu from './dropdown-menu';
 import Popover from './popover';
 import ChangeChartDropdown from './change-chart-dropdown';
 import DataEditModal from './data-edit-modal';
+import ExportModal from './export-modal';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 import autobind from 'autobind-decorator';
 import Immutable from 'immutable';
@@ -56,7 +57,9 @@ export default class Chart extends React.Component {
 
     this.state = {
       adaviz: null,
-      showEditModal: false
+      showEditModal: false,
+      showExportModal: false,
+      embedResult: null
     };
   }
 
@@ -120,9 +123,28 @@ export default class Chart extends React.Component {
   }
 
   @autobind
+  toggleExportModal() {
+    this.setState({
+      showExportModal: !this.state.showExportModal
+    });
+  }
+
+  @autobind
   saveData(data) {
     this.vddf.update(data);
     this.toggleEditModal();
+  }
+
+  @autobind
+  exportChart() {
+    this.vddf.manager.export(this.vddf)
+      .then(result => {
+        this.setState({
+          embedResult: result
+        });
+
+        this.toggleExportModal();
+      });
   }
 
   getToolbar() {
@@ -142,7 +164,7 @@ export default class Chart extends React.Component {
         <MenuItem primaryText='Rename ...'/>
         <MenuItem onClick={this.toggleEditModal} primaryText='Edit data ...'/>
         <MenuItem primaryText='Download data'/>
-        <MenuItem primaryText='Export ...'/>
+        <MenuItem onClick={this.exportChart} primaryText='Export ...'/>
       </DropdownMenu>
     );
 
@@ -159,6 +181,10 @@ export default class Chart extends React.Component {
     return <DataEditModal vddf={this.vddf} onRequestClose={this.toggleEditModal} onSave={this.saveData} />;
   }
 
+  getExportModal() {
+    return <ExportModal embedCode={this.state.embedResult.embedCode} onRequestClose={this.toggleExportModal} />;
+  }
+
   getChart() {
     return (
       <AdaVizChart spec={this.state.adaviz} />
@@ -169,7 +195,7 @@ export default class Chart extends React.Component {
     if (this.vddf.isModified()) {
       return (
         <div style={style.modificationNotice}>
-          You have customized this visualization. <span style={style.noticeLink} onClick={this.revertChange}>Revert</span>
+          You have customized this visualization. <span style={style.noticeLink} onClick={this.revertChange}>Revert</span> or <span onClick={this.exportChart} style={style.noticeLink}>Export</span>.
         </div>
       );
     }
@@ -192,6 +218,7 @@ export default class Chart extends React.Component {
         {this.getNotificationNotice()}
         {this.state.adaviz && this.getChart()}
         {this.state.showEditModal && this.getEditModal()}
+        {this.state.showExportModal && this.getExportModal()}
       </div>
     );
   }

@@ -14,7 +14,9 @@ export async function create(app, request) {
   let body = request.body;
 
   // make sure all parameters are available
-  if (!body.data) {
+  if (typeof body !== 'object') {
+    throw new Error('Post body is not valid');
+  } else if (!body.data) {
     throw new Error('Not enough parameter');
   }
 
