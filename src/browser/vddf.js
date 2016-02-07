@@ -62,8 +62,13 @@ export default class vDDF extends EventEmitter {
     return this.payload.get('data').toJS();
   }
 
-  update(data) {
+  update(data, schema) {
     this.payload = this.payload.set('data', Immutable.fromJS(data));
+
+    if (schema) {
+      this.payload = this.payload.set('schema', Immutable.fromJS(schema));
+    }
+
     this._emitUpdate();
   }
 

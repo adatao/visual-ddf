@@ -130,8 +130,8 @@ export default class Chart extends React.Component {
   }
 
   @autobind
-  saveData(data) {
-    this.vddf.update(data);
+  saveData(data, schema) {
+    this.vddf.update(data, schema);
     this.toggleEditModal();
   }
 
@@ -152,7 +152,7 @@ export default class Chart extends React.Component {
     this.vddf.manager.getDownloadLink(this.vddf)
       .then(downloadLink => {
         let link = document.createElement('a');
-        link.download = 'download.csv';
+        link.download = `${this.vddf.title}.csv`;
         link.href = downloadLink;
         link.click();
       });
@@ -172,7 +172,6 @@ export default class Chart extends React.Component {
 
     menus = (
       <DropdownMenu>
-        <MenuItem primaryText='Rename ...'/>
         <MenuItem onClick={this.toggleEditModal} primaryText='Edit data ...'/>
         {this.vddf.isModified() && <MenuItem onClick={this.exportChart} primaryText='Export ...'/>}
         <MenuItem onClick={this.downloadChart} primaryText='Download as CSV'/>

@@ -70,7 +70,7 @@ export default class ChangeChartDropdown extends React.Component {
     const items = this.props.charts.map(type => this.getChartButton(type));
 
     return (
-      <Popover paperStyle={style.popoverPaper} icon='assessment' onRequestClose={this.props.onRequestClose}>
+      <Popover paperStyle={style.popoverPaper} icon='equalizer' onRequestClose={this.props.onRequestClose}>
         <h4 style={style.heading}>Recommended Charts</h4>
         {items}
       </Popover>
