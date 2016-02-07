@@ -1,7 +1,9 @@
 import 'babel-polyfill';
 import './styles.css';
 import './lib/adaviz';
+import Manager from './manager';
 import vDDF from './vddf';
+
 
 function injectResources() {
   let head = document.getElementsByTagName('head')[0];
@@ -18,7 +20,6 @@ function injectResources() {
 function mountAllvDDF() {
   // TODO: this may not be compatible with old browsers
 
-  let config = window.vDDF && window.vDDF.config ? window.vDDF.config : {};
   let elements = document.querySelectorAll('[data-vddf]');
 
   for (let i = 0; i < elements.length; i++) {
@@ -28,17 +29,19 @@ function mountAllvDDF() {
       const uri = el.getAttribute('data-vddf');
 
       el.className = 'vddf-chart';
-      vDDF.load(uri, config)
+      window.vDDF.manager.load(uri)
         .then((vddf) => {
           el.__vddf__ = vddf;
           vddf.render(el);
+        }).catch(err => {
+          console.log(err.stack);
         });
     }
   }
 }
 
-if (window.vDDF) {
-  window.vDDF.load = vDDF.load;
+if (window.vDDF && !window.vDDF.manager) {
+  window.vDDF.manager = new Manager(window.vDDF.config);
 }
 
 injectResources();

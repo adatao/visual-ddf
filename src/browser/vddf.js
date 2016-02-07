@@ -1,18 +1,24 @@
-import fetch from 'fetch';
+import EventEmitter from 'eventemitter3';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Chart from './components/chart';
-import BasevDDF from 'src/vddf';
 import Immutable from 'immutable';
 
 /**
  * vDDF implementation with React and AdaViz
  */
-export default class vDDF extends BasevDDF {
+export default class vDDF extends EventEmitter {
   constructor(uri, config) {
-    super(uri);
+    super();
+    this.uuid = uri;
     this.uri = uri;
     this.config = config;
+  }
+
+  _emitUpdate() {
+    this.emit('update', {
+      target: this
+    });
   }
 
   changeChartType(type) {
@@ -22,7 +28,7 @@ export default class vDDF extends BasevDDF {
       }
     });
 
-    this.emit('update');
+    this._emitUpdate();
   }
 
   getChartType() {
@@ -58,7 +64,7 @@ export default class vDDF extends BasevDDF {
 
   update(data) {
     this.payload = this.payload.set('data', Immutable.fromJS(data));
-    this.emit('update');
+    this._emitUpdate();
   }
 
   getSchema() {
@@ -92,6 +98,10 @@ export default class vDDF extends BasevDDF {
     this.payload = this.originalPayload;
   }
 
+  serialize() {
+    return this.payload.toJS();
+  }
+
   isModified() {
     return this.payload !== this.originalPayload;
   }
@@ -99,26 +109,7 @@ export default class vDDF extends BasevDDF {
   revert() {
     if (this.isModified()) {
       this.payload = this.originalPayload;
-      this.emit('update');
+      this._emitUpdate();
     }
-  }
-
-  static async load(uri, config) {
-    let response = await fetch(uri + '.json', {});
-
-    if (response.status !== 200) {
-      throw new Error(`Unable to retrieve vDDF`);
-    }
-
-    let json = await response.json();
-
-    if (json.error) {
-      throw new Error(json.error.message);
-    }
-
-    let vddf = new vDDF(uri, config);
-    vddf.deserialize(json);
-
-    return vddf;
   }
 }
