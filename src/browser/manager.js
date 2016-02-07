@@ -16,7 +16,7 @@ export default class Manager {
     let csv = '';
 
     // header
-    csv += vddf.getSchema().map(field => `\"${field.name}\"`).join(',') + '\n';
+    csv += vddf.schema.map(field => `\"${field.name}\"`).join(',') + '\n';
 
     vddf.fetch().forEach(row => {
       csv += row.map(field => `\"${field}\"`).join(',') + '\n';

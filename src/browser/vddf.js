@@ -72,7 +72,7 @@ export default class vDDF extends EventEmitter {
     this._emitUpdate();
   }
 
-  getSchema() {
+  get schema() {
     return this.payload.get('schema').toJS();
   }
 

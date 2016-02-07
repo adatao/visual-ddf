@@ -24,7 +24,7 @@ export default class DataEditModal extends React.Component {
     require('react-data-grid/themes/react-data-grid.css');
     let vddf = this.props.vddf;
 
-    const columns = vddf.getSchema().map((c,i) => {
+    const columns = vddf.schema.map((c,i) => {
       return {
         name: c.name,
         type: c.type,

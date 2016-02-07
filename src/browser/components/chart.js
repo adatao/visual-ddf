@@ -93,7 +93,7 @@ export default class Chart extends React.Component {
 
     // convert to adaviz structure
     let data = raw.map(d => {
-      return this.props.vddf.getSchema().reduce((obj,column,idx) => {
+      return this.props.vddf.schema.reduce((obj,column,idx) => {
         return Object.assign(obj, {[column.name]: d[idx] });
       }, {});
     });
