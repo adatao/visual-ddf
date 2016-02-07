@@ -147,6 +147,17 @@ export default class Chart extends React.Component {
       });
   }
 
+  @autobind
+  downloadChart() {
+    this.vddf.manager.getDownloadLink(this.vddf)
+      .then(downloadLink => {
+        let link = document.createElement('a');
+        link.download = 'download.csv';
+        link.href = downloadLink;
+        link.click();
+      });
+  }
+
   getToolbar() {
     return (
       <div style={{float: 'right'}}>
@@ -163,8 +174,8 @@ export default class Chart extends React.Component {
       <DropdownMenu>
         <MenuItem primaryText='Rename ...'/>
         <MenuItem onClick={this.toggleEditModal} primaryText='Edit data ...'/>
-        <MenuItem primaryText='Download data'/>
-        <MenuItem onClick={this.exportChart} primaryText='Export ...'/>
+        {this.vddf.isModified() && <MenuItem onClick={this.exportChart} primaryText='Export ...'/>}
+        <MenuItem onClick={this.downloadChart} primaryText='Download as CSV'/>
       </DropdownMenu>
     );
 

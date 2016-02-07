@@ -12,6 +12,19 @@ export default class Manager {
     this.storage = storage;
   }
 
+  async getDownloadLink(vddf) {
+    let csv = '';
+
+    // header
+    csv += vddf.getSchema().map(field => `\"${field.name}\"`).join(',') + '\n';
+
+    vddf.fetch().forEach(row => {
+      csv += row.map(field => `\"${field}\"`).join(',') + '\n';
+    });
+
+    return `data:application/csv;charset=utf-8,` + encodeURIComponent(csv);
+  }
+
   async export(vddf) {
     const apiUrl = `${this.config.baseUrl}/api/vddf/create`;
     let body = vddf.serialize();
