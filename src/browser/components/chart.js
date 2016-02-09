@@ -5,8 +5,8 @@ import Popover from './popover';
 import ChangeChartDropdown from './change-chart-dropdown';
 import DataEditModal from './data-edit-modal';
 import ExportModal from './export-modal';
+import ChartSettings from './chart-settings';
 import MenuItem from 'material-ui/lib/menus/menu-item';
-import autobind from 'autobind-decorator';
 import Immutable from 'immutable';
 
 const style = {
@@ -59,6 +59,7 @@ export default class Chart extends React.Component {
       adaviz: null,
       showEditModal: false,
       showExportModal: false,
+      showChartSettings: false,
       embedResult: null
     };
   }
@@ -82,10 +83,9 @@ export default class Chart extends React.Component {
     this.vddf.off('update', this.handleUpdate);
   }
 
-  @autobind
-  handleUpdate() {
+  handleUpdate = () => {
     this.renderChart();
-  }
+  };
 
   renderChart() {
     const vddf = this.props.vddf;
@@ -109,34 +109,35 @@ export default class Chart extends React.Component {
     });
   }
 
-  @autobind
-  changeChartType(type) {
+  changeChartType = (type) => {
     let vddf = this.props.vddf;
     vddf.changeChartType(type);
-  }
+  };
 
-  @autobind
-  toggleEditModal() {
+  toggleEditModal = () => {
     this.setState({
       showEditModal: !this.state.showEditModal
     });
-  }
+  };
 
-  @autobind
-  toggleExportModal() {
+  toggleExportModal = () => {
     this.setState({
       showExportModal: !this.state.showExportModal
     });
-  }
+  };
 
-  @autobind
-  saveData(data, schema) {
-    this.vddf.update(data, schema);
+  toggleChartSettings = () => {
+    this.setState({
+      showChartSettings: !this.state.showChartSettings
+    });
+  };
+
+  saveData = (data, schema) => {
+    this.vddf.updateData(data, schema);
     this.toggleEditModal();
-  }
+  };
 
-  @autobind
-  exportChart() {
+  exportChart = () => {
     this.vddf.manager.export(this.vddf)
       .then(result => {
         this.setState({
@@ -145,10 +146,9 @@ export default class Chart extends React.Component {
 
         this.toggleExportModal();
       });
-  }
+  };
 
-  @autobind
-  downloadChart() {
+  downloadChart = () => {
     this.vddf.manager.getDownloadLink(this.vddf)
       .then(downloadLink => {
         let link = document.createElement('a');
@@ -156,7 +156,7 @@ export default class Chart extends React.Component {
         link.href = downloadLink;
         link.click();
       });
-  }
+  };
 
   getToolbar() {
     return (
@@ -173,6 +173,7 @@ export default class Chart extends React.Component {
     menus = (
       <DropdownMenu>
         <MenuItem onClick={this.toggleEditModal} primaryText='Edit data ...'/>
+        <MenuItem onClick={this.toggleChartSettings} primaryText='Edit chart ...' />
         {this.vddf.isModified() && <MenuItem onClick={this.exportChart} primaryText='Export ...'/>}
         <MenuItem onClick={this.downloadChart} primaryText='Download as CSV'/>
       </DropdownMenu>
@@ -201,6 +202,12 @@ export default class Chart extends React.Component {
     );
   }
 
+  getChartSettings() {
+    return (
+      <ChartSettings vddf={this.vddf} />
+    );
+  }
+
   getNotificationNotice() {
     if (this.vddf.isModified()) {
       return (
@@ -211,10 +218,9 @@ export default class Chart extends React.Component {
     }
   }
 
-  @autobind
-  revertChange() {
+  revertChange = () => {
     this.vddf.revert();
-  }
+  };
 
   render() {
     let title = this.vddf.title || 'Untititled Chart';
@@ -225,8 +231,9 @@ export default class Chart extends React.Component {
           {title}
           {this.getToolbar()}
         </div>
-        {this.getNotificationNotice()}
+        {this.state.showChartSettings && this.getChartSettings()}
         {this.state.adaviz && this.getChart()}
+        {this.getNotificationNotice()}
         {this.state.showEditModal && this.getEditModal()}
         {this.state.showExportModal && this.getExportModal()}
       </div>

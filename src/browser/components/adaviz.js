@@ -38,6 +38,7 @@ export default class AdaVizChart extends React.Component {
     // AdaViz does not clean up data table properly
     // so we need to do this trick
     this.refs.chart.innerHTML = '';
+    this.refs.chart.__adaviz__ = spec;
     AdaViz.render(this.refs.chart, spec);
   }
 

@@ -1,12 +1,19 @@
 import 'babel-polyfill';
 import './styles.css';
 import './lib/adaviz';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 import Manager from './manager';
 import vDDF from './vddf';
 
 
 function injectResources() {
   let head = document.getElementsByTagName('head')[0];
+
+  try {
+    injectTapEventPlugin();
+  } catch (ex) {
+    // safe to ingore
+  }
 
   if (head) {
     let iconFont = document.createElement('link');

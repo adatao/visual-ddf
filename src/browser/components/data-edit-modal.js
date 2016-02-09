@@ -45,18 +45,25 @@ export default class DataEditModal extends React.Component {
     }, []);
   }
 
-  @autobind
-  handleRowUpdate(e) {
+  handleRowUpdate = (e) => {
     let rows = this.state.rows;
+
+    // data grid always pass as string, so we do double check to convert back to number
+    Object.keys(e.updated).forEach(i => {
+      if (/^-?\d+(\.\d+)?$/.test(e.updated[i])) {
+        e.updated[i] = parseFloat(e.updated[i]);
+      }
+    });
+
     Object.assign(rows[e.rowIdx], e.updated);
 
-    // if user is editing the last row, and it is not empty then add new column
+    // if user is editing the last row, and it is not empty then add new placeholder row
     if (e.rowIdx === rows.length - 1 && rows[e.rowIdx].join('') !== '') {
       rows.push(this.newRow());
     }
 
     this.setState({rows: rows});
-  }
+  };
 
   @autobind
   handleAddRow(e) {
