@@ -90,6 +90,7 @@ export default class Chart extends React.Component {
 
   renderChart() {
     const vddf = this.props.vddf;
+    const viz = vddf.visualization;
     const raw = vddf.fetch();
 
     // convert to adaviz structure
@@ -99,9 +100,60 @@ export default class Chart extends React.Component {
       }, {});
     });
 
+    if (viz.aggregation) {
+      // XXX: should refer to category parameter instead
+      let groupBy = {};
+      let keys = [viz.y];
+      let measurement = viz.x;
+
+      if (viz.color) {
+        keys.push(viz.color);
+      }
+
+      data.forEach(d => {
+        const key = keys.reduce((obj, cur) => ({ ...obj, [cur]: d[cur]}), {});
+        const hash = Object.values(key).join(',');
+
+        if (!groupBy[hash]) {
+          groupBy[hash] = {
+            key: key,
+            values: []
+          };
+        }
+
+        groupBy[hash].values.push(d);
+      });
+
+      let aggregated = Object.values(groupBy).map(g => {
+        let value;
+
+        switch (viz.aggregation) {
+        case 'min':
+          value = g.values.map(c => c[measurement]).reduce((prev, cur) => Math.min(prev, cur));
+          break;
+        case 'max':
+          value = g.values.map(c => c[measurement]).reduce((prev, cur) => Math.max(prev, cur));
+          break;
+        case 'sum':
+          value = g.values.reduce((prev, cur) => prev + cur[measurement], 0);
+          break;
+        case 'avg':
+          value = g.values.reduce((prev, cur) => prev + cur[measurement], 0) / g.values.length;
+          break;
+        }
+
+        return {
+          ...g.key,
+          [measurement]: value
+        };
+      });
+
+      data = aggregated;
+    }
+
     this.setState({
       adaviz: Immutable.fromJS({
-        input: Object.assign(vddf.visualization, {
+        input: Object.assign(viz, {
           width: this.props.width,
           height: this.props.height
         }),

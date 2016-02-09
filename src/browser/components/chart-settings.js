@@ -20,8 +20,9 @@ export default class ChartSettings extends React.Component {
     const category = viz.category || viz.x;
     const measurement = viz.measurement || viz.y;
     const category2 = viz.category2 || viz.color || viz.detail;
+    const aggregation = viz.aggregation;
 
-    this.setState({category, measurement, category2});
+    this.setState({category, measurement, category2, aggregation});
   }
 
   updateChart() {
