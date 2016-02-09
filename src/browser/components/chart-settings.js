@@ -31,6 +31,7 @@ export default class ChartSettings extends React.Component {
     viz.x = update.category;
     viz.y = update.measurement;
     viz.color = update.category2;
+    viz.aggregation = update.aggregation;
 
 
     if (!viz.color) delete viz.color;
@@ -48,20 +49,20 @@ export default class ChartSettings extends React.Component {
     this.props.vddf.visualization = viz;
   };
 
-  getFieldDropdown(label, key) {
+  getFieldDropdown(label, key, items) {
     const onChange = (event, index, value) => {
-      this.setState({[key]: value});
+      this.setState({[key]: value !== '--' ? value : ''});
 
       setTimeout(() => this.updateChart(), 300);
     };
 
-    const items = this.props.vddf.schema.map(c => (
+    items = (items || this.props.vddf.schema).map(c => (
       <MenuItem key={c.name} value={c.name} primaryText={c.name} />
     ));
 
     return (
-      <SelectField style={{width: '32%', marginRight: '1%', verticalAlign: 'top'}} floatingLabelText={label} value={this.state[key]} onChange={onChange}>
-        <MenuItem value='' primaryText='' />
+      <SelectField style={{width: '24%', marginRight: '1%', verticalAlign: 'top'}} floatingLabelText={label} value={this.state[key]} onChange={onChange}>
+        <MenuItem value='--' primaryText='(none)' />
         {items}
       </SelectField>
     );
@@ -73,6 +74,7 @@ export default class ChartSettings extends React.Component {
         {this.getFieldDropdown('Category', 'category')}
         {this.getFieldDropdown('Measurement', 'measurement')}
         {this.getFieldDropdown('Group By', 'category2')}
+        {this.getFieldDropdown('Aggregation', 'aggregation', ['sum', 'avg', 'min', 'max'].map(c => ({name: c})))}
       </div>
     );
   }

@@ -7,6 +7,7 @@ import DataEditModal from './data-edit-modal';
 import ExportModal from './export-modal';
 import ChartSettings from './chart-settings';
 import MenuItem from 'material-ui/lib/menus/menu-item';
+import FontIcon from 'material-ui/lib/font-icon';
 import Immutable from 'immutable';
 
 const style = {
@@ -162,24 +163,14 @@ export default class Chart extends React.Component {
     return (
       <div style={{float: 'right'}}>
         {this.getChartTypePopover()}
-        {this.getMenu()}
+        <FontIcon style={style.menuIcon} onClick={this.toggleChartSettings} className='material-icons'>settings</FontIcon>
+        <DropdownMenu>
+          <MenuItem onClick={this.toggleEditModal} primaryText='Edit data ...'/>
+          {this.vddf.isModified() && <MenuItem onClick={this.exportChart} primaryText='Export ...'/>}
+          <MenuItem onClick={this.downloadChart} primaryText='Download as CSV'/>
+        </DropdownMenu>
       </div>
     );
-  }
-
-  getMenu() {
-    let menus = null;
-
-    menus = (
-      <DropdownMenu>
-        <MenuItem onClick={this.toggleEditModal} primaryText='Edit data ...'/>
-        <MenuItem onClick={this.toggleChartSettings} primaryText='Edit chart ...' />
-        {this.vddf.isModified() && <MenuItem onClick={this.exportChart} primaryText='Export ...'/>}
-        <MenuItem onClick={this.downloadChart} primaryText='Download as CSV'/>
-      </DropdownMenu>
-    );
-
-    return menus;
   }
 
   getChartTypePopover() {
@@ -198,7 +189,9 @@ export default class Chart extends React.Component {
 
   getChart() {
     return (
-      <AdaVizChart spec={this.state.adaviz} />
+      <div style={{position: 'relative'}}>
+        <AdaVizChart spec={this.state.adaviz} />
+      </div>
     );
   }
 
