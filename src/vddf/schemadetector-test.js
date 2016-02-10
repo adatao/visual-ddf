@@ -32,10 +32,12 @@ describe('SchemaDetector', () => {
     });
 
     it('should not override existing type', () => {
-      let series = [[1], [1.1], [2]];
-      let schema = detector.detect(series, [{name: 'c1', type: Types.String}]);
+      let series = [[1, 'a', '1'], [1.1, 'b', '2'], [2, 'c', '3']];
+      let schema = detector.detect(series, [{name: 'c1', type: Types.String}, {name: 'c2'}, {name: 'c3'}]);
 
       assert.equal(Types.String, schema[0].type);
+      assert.equal(Types.String, schema[1].type);
+      assert.equal(Types.Integer, schema[2].type);
     });
 
     it('should treat null and empty string as same type', () => {

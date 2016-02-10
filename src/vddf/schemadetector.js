@@ -18,7 +18,9 @@ export default class SchemaDetector {
     }));
 
     data.some(row => {
-      const isStillRunning = !newSchema.some((c,j) => {
+      let isStillRunning = false;
+
+      newSchema.forEach((c,j) => {
         if (!c.type) {
           const value = row[j];
           const type = this.detectValue(row[j]);
@@ -43,7 +45,8 @@ export default class SchemaDetector {
           }
         }
 
-        return c.type !== undefined;
+        // keep running when there is undetected column
+        isStillRunning = isStillRunning || c.type === undefined;
       });
 
       return !isStillRunning;
@@ -51,7 +54,7 @@ export default class SchemaDetector {
 
     // merge hint types to schema
     newSchema.forEach((c,i) => {
-      if (!c.type) {
+      if (!c.type && hintTypes[i]) {
         c.type = hintTypes[i].type;
       }
     });

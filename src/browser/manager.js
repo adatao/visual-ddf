@@ -12,6 +12,10 @@ export default class Manager {
     this.storage = storage;
   }
 
+  async render() {
+    // TODO: move render logic from embed.js
+  }
+
   async getDownloadLink(vddf) {
     let csv = '';
 
@@ -66,6 +70,7 @@ export default class Manager {
     vddf.manager = this;
     vddf.deserialize(json);
 
+    // restore from local storage and track changes
     this.storage.restore(vddf);
     this.storage.track(vddf);
 

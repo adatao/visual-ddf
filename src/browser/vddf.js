@@ -3,6 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Chart from './components/chart';
 import Immutable from 'immutable';
+import SchemaDetector from './../vddf/schemadetector';
 
 /**
  * vDDF implementation with React and AdaViz
@@ -19,6 +20,12 @@ export default class vDDF extends EventEmitter {
     this.emit('update', {
       target: this
     });
+  }
+
+  _updateSchema() {
+    let detector = new SchemaDetector();
+    let newSchema = detector.detect(this.fetch(), this.schema);
+    this.payload = this.payload.set('schema', Immutable.fromJS(newSchema));
   }
 
   changeChartType(type) {
@@ -80,6 +87,7 @@ export default class vDDF extends EventEmitter {
 
     if (schema) {
       this.payload = this.payload.set('schema', Immutable.fromJS(schema));
+      this._updateSchema();
     }
 
     this._emitUpdate();
@@ -89,6 +97,13 @@ export default class vDDF extends EventEmitter {
     return this.payload.get('schema').toJS();
   }
 
+  set schema(value) {
+    this.payload = this.payload.set('schema', Immutable.fromJS(value));
+    this._updateSchema();
+    this._emitUpdate();
+  }
+
+  // TODO: decouple this to a ReactVDDF
   async render(el) {
     try {
       let width = el.getAttribute('data-width');
@@ -114,6 +129,7 @@ export default class vDDF extends EventEmitter {
   deserialize(payload) {
     this.originalPayload = Immutable.fromJS(payload);
     this.payload = this.originalPayload;
+    this._updateSchema();
   }
 
   serialize() {
@@ -127,6 +143,7 @@ export default class vDDF extends EventEmitter {
   revert() {
     if (this.isModified()) {
       this.payload = this.originalPayload;
+      this._updateSchema();
       this._emitUpdate();
     }
   }

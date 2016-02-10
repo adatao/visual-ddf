@@ -19,6 +19,7 @@ export default class Storage {
 
       if (!Immutable.is(vddf.payload, backup)) {
         vddf.payload = backup;
+        vddf._updateSchema();
       } else {
         this.localStorage.removeItem(key);
       }
