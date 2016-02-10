@@ -92,7 +92,6 @@ export default class DataEditModal extends React.Component {
       this.setState({
         columns: columns.concat({
           name: columnName,
-          type: 'text',
           key: columns.length,
           editable: true
         })
