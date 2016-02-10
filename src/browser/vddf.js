@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import Chart from './components/chart';
 import Immutable from 'immutable';
 import SchemaDetector from './../vddf/schemadetector';
+import suggestChartType from '../vddf/charttypes';
 
 /**
  * vDDF implementation with React and AdaViz
@@ -26,6 +27,8 @@ export default class vDDF extends EventEmitter {
     let detector = new SchemaDetector();
     let newSchema = detector.detect(this.fetch(), this.schema);
     this.payload = this.payload.set('schema', Immutable.fromJS(newSchema));
+
+    this._chartTypes = suggestChartType(this.schema);
   }
 
   changeChartType(type) {
@@ -43,20 +46,7 @@ export default class vDDF extends EventEmitter {
   }
 
   getAvailableCharts() {
-    // TODO: figure out metadata by schema
-    let types = [];
-
-    if (this.visualization.alternatives) {
-      types = this.visualization.alternatives.split(',');
-    } else {
-      types = [this.visualization.type];
-    }
-
-    if (types.indexOf('datatable') === -1) {
-      types.push('datatable');
-    }
-
-    return types;
+    return this._chartTypes;
   }
 
   get title() {
