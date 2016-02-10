@@ -37,11 +37,19 @@ export default class vDDF extends EventEmitter {
 
   getAvailableCharts() {
     // TODO: figure out metadata by schema
+    let types = [];
+
     if (this.visualization.alternatives) {
-      return this.visualization.alternatives.split(',');
+      types = this.visualization.alternatives.split(',');
+    } else {
+      types = [this.visualization.type];
     }
 
-    return [this.visualization.type, 'datatable'];
+    if (types.indexOf('datatable') === -1) {
+      types.push('datatable');
+    }
+
+    return types;
   }
 
   get title() {

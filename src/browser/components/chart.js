@@ -93,18 +93,24 @@ export default class Chart extends React.Component {
     const viz = vddf.visualization;
     const raw = vddf.fetch();
 
-    // convert to adaviz structure
+    // convert to adaviz data structure
     let data = raw.map(d => {
       return this.props.vddf.schema.reduce((obj,column,idx) => {
         return Object.assign(obj, {[column.name]: d[idx] });
       }, {});
     });
 
-    if (viz.aggregation) {
-      // XXX: should refer to category parameter instead
+    if (viz.aggregation && viz.type !== 'datatable') {
       let groupBy = {};
-      let keys = [viz.y];
-      let measurement = viz.x;
+      let keys = [viz.x];
+      let measurement = viz.y;
+
+      // parameters passed by adaviz is messed up, there is no way
+      // we can identify which part is category and measurement
+      if (viz.orientation === 'horizontal') {
+        keys = [viz.y];
+        measurement = viz.x;
+      }
 
       if (viz.color) {
         keys.push(viz.color);

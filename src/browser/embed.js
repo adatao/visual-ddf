@@ -49,6 +49,7 @@ function mountAllvDDF() {
 
 if (window.vDDF && !window.vDDF.manager) {
   window.vDDF.manager = new Manager(window.vDDF.config);
+  window.vDDF.mountAll = mountAllvDDF;
 }
 
 injectResources();

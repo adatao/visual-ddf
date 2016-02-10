@@ -35,7 +35,8 @@ const style = {
   chartIcon: {
     marginTop: 2,
     maxWidth: 64,
-    height: 64
+    height: 64,
+    padding: 0
   }
 };
 

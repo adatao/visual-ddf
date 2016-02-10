@@ -17,8 +17,8 @@ export default class ChartSettings extends React.Component {
 
   componentDidMount() {
     const viz = this.props.vddf.visualization;
-    const category = viz.category || viz.x;
-    const measurement = viz.measurement || viz.y;
+    const category = viz.category || (viz.orientation === 'horizontal' ? viz.y : viz.x);
+    const measurement = viz.measurement || (viz.orientation === 'horizontal' ? viz.x : viz.y);
     const category2 = viz.category2 || viz.color || viz.detail;
     const aggregation = viz.aggregation;
 
@@ -29,8 +29,14 @@ export default class ChartSettings extends React.Component {
     let viz = this.props.vddf.visualization;
     let update = this.state;
 
-    viz.x = update.category;
-    viz.y = update.measurement;
+    if (viz.orientation === 'horizontal') {
+      viz.y = update.category;
+      viz.x = update.measurement;
+    } else {
+      viz.x = update.category;
+      viz.y = update.measurement;
+    }
+
     viz.color = update.category2;
     viz.aggregation = update.aggregation;
 
@@ -39,13 +45,6 @@ export default class ChartSettings extends React.Component {
     delete viz.xLabel;
     delete viz.yLabel;
     delete viz.measurementColumns;
-
-    // additional handling
-    switch (viz.type) {
-    case 'treemap':
-
-      break;
-    }
 
     this.props.vddf.visualization = viz;
   };

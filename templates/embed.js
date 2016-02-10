@@ -1,4 +1,4 @@
-if (typeof window.VDDF === 'undefined') {
+if (typeof window.vDDF === 'undefined') {
   // create a placeholder for VDDF interface
   window.vDDF = {
     config: {
