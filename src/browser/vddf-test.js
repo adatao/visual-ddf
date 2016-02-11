@@ -10,6 +10,8 @@ describe('vDDF', () => {
 
   it('should revert changes to last snapshot');
 
+  it('should be able to change title');
+
   context('# aggregation', () => {
     // data type is Number but data is in string
     it('should aggregate integer correctly');

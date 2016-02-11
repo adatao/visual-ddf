@@ -57,7 +57,8 @@ export default class vDDF extends EventEmitter {
   }
 
   set title(value) {
-    this.payload.set('title', value);
+    this.payload = this.payload.set('title', value);
+    this._emitUpdate();
   }
 
   get visualization() {

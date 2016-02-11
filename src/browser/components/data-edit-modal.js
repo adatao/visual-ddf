@@ -65,8 +65,7 @@ export default class DataEditModal extends React.Component {
     this.setState({rows: rows});
   };
 
-  @autobind
-  handleAddRow(e) {
+  handleAddRow = (e) => {
     let rows = this.state.rows;
     let row = this.newRow();
 
@@ -75,10 +74,9 @@ export default class DataEditModal extends React.Component {
     this.setState({
       rows: rows
     });
-  }
+  };
 
-  @autobind
-  handleAddColumn(e) {
+  handleAddColumn = (e) => {
     // TODO: need better UX
     let columnName = prompt('Please enter column name');
     let columns = this.state.columns;
@@ -97,19 +95,17 @@ export default class DataEditModal extends React.Component {
         })
       });
     }
-  }
+  };
 
-  @autobind
-  getRow(i) {
+  getRow = (i) => {
     return this.state.rows[i].reduce((obj, value, index) => {
       return Object.assign(obj, {
         [index]: value
       });
     }, {});
-  }
+  };
 
-  @autobind
-  saveData() {
+  saveData = () => {
     let schema = this.state.columns.map(c => {
       return {
         name: c.name,
@@ -119,7 +115,7 @@ export default class DataEditModal extends React.Component {
 
     // skip the last row, because it's just placeholder
     this.props.onSave(this.state.rows.slice(0, this.state.rows.length - 1), schema);
-  }
+  };
 
   getActions() {
     return (

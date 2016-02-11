@@ -3,6 +3,7 @@ import AdaVizChart from './adaviz';
 import DropdownMenu from './dropdown-menu';
 import DataEditModal from './data-edit-modal';
 import ExportModal from './export-modal';
+import EditTitleModal from './edit-title-modal';
 import ChartSettings from './chart-settings';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 import FontIcon from 'material-ui/lib/font-icon';
@@ -58,6 +59,7 @@ export default class Chart extends React.Component {
       adaviz: null,
       showEditModal: false,
       showExportModal: false,
+      showTitleModal: false,
       showChartSettings: false,
       embedResult: null
     };
@@ -170,15 +172,21 @@ export default class Chart extends React.Component {
     });
   }
 
-  toggleEditModal = () => {
+  toggleTitleModal = () => {
     this.setState({
-      showEditModal: !this.state.showEditModal
+      showTitleModal: !this.state.showTitleModal
     });
   };
 
   toggleExportModal = () => {
     this.setState({
       showExportModal: !this.state.showExportModal
+    });
+  };
+
+  toggleEditModal = () => {
+    this.setState({
+      showEditModal: !this.state.showEditModal
     });
   };
 
@@ -191,6 +199,11 @@ export default class Chart extends React.Component {
   saveData = (data, schema) => {
     this.vddf.updateData(data, schema);
     this.toggleEditModal();
+  };
+
+  saveTitle = (title) => {
+    this.vddf.title = title;
+    this.toggleTitleModal();
   };
 
   exportChart = () => {
@@ -219,6 +232,7 @@ export default class Chart extends React.Component {
       <div style={{float: 'right'}}>
         <FontIcon style={style.menuIcon} onClick={this.toggleChartSettings} className='material-icons'>equalizer</FontIcon>
         <DropdownMenu>
+          <MenuItem onClick={this.toggleTitleModal} primaryText='Edit title ...'/>
           <MenuItem onClick={this.toggleEditModal} primaryText='Edit data ...'/>
           {this.vddf.isModified() && <MenuItem onClick={this.exportChart} primaryText='Export ...'/>}
           <MenuItem onClick={this.downloadChart} primaryText='Download as CSV'/>
@@ -233,6 +247,10 @@ export default class Chart extends React.Component {
 
   getExportModal() {
     return <ExportModal embedCode={this.state.embedResult.embedCode} onRequestClose={this.toggleExportModal} />;
+  }
+
+  getTitleModal() {
+    return <EditTitleModal title={this.vddf.title} onSave={this.saveTitle} onRequestClose={this.toggleTitleModal} />;
   }
 
   getChart() {
@@ -277,6 +295,7 @@ export default class Chart extends React.Component {
         {this.getNotificationNotice()}
         {this.state.showEditModal && this.getEditModal()}
         {this.state.showExportModal && this.getExportModal()}
+        {this.state.showTitleModal && this.getTitleModal()}
       </div>
     );
   }
