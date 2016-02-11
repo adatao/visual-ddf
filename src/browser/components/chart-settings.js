@@ -133,6 +133,20 @@ export default class ChartSettings extends React.Component {
 
     // special treatment for some chart types
     switch (this.props.vddf.getChartType()) {
+    case 'scatterplot':
+      fields = [
+        {label: 'X', key: 'category'},
+        {label: 'Y', key: 'measurement'},
+        {label: 'Group By', key: 'category2'}
+      ];
+      break;
+    case 'pie':
+    case 'donut':
+      fields = [
+        {label: 'Category', key: 'category'},
+        {label: 'Measurement', key: 'measurement'}
+      ];
+      break;
     case 'heatmap':
       fields = [
         {label: 'Row', key: 'category'},
