@@ -57,9 +57,7 @@ export default class Chart extends React.Component {
 
     this.state = {
       adaviz: null,
-      showEditModal: false,
-      showExportModal: false,
-      showTitleModal: false,
+      modal: {},
       showChartSettings: false,
       embedResult: null
     };
@@ -172,22 +170,33 @@ export default class Chart extends React.Component {
     });
   }
 
-  toggleTitleModal = () => {
-    this.setState({
-      showTitleModal: !this.state.showTitleModal
-    });
+  getModal(name) {
+    switch (name) {
+    case 'data':
+      return <DataEditModal vddf={this.vddf} onRequestClose={() => this.toggleModal('data')} onSave={this.saveData} />;
+    case 'title':
+      return <EditTitleModal title={this.vddf.title} onSave={this.saveTitle} onRequestClose={() => this.toggleModal('title')} />;
+    case 'export':
+      return <ExportModal embedCode={this.state.embedResult.embedCode} onRequestClose={() => this.toggleModal('export')} />;
+    }
+  }
+
+  toggleModal = (name) => {
+    let modal = this.state.modal;
+
+    if (modal[name]) {
+      delete modal[name];
+    } else {
+      modal[name] = this.getModal(name);
+    }
+
+    this.setState({modal: modal});
   };
 
-  toggleExportModal = () => {
-    this.setState({
-      showExportModal: !this.state.showExportModal
-    });
-  };
-
-  toggleEditModal = () => {
-    this.setState({
-      showEditModal: !this.state.showEditModal
-    });
+  getActiveModals = () => {
+    for (let name in this.state.modal) {
+      return this.state.modal[name];
+    }
   };
 
   toggleChartSettings = () => {
@@ -198,12 +207,12 @@ export default class Chart extends React.Component {
 
   saveData = (data, schema) => {
     this.vddf.updateData(data, schema);
-    this.toggleEditModal();
+    this.toggleModal('data');
   };
 
   saveTitle = (title) => {
     this.vddf.title = title;
-    this.toggleTitleModal();
+    this.toggleModal('title');
   };
 
   exportChart = () => {
@@ -213,7 +222,7 @@ export default class Chart extends React.Component {
           embedResult: result
         });
 
-        this.toggleExportModal();
+        this.toggleModal('export');
       });
   };
 
@@ -232,25 +241,13 @@ export default class Chart extends React.Component {
       <div style={{float: 'right'}}>
         <FontIcon style={style.menuIcon} onClick={this.toggleChartSettings} className='material-icons'>equalizer</FontIcon>
         <DropdownMenu>
-          <MenuItem onClick={this.toggleTitleModal} primaryText='Edit title ...'/>
-          <MenuItem onClick={this.toggleEditModal} primaryText='Edit data ...'/>
+          <MenuItem onClick={() => this.toggleModal('title')} primaryText='Edit title ...'/>
+          <MenuItem onClick={() => this.toggleModal('data')} primaryText='Edit data ...'/>
           {this.vddf.isModified() && <MenuItem onClick={this.exportChart} primaryText='Export ...'/>}
           <MenuItem onClick={this.downloadChart} primaryText='Download as CSV'/>
         </DropdownMenu>
       </div>
     );
-  }
-
-  getEditModal() {
-    return <DataEditModal vddf={this.vddf} onRequestClose={this.toggleEditModal} onSave={this.saveData} />;
-  }
-
-  getExportModal() {
-    return <ExportModal embedCode={this.state.embedResult.embedCode} onRequestClose={this.toggleExportModal} />;
-  }
-
-  getTitleModal() {
-    return <EditTitleModal title={this.vddf.title} onSave={this.saveTitle} onRequestClose={this.toggleTitleModal} />;
   }
 
   getChart() {
@@ -293,9 +290,7 @@ export default class Chart extends React.Component {
         {this.state.showChartSettings && this.getChartSettings()}
         {this.state.adaviz && this.getChart()}
         {this.getNotificationNotice()}
-        {this.state.showEditModal && this.getEditModal()}
-        {this.state.showExportModal && this.getExportModal()}
-        {this.state.showTitleModal && this.getTitleModal()}
+        {this.getActiveModals()}
       </div>
     );
   }
