@@ -1,8 +1,6 @@
 import React from 'react';
 import AdaVizChart from './adaviz';
 import DropdownMenu from './dropdown-menu';
-import Popover from './popover';
-import ChangeChartDropdown from './change-chart-dropdown';
 import DataEditModal from './data-edit-modal';
 import ExportModal from './export-modal';
 import ChartSettings from './chart-settings';
@@ -168,11 +166,6 @@ export default class Chart extends React.Component {
     });
   }
 
-  changeChartType = (type) => {
-    let vddf = this.props.vddf;
-    vddf.changeChartType(type);
-  };
-
   toggleEditModal = () => {
     this.setState({
       showEditModal: !this.state.showEditModal
@@ -220,20 +213,13 @@ export default class Chart extends React.Component {
   getToolbar() {
     return (
       <div style={{float: 'right'}}>
-        {this.getChartTypePopover()}
-        <FontIcon style={style.menuIcon} onClick={this.toggleChartSettings} className='material-icons'>settings</FontIcon>
+        <FontIcon style={style.menuIcon} onClick={this.toggleChartSettings} className='material-icons'>equalizer</FontIcon>
         <DropdownMenu>
           <MenuItem onClick={this.toggleEditModal} primaryText='Edit data ...'/>
           {this.vddf.isModified() && <MenuItem onClick={this.exportChart} primaryText='Export ...'/>}
           <MenuItem onClick={this.downloadChart} primaryText='Download as CSV'/>
         </DropdownMenu>
       </div>
-    );
-  }
-
-  getChartTypePopover() {
-    return (
-      <ChangeChartDropdown charts={this.vddf.getAvailableCharts()} onClick={this.changeChartType}/>
     );
   }
 

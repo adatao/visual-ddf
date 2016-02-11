@@ -1,14 +1,34 @@
 import React from 'react';
 import SelectField from 'material-ui/lib/select-field';
 import MenuItem from 'material-ui/lib/menus/menu-item';
+import FlatButton from 'material-ui/lib/flat-button';
 
 const style = {
   container: {
     padding: '4px 8px'
+  },
+  chartButton: {
+    width: 28,
+    height: 28,
+    minWidth: 'auto',
+    textAlign: 'center'
+  },
+  chartIcon: {
+    padding: 0,
+    height: 20,
+    maxWidth: 20
+  },
+  fieldDropdown: {
+    width: '24%',
+    marginRight: '1%',
+    verticalAlign: 'top'
   }
 };
 
 export default class ChartSettings extends React.Component {
+  static contextTypes = {
+    baseUrl: React.PropTypes.string
+  };
 
   constructor(props) {
     super(props);
@@ -49,6 +69,11 @@ export default class ChartSettings extends React.Component {
     this.props.vddf.visualization = viz;
   };
 
+  changeChartType(type) {
+    let vddf = this.props.vddf;
+    vddf.changeChartType(type);
+  }
+
   getFieldDropdown(label, key, items) {
     const onChange = (event, index, value) => {
       this.setState({[key]: value !== '--' ? value : ''});
@@ -61,20 +86,39 @@ export default class ChartSettings extends React.Component {
     ));
 
     return (
-      <SelectField style={{width: '24%', marginRight: '1%', verticalAlign: 'top'}} floatingLabelText={label} value={this.state[key]} onChange={onChange}>
+      <SelectField style={style.fieldDropdown} floatingLabelText={label} value={this.state[key]} onChange={onChange}>
         <MenuItem value='--' primaryText='(none)' />
         {items}
       </SelectField>
     );
   }
 
+  getChartTypes() {
+    const baseUrl = this.context.baseUrl;
+
+    const types = this.props.vddf.getAvailableCharts().map(type => (
+      <FlatButton onClick={() => this.changeChartType(type)} key={type} style={style.chartButton}>
+        <img style={style.chartIcon} src={`${baseUrl}chart-icons/${type}.svg`} />
+      </FlatButton>
+    ));
+
+    return (
+      <div>
+        {types}
+      </div>
+    );
+  }
+
   render() {
     return (
       <div style={style.container}>
-        {this.getFieldDropdown('Category', 'category')}
-        {this.getFieldDropdown('Measurement', 'measurement')}
-        {this.getFieldDropdown('Group By', 'category2')}
-        {this.getFieldDropdown('Aggregation', 'aggregation', ['sum', 'avg', 'min', 'max'].map(c => ({name: c})))}
+        {this.getChartTypes()}
+        <div>
+          {this.getFieldDropdown('Category', 'category')}
+          {this.getFieldDropdown('Measurement', 'measurement')}
+          {this.getFieldDropdown('Group By', 'category2')}
+          {this.getFieldDropdown('Aggregation', 'aggregation', ['sum', 'avg', 'min', 'max'].map(c => ({name: c})))}
+        </div>
       </div>
     );
   }
