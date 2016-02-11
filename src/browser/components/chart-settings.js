@@ -36,28 +36,43 @@ export default class ChartSettings extends React.Component {
   }
 
   componentDidMount() {
-    const viz = this.props.vddf.visualization;
-    const category = viz.category || (viz.orientation === 'horizontal' ? viz.y : viz.x);
-    const measurement = viz.measurement || (viz.orientation === 'horizontal' ? viz.x : viz.y);
-    const category2 = viz.category2 || viz.color || viz.detail;
-    const aggregation = viz.aggregation;
+    let viz = this.props.vddf.visualization;
+    let mapping = viz.mapping || viz;
+
+    const category = mapping.category || (viz.orientation === 'horizontal' ? viz.y : viz.x);
+    const measurement = mapping.measurement || (viz.orientation === 'horizontal' ? viz.x : viz.y);
+    const category2 = mapping.category2 || viz.color || viz.detail;
+    const aggregation = mapping.aggregation;
 
     this.setState({category, measurement, category2, aggregation});
   }
 
-  updateChart() {
+  updateChart(type) {
     let viz = this.props.vddf.visualization;
     let update = this.state;
 
-    if (viz.orientation === 'horizontal') {
-      viz.y = update.category;
-      viz.x = update.measurement;
-    } else {
-      viz.x = update.category;
-      viz.y = update.measurement;
+    viz.mapping = update;
+
+    if (type) {
+      viz.type = type;
     }
 
-    viz.color = update.category2;
+    if (viz.type == 'heatmap') {
+      viz.y = update.category;
+      viz.x = update.category2;
+      viz.color = update.measurement;
+    } else {
+      if (viz.orientation === 'horizontal') {
+        viz.y = update.category;
+        viz.x = update.measurement;
+      } else {
+        viz.x = update.category;
+        viz.y = update.measurement;
+      }
+
+      viz.color = update.category2;
+    }
+
     viz.aggregation = update.aggregation;
 
 
@@ -71,7 +86,7 @@ export default class ChartSettings extends React.Component {
 
   changeChartType(type) {
     let vddf = this.props.vddf;
-    vddf.changeChartType(type);
+    this.updateChart(type);
   }
 
   getFieldDropdown(label, key, items) {
@@ -86,7 +101,7 @@ export default class ChartSettings extends React.Component {
     ));
 
     return (
-      <SelectField style={style.fieldDropdown} floatingLabelText={label} value={this.state[key]} onChange={onChange}>
+      <SelectField key={key} style={style.fieldDropdown} floatingLabelText={label} value={this.state[key]} onChange={onChange}>
         <MenuItem value='--' primaryText='(none)' />
         {items}
       </SelectField>
@@ -110,13 +125,33 @@ export default class ChartSettings extends React.Component {
   }
 
   render() {
+    let fields = [
+      {label: 'Category', key: 'category'},
+      {label: 'Measurement', key: 'measurement'},
+      {label: 'Group By', key: 'category2'}
+    ];
+
+    // special treatment for some chart types
+    switch (this.props.vddf.getChartType()) {
+    case 'heatmap':
+      fields = [
+        {label: 'Row', key: 'category'},
+        {label: 'Column', key: 'category2'},
+        {label: 'Measurement', key: 'measurement'}
+      ];
+      break;
+    case 'datatable':
+      fields = [];
+      break;
+    }
+
+    let fieldComponents = fields.map(field => this.getFieldDropdown(field.label, field.key));
+
     return (
       <div style={style.container}>
         {this.getChartTypes()}
         <div>
-          {this.getFieldDropdown('Category', 'category')}
-          {this.getFieldDropdown('Measurement', 'measurement')}
-          {this.getFieldDropdown('Group By', 'category2')}
+          {fieldComponents}
           {this.getFieldDropdown('Aggregation', 'aggregation', ['sum', 'avg', 'min', 'max'].map(c => ({name: c})))}
         </div>
       </div>

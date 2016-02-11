@@ -106,15 +106,24 @@ export default class Chart extends React.Component {
       let keys = [viz.x];
       let measurement = viz.y;
 
-      // parameters passed by adaviz is messed up, there is no way
-      // we can identify which part is category and measurement
-      if (viz.orientation === 'horizontal') {
-        keys = [viz.y];
-        measurement = viz.x;
-      }
+      if (viz.mapping) {
+        keys = [viz.mapping.category];
+        measurement = viz.mapping.measurement;
 
-      if (viz.color) {
-        keys.push(viz.color);
+        if (viz.mapping.category2) {
+          keys.push(viz.mapping.category2);
+        }
+      } else {
+        // parameters passed by adaviz is messed up, there is no way
+        // we can identify which part is category and measurement
+        if (viz.orientation === 'horizontal') {
+          keys = [viz.y];
+          measurement = viz.x;
+        }
+
+        if (viz.color) {
+          keys.push(viz.color);
+        }
       }
 
       data.forEach(d => {
