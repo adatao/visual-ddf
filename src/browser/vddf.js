@@ -10,9 +10,9 @@ import suggestChartType from '../vddf/charttypes';
  * vDDF implementation with React and AdaViz
  */
 export default class vDDF extends EventEmitter {
-  constructor(uri, config) {
+  constructor(uuid, uri, config) {
     super();
-    this.uuid = uri;
+    this.uuid = uuid;
     this.uri = uri;
     this.config = config;
   }
@@ -134,7 +134,7 @@ export default class vDDF extends EventEmitter {
   }
 
   revert() {
-    if (this.isModified()) {
+    if (this.originalPayload && this.isModified()) {
       this.payload = this.originalPayload;
       this._updateSchema();
       this._emitUpdate();

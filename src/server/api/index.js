@@ -16,7 +16,9 @@ export default function setupApi(app) {
 
       if (!this.body) {
         this.body = {
-          error: ex.message
+          error: {
+            message: ex.message
+          }
         };
       }
     }
@@ -27,13 +29,17 @@ export default function setupApi(app) {
     this.body = await vddfApi.create(app, this.request, this);
   });
 
+  router.post('/vddf/load', async function() {
+    this.body = await vddfApi.load(app, this.request, this);
+  });
+
   router.get('/vddf/:uuid', async function() {
     this.body = await vddfApi.get(app, this.request, this);
   });
 
-  router.delete('/vddf/:uuid', async function() {
-    this.body = await vddfApi.delete(app, this.request, this);
-  });
+  // router.delete('/vddf/:uuid', async function() {
+  //   this.body = await vddfApi.delete(app, this.request, this);
+  // });
 
   app
     .use(router.routes())

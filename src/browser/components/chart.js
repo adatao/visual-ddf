@@ -98,6 +98,9 @@ export default class Chart extends React.Component {
       }, {});
     });
 
+
+    // TODO: move this out of this component
+    // TODO: cache this computation
     if (viz.aggregation && viz.type !== 'datatable') {
       let groupBy = {};
       let keys = [viz.x];
@@ -130,19 +133,20 @@ export default class Chart extends React.Component {
 
       let aggregated = Object.values(groupBy).map(g => {
         let value;
+        let series = g.values.map(c => parseFloat(c[measurement]));
 
         switch (viz.aggregation) {
         case 'min':
-          value = g.values.map(c => c[measurement]).reduce((prev, cur) => Math.min(prev, cur));
+          value = series.reduce((prev, cur) => Math.min(prev, cur));
           break;
         case 'max':
-          value = g.values.map(c => c[measurement]).reduce((prev, cur) => Math.max(prev, cur));
+          value = series.reduce((prev, cur) => Math.max(prev, cur));
           break;
         case 'sum':
-          value = g.values.reduce((prev, cur) => prev + cur[measurement], 0);
+          value = series.reduce((prev, cur) => prev + cur, 0);
           break;
         case 'avg':
-          value = g.values.reduce((prev, cur) => prev + cur[measurement], 0) / g.values.length;
+          value = series.reduce((prev, cur) => prev + cur, 0) / g.values.length;
           break;
         }
 

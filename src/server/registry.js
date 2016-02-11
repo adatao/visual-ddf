@@ -63,7 +63,7 @@ export default class DbRegistry {
     return newUuid;
   }
 
-  async load(uuid) {
+  async get(uuid) {
     let row = await this.db.table('vddf').select('*')
           .where('uuid','=',uuid);
 
@@ -71,14 +71,7 @@ export default class DbRegistry {
       throw new Error('vDDF is not available');
     }
 
-    return {
-      uuid: row[0].uuid,
-      title: row[0].title,
-      source: row[0].source,
-      data: JSON.parse(row[0].data),
-      schema: JSON.parse(row[0].schema),
-      visualization: JSON.parse(row[0].visualization)
-    };
+    return this._deserializeRow(row[0]);
   }
 
   static extractSchema(data) {
@@ -100,6 +93,17 @@ export default class DbRegistry {
     return {
       data: newData,
       schema: schema
+    };
+  }
+
+  _deserializeRow(row) {
+    return {
+      uuid: row.uuid,
+      title: row.title,
+      source: row.source,
+      data: JSON.parse(row.data),
+      schema: JSON.parse(row.schema),
+      visualization: JSON.parse(row.visualization)
     };
   }
 }

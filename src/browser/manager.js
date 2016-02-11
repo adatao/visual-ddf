@@ -29,7 +29,8 @@ export default class Manager {
     return `data:application/csv;charset=utf-8,` + encodeURIComponent(csv);
   }
 
-  async export(vddf) {
+  // export keyword has problem with emacs :(
+  async ['export'](vddf) {
     const apiUrl = `${this.config.baseUrl}/api/vddf/create`;
     let body = vddf.serialize();
 
@@ -54,7 +55,19 @@ export default class Manager {
   }
 
   async load(uri) {
-    let response = await fetch(uri + '.json', {});
+    let response;
+
+    if (this.config.baseUrl) {
+      response = await fetch(`${this.config.baseUrl}/api/vddf/load`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({uri: uri})
+      });
+    } else {
+      response = await fetch(uri, {});
+    }
 
     if (response.status !== 200) {
       throw new Error(`Unable to retrieve vDDF`);
@@ -66,9 +79,10 @@ export default class Manager {
       throw new Error(json.error.message);
     }
 
-    let vddf = new vDDF(uri, this.config);
+    let result = json.result ? json.result : json;
+    let vddf = new vDDF(result.uuid, uri, this.config);
     vddf.manager = this;
-    vddf.deserialize(json);
+    vddf.deserialize(result);
 
     // restore from local storage and track changes
     this.storage.restore(vddf);

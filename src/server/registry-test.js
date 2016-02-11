@@ -70,7 +70,7 @@ describe('DbRegistry', () => {
       }]);
     });
 
-    let ddf = await registry.load(checkUuid);
+    let ddf = await registry.get(checkUuid);
     assert.lengthOf(ddf.data, 2);
     assert.equal(3, ddf.data[1][0]);
     assert.equal('bar', ddf.visualization.type);
