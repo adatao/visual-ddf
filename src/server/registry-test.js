@@ -27,7 +27,9 @@ describe('DbRegistry', () => {
     // expect an insert query
     tracker.on('query', (query) => {
       // TODO: verify that data is json serialized
+      // TODO: verify that schema is auto detected
       assert.equal('insert', query.method);
+
       query.response();
     });
 

@@ -25,8 +25,11 @@ export default class vDDF extends EventEmitter {
 
   _updateSchema() {
     let detector = new SchemaDetector();
-    let newSchema = detector.detect(this.fetch(), this.schema);
-    this.payload = this.payload.set('schema', Immutable.fromJS(newSchema));
+    let newSchema = Immutable.fromJS(detector.detect(this.fetch(), this.schema));
+
+    if (!Immutable.is(this.payload.get('schema'), newSchema)) {
+      this.payload = this.payload.set('schema', newSchema);
+    }
 
     this._chartTypes = suggestChartType(this.schema);
   }

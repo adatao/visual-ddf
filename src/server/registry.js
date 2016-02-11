@@ -1,4 +1,5 @@
 import uuid from 'uuid';
+import SchemaDetector from '../vddf/schemadetector';
 
 export default class DbRegistry {
   constructor(db) {
@@ -39,6 +40,9 @@ export default class DbRegistry {
         throw new Error(`Data is mismatch at row ${rowId}.`);
       }
     }
+
+    // run one round of schema detection
+    vddf.schema = (new SchemaDetector).detect(vddf.data, vddf.schema);
 
     // fallback to data table
     if (!vddf.visualization) {
