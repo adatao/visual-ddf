@@ -12,6 +12,18 @@ async function loadFromCsv(registry, data, source) {
   return await registry.get(uuid);
 }
 
+function getEmbedCode(uuid, baseUri) {
+  const uri = `${baseUri}/vddf/${uuid}`;
+  const embedCode = `<div data-vddf="${uri}"></div>` +
+          `<script type="text/javascript" src="${baseUri}/embed.js"></script>`;
+
+  return {
+    uuid,
+    uri,
+    embedCode
+  };
+}
+
 export async function load(app, request, ctx) {
   let body = request.body;
   let requestedUri = body.uri;
@@ -25,7 +37,7 @@ export async function load(app, request, ctx) {
     vddf = await app.registry.get(uuid);
   } else {
     // TODO: this may expose a loop hole to allow attacker to abuse
-    // vddf server to load any other site, we should think about how to
+    // vddf server to request to any other site, we should think about how to
     // prevent this hole when deploy to production
     // we also need to think about caching strategy too, do we always want to
     // return the same vddf or create new for each load ?
@@ -57,11 +69,22 @@ export async function get(app, request, ctx) {
   const uuid = ctx.params.uuid;
   if (!uuid) throw new Error('Uuid is required');
 
-  let vddf = await app.registry.get(uuid);
+  return {
+    status: 'success',
+    result: await app.registry.get(uuid)
+  };
+}
+
+export async function embed(app, request, ctx) {
+  const uuid = ctx.params.uuid;
+  if (!uuid) throw new Error('Uuid is required');
+
+  // make sure the vddf is available
+  await app.registry.get(uuid);
 
   return {
     status: 'success',
-    result: vddf
+    result: getEmbedCode(uuid, request.origin)
   };
 }
 
@@ -76,17 +99,9 @@ export async function create(app, request) {
   }
 
   const vddfUuid = await app.registry.create(body);
-  const baseUri = request.origin;
-  const vddfUri = `${baseUri}/vddf/${vddfUuid}`;
-  const embedCode = `<div data-vddf="${vddfUri}"></div>` +
-          `<script type="text/javascript" src="${baseUri}/embed.js"></script>`;
 
   return {
     status: 'success',
-    result: {
-      uuid: vddfUuid,
-      uri: vddfUri,
-      embedCode: embedCode
-    }
+    result: getEmbedCode(vddfUuid, request.origin)
   };
 }

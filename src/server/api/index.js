@@ -37,6 +37,10 @@ export default function setupApi(app) {
     this.body = await vddfApi.get(app, this.request, this);
   });
 
+  router.get('/vddf/:uuid/embed', async function() {
+    this.body = await vddfApi.embed(app, this.request, this);
+  });
+
   // router.delete('/vddf/:uuid', async function() {
   //   this.body = await vddfApi.delete(app, this.request, this);
   // });

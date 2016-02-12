@@ -40,9 +40,10 @@ export default function setupRoutes(app) {
   });
 
   router.get('/embed.js', async function() {
+    const version = app.config.version;
     const origin = this.request.origin;
     const scriptUrl = process.env.NODE_ENV === 'production' ?
-            `${origin}/build/embed.js` :
+            `${origin}/build/embed.js` + (version ? `?v=${version}` : '') :
             'http://localhost:8080/build/embed.js';
 
     this.set('Content-Type', 'text/javascript');

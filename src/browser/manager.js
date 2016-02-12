@@ -29,6 +29,19 @@ export default class Manager {
     return `data:application/csv;charset=utf-8,` + encodeURIComponent(csv);
   }
 
+  async embed(vddf) {
+    const apiUrl = `${this.config.baseUrl}/api/vddf/${vddf.uuid}/embed`;
+
+    let response = await fetch(apiUrl);
+
+    let result = await response.json();
+    if (result.error) {
+      throw new Error(result.error);
+    }
+
+    return result.result;
+  }
+
   // export keyword has problem with emacs :(
   async ['export'](vddf) {
     const apiUrl = `${this.config.baseUrl}/api/vddf/create`;

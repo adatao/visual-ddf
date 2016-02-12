@@ -235,6 +235,17 @@ export default class Chart extends React.Component {
       });
   };
 
+  embedChart = () => {
+    this.vddf.manager.embed(this.vddf)
+      .then(result => {
+        this.setState({
+          embedResult: result
+        });
+
+        this.toggleModal('export');
+      });
+  };
+
   downloadChart = () => {
     this.vddf.manager.getDownloadLink(this.vddf)
       .then(downloadLink => {
@@ -252,7 +263,7 @@ export default class Chart extends React.Component {
         <DropdownMenu>
           <MenuItem onClick={() => this.toggleModal('title')} primaryText='Edit title ...'/>
           <MenuItem onClick={() => this.toggleModal('data')} primaryText='Edit data ...'/>
-          {this.vddf.isModified() && <MenuItem onClick={this.exportChart} primaryText='Export ...'/>}
+        {this.vddf.isModified() ? <MenuItem onClick={this.exportChart} primaryText='Export ...'/> : <MenuItem onClick={this.embedChart} primaryText='Embed ...'/>}
           <MenuItem onClick={this.downloadChart} primaryText='Download as CSV'/>
         </DropdownMenu>
       </div>
