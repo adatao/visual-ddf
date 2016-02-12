@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node build/server/main.js",
     "build": "sh scripts/build.sh",
-    "start-server": "babel-node src/server/main.js",
     "build:dev": "sh scripts/build.sh --dev",
     "dev": "sh scripts/dev.sh",
+    "start-dev-server": "babel-node src/server/main.js",
     "test": "NODE_PATH=./test_node_modules mocha --compilers js:./test_node_modules/compiler.js 'src/**/*-test.js'",
     "test:watch": "npm run test -- -w -R dot"
   },

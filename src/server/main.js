@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import koa from 'koa';
 import setupDatabase from './db';
 import setupRoutes from './routes';

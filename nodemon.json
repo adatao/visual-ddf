@@ -7,6 +7,6 @@
     "assets/*",
     "src/browser"
   ],
-  "exec": "npm run start-server",
+  "exec": "npm run start-dev-server",
   "ext": "js"
 }
