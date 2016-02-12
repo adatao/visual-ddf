@@ -3,7 +3,8 @@
 You will need Node 4.x+ to run vddf-server properly. 
 
   * Use `npm install` to install all the dependencies.
-  * Run `npm run dev` to start vddf-server on port 5001
+  * Run `./scripts/install_adaviz.sh` to clone and compile adaviz.
+  * Run `npm run dev` to start vddf-server on port 5001.
 
 ### Deployment  ###
 

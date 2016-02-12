@@ -49,6 +49,7 @@ export default function suggest(schema) {
 
   let result = [];
 
+  // Create a summary of available dimensions in the schema
   schema.forEach(c => {
     if (!summary[c.type]) summary[c.type] = 0;
 
@@ -57,6 +58,8 @@ export default function suggest(schema) {
     if (Types.isNumber(c.type)) summary.Number++;
   });
 
+  // Loop through all chart types and check for required dimensions
+  // if all pass then we add to suggest list
   for (let type in ChartTypes) {
     const constraint = ChartTypes[type];
     let satisfied = true;

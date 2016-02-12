@@ -25,8 +25,7 @@ function injectResources() {
 }
 
 function mountAllvDDF() {
-  // TODO: this may not be compatible with old browsers
-
+  // TODO: querySelectorAll may not be available in older browsers.
   let elements = document.querySelectorAll('[data-vddf]');
 
   for (let i = 0; i < elements.length; i++) {
@@ -50,14 +49,11 @@ function mountAllvDDF() {
 if (window.vDDF && !window.vDDF.manager) {
   window.vDDF.manager = new Manager(window.vDDF.config);
   window.vDDF.mountAll = mountAllvDDF;
+  injectResources();
 }
-
-injectResources();
-
 
 if (document.readyState === 'complete') {
   mountAllvDDF();
 } else {
   window.addEventListener('load', mountAllvDDF);
 }
-
