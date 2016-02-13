@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Chart from './components/chart';
+import './styles.css';
 
 /**
  * vDDF renderer with React and AdaViz

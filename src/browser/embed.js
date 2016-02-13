@@ -1,9 +1,8 @@
 import 'babel-polyfill';
-import './styles.css';
 import './lib/adaviz';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import Manager from '../vddf/manager';
-import ReactRenderer from './react-renderer';
+import ReactRenderer from '../vddf-react/renderer';
 
 function injectResources() {
   let head = document.getElementsByTagName('head')[0];

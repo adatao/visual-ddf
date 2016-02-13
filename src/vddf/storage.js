@@ -1,4 +1,3 @@
-import autobind from 'autobind-decorator';
 import Immutable from 'immutable';
 
 export default class Storage {
@@ -26,8 +25,7 @@ export default class Storage {
     }
   }
 
-  @autobind
-  onUpdate(event) {
+  onUpdate = (event) => {
     let vddf = event.target;
 
     try {
@@ -35,7 +33,7 @@ export default class Storage {
     } catch (ex) {
       console.error('Unable to save vddf', ex.stack);
     }
-  }
+  };
 
   getKey(vddf) {
     return `vddf-${vddf.uuid}`;
