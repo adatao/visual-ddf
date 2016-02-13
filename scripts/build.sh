@@ -12,4 +12,4 @@ else
 fi
 
 echo "Building server side ..."
-babel --ignore=browser,chrome,test src -d build
+babel --ignore=browser,webapp,chrome,test src -d build

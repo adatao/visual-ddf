@@ -8,7 +8,7 @@ if (typeof window.vDDF === 'undefined') {
   var body = document.getElementsByTagName('body')[0];
   var scriptTag = document.createElement('script');
   scriptTag.setAttribute('type', 'text/javascript');
-  scriptTag.setAttribute('src', '{{scriptUrl}}');
+  scriptTag.setAttribute('src', '{{ scriptUrl }}');
   scriptTag.setAttribute('async', 'ascync');
 
   body.appendChild(scriptTag);

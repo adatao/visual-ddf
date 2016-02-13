@@ -9,7 +9,7 @@ var ROOT    = require('../path-helper').ROOT;
 module.exports = {
   context: ROOT,
   entry: {
-    app: path.join(ROOT, config.path.src, 'browser'),
+    webapp: path.join(ROOT, config.path.src, 'webapp'),
     embed: path.join(ROOT, config.path.src, 'browser/embed')
   },
   output: {
@@ -44,7 +44,7 @@ module.exports = {
   plugins: [
     //new webpack.optimize.CommonsChunkPlugin("init.js"),
     new webpack.optimize.AggressiveMergingPlugin(),
-    new webpack.optimize.DedupePlugin(),
+    // new webpack.optimize.DedupePlugin(),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.ResolverPlugin([
       new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin('.bower.json', ['main'])

@@ -1,12 +1,37 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Chart from './components/chart';
-import './styles.css';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 
 /**
  * vDDF renderer with React and AdaViz
  */
 export default class ReactRenderer {
+
+  async loadResources() {
+    let head = document.getElementsByTagName('head')[0];
+
+    try {
+      injectTapEventPlugin();
+    } catch (ex) {
+      // safe to ingore
+    }
+
+    if (head) {
+      let iconFont = document.createElement('link');
+      iconFont.setAttribute('href', 'https://fonts.googleapis.com/icon?family=Material+Icons');
+      iconFont.setAttribute('rel', 'stylesheet');
+
+      head.appendChild(iconFont);
+    }
+
+    require('./styles.css');
+
+    if (!window.AdaViz) {
+      require('../browser/lib/adaviz');
+    }
+  }
+
   async render(vddf, el) {
     try {
       let width = el.getAttribute('data-width');

@@ -21,7 +21,7 @@ module.exports = _.merge(defaultConfig, {
   devServer: {
     port: 8080,
     contentBase: ROOT,
-    noInfo: true,
+    noInfo: false,
     hot: true,
     inline: true,
     headers: { "Access-Control-Allow-Origin": "*" }

@@ -5,7 +5,8 @@
     "*-test.js",
     "webpack",
     "assets/*",
-    "src/browser"
+    "src/browser",
+    "src/webapp"
   ],
   "exec": "npm run start-dev-server",
   "ext": "js"
