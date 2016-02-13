@@ -1,13 +1,10 @@
 import EventEmitter from 'eventemitter3';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Chart from './components/chart';
 import Immutable from 'immutable';
-import SchemaDetector from './../vddf/schemadetector';
-import suggestChartType from '../vddf/charttypes';
+import SchemaDetector from './schemadetector';
+import suggestChartType from './charttypes';
 
 /**
- * vDDF implementation with React and AdaViz
+ * vDDF Base Class
  */
 export default class vDDF extends EventEmitter {
   constructor(uuid, uri, config) {
@@ -97,27 +94,8 @@ export default class vDDF extends EventEmitter {
     this._emitUpdate();
   }
 
-  // TODO: decouple this to a ReactVDDF
-  async render(el) {
-    try {
-      let width = el.getAttribute('data-width');
-      let height = el.getAttribute('data-height');
-
-      // if not specify width, try to get element outer width
-      if (!width) {
-        width = el.offsetWidth;
-      }
-
-      // TODO: support full screen
-      if (!height) {
-        height = width * 3/4;
-      }
-
-      ReactDOM.render(<Chart vddf={this} width={width} height={height} baseUrl={this.config.baseUrl} />, el);
-    } catch (ex) {
-      el.innerHTML = `Error: ${ex.message}`;
-      console.log(ex.stack);
-    }
+  async render(...params) {
+    return this.manager.render(this, ...params);
   }
 
   deserialize(payload) {

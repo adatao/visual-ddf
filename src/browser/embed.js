@@ -2,9 +2,8 @@ import 'babel-polyfill';
 import './styles.css';
 import './lib/adaviz';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import Manager from './manager';
-import vDDF from './vddf';
-
+import Manager from '../vddf/manager';
+import ReactRenderer from './react-renderer';
 
 function injectResources() {
   let head = document.getElementsByTagName('head')[0];
@@ -38,7 +37,7 @@ function mountAllvDDF() {
       window.vDDF.manager.load(uri)
         .then((vddf) => {
           el.__vddf__ = vddf;
-          vddf.render(el);
+          return vddf.render(el);
         }).catch(err => {
           console.log(err.stack);
         });
@@ -47,6 +46,7 @@ function mountAllvDDF() {
 }
 
 if (window.vDDF && !window.vDDF.manager) {
+  window.vDDF.config.renderer = new ReactRenderer();
   window.vDDF.manager = new Manager(window.vDDF.config);
   window.vDDF.mountAll = mountAllvDDF;
   injectResources();

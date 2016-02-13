@@ -8,7 +8,9 @@ export default function setupRoutes(app) {
   let router = koaRouter();
 
   router.get('/', async function() {
-    this.body = 'VDDF Server 1.0.0';
+    const template = swig.renderFile(`${app.rootDir}/templates/home.html`);
+
+    this.body = template;
   });
 
   router.get('/vddf/:uuid', async function() {
@@ -30,7 +32,7 @@ export default function setupRoutes(app) {
         };
       }
     } else {
-      let template = swig.renderFile(`${app.rootDir}/templates/embed.html`, {
+      const template = swig.renderFile(`${app.rootDir}/templates/embed.html`, {
         uuid: this.params.uuid,
         uri: `${this.request.origin}/vddf/${this.params.uuid}`
       });

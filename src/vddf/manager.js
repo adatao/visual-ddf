@@ -12,8 +12,12 @@ export default class Manager {
     this.storage = storage;
   }
 
-  async render() {
-    // TODO: move render logic from embed.js
+  async render(vddf, ...params) {
+    if (this.config.renderer) {
+      this.config.renderer.render(vddf, ...params);
+    } else {
+      throw new Error('Renderer is not available');
+    }
   }
 
   async getDownloadLink(vddf) {
