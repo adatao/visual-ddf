@@ -1,5 +1,7 @@
 import uuid from 'uuid';
 import SchemaDetector from '../vddf/schemadetector';
+import rp from 'request-promise';
+import Baby from 'babyparse';
 
 export default class Manager {
   constructor(db) {
@@ -72,6 +74,26 @@ export default class Manager {
     }
 
     return this._deserializeRow(row[0]);
+  }
+
+  async load(requestUri) {
+    // TODO: we need to think about caching strategy too, do we always want to
+    // return the same vddf or create new for each load ?
+
+    // only support csv file with header as first row for now
+    let response = await rp(requestUri, {resolveWithFullResponse: true});
+
+    return this.loadFromCsv(response.body, requestUri);
+  }
+
+  async loadFromCsv(csv, source) {
+    const parsed = Baby.parse(csv, {
+      header: true
+    });
+
+    const uuid = await this.create({data: parsed.data, source});
+
+    return await this.get(uuid);
   }
 
   static extractSchema(data) {

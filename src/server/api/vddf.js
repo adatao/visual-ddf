@@ -1,16 +1,5 @@
 import url from 'url';
 import rp from 'request-promise';
-import Baby from 'babyparse';
-
-async function loadFromCsv(manager, data, source) {
-  const parsed = Baby.parse(data, {
-    header: true
-  });
-
-  const uuid = await manager.create({data: parsed.data, source});
-
-  return await manager.get(uuid);
-}
 
 function getEmbedCode(uuid, baseUri) {
   const uri = `${baseUri}/vddf/${uuid}`;
@@ -39,13 +28,9 @@ export async function load(app, request, ctx) {
     // TODO: this may expose a loop hole to allow attacker to abuse
     // vddf server to request to any other site, we should think about how to
     // prevent this hole when deploy to production
-    // we also need to think about caching strategy too, do we always want to
-    // return the same vddf or create new for each load ?
 
-    // 2nd try load the csv file, only support file with headers for now
     try {
-      let response = await rp(requestedUri, {resolveWithFullResponse: true});
-      vddf = await loadFromCsv(app.manager, response.body, requestedUri);
+      vddf = await app.manager.load(requestedUri);
     } catch (ex) {
       console.log(ex.stack);
     }
