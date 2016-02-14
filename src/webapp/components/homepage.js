@@ -7,7 +7,7 @@ import CircularProgress from 'material-ui/lib/circular-progress';
 
 const style = {
   formContainer: {
-    width: '640px',
+    width: '700px',
     margin: '50px auto 150px'
   },
   urlInput: {
@@ -30,18 +30,24 @@ export default class Homepage extends React.Component {
   }
 
   handleClick = () => {
+    const url = this.refs.url.getValue();
+
+    if (!url) {
+      return;
+    }
+
     this.setState({
       loading: true
     });
 
-    this.props.manager.load(this.refs.url.getValue())
+    this.props.manager.load(url)
       .then((vddf) => {
-        let el = ReactDOM.findDOMNode(this.refs.vddf);
-        vddf.render(el);
-
         this.setState({
           loading: false
         });
+
+        let el = ReactDOM.findDOMNode(this.refs.vddf);
+        vddf.render(el);
       })
       .catch(err => {
         alert(err);
@@ -64,14 +70,14 @@ export default class Homepage extends React.Component {
     return (
       <div>
         <AppBar
-           iconElementLeft={null}
+           iconElementLeft={<span />}
            title="Visual DDF"
            />
         <div style={style.formContainer}>
           <TextField ref='url' hintText="Paste a vDDF link or CSV link to start." style={style.urlInput} />
           <RaisedButton onClick={this.handleClick} disabled={this.state.loading} label="Go" />
           {this.state.loading && this.renderLoadingBlock()}
-          <div ref="vddf" style={{marginTop: '15px'}}></div>
+          <div ref="vddf" style={{marginTop: '15px', display: this.state.loading ? 'none' : 'block'}}></div>
         </div>
       </div>
     );

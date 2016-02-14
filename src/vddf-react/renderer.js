@@ -47,6 +47,10 @@ export default class ReactRenderer {
         height = width * 3/4;
       }
 
+      // cleanup
+      ReactDOM.unmountComponentAtNode(el);
+      el.innerHTML = '';
+
       ReactDOM.render(<Chart vddf={vddf} width={width} height={height} baseUrl={vddf.config.baseUrl} />, el);
     } catch (ex) {
       el.innerHTML = `Error: ${ex.message}`;
