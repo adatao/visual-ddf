@@ -20,7 +20,7 @@ export default function setupRoutes(app) {
 
     if (type === 'json') {
       try {
-        let vddf = await app.registry.load(uuid);
+        let vddf = await app.manager.load(uuid);
 
         this.body = vddf;
       } catch (ex) {

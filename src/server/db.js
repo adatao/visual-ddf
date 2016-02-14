@@ -1,5 +1,5 @@
 import knex from 'knex';
-import DbRegistry from './registry';
+import Manager from './manager';
 
 export default function setupDatabase(app) {
   app.db = knex(app.config.database);
@@ -23,6 +23,5 @@ export default function setupDatabase(app) {
       console.log(`There is an error while initing schema: ${err.stack}`);
     });
 
-  app.registry = new DbRegistry(app.db);
+  app.manager = new Manager(app.db);
 };
-

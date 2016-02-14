@@ -1,13 +1,13 @@
-import DbRegistry from './registry';
+import Manager from './manager';
 import { assert } from 'chai';
 import sinon from 'sinon';
 import knex from 'knex';
 import mockDb from 'mock-knex';
 
-describe('DbRegistry', () => {
+describe('Manager', () => {
   let db;
   let tracker;
-  let registry;
+  let manager;
 
   beforeEach(() => {
     db = knex({ client: 'sqlite' });
@@ -15,7 +15,7 @@ describe('DbRegistry', () => {
     tracker = mockDb.getTracker();
     tracker.install();
 
-    registry = new DbRegistry(db);
+    manager = new Manager(db);
   });
 
   afterEach(() => {
@@ -33,7 +33,7 @@ describe('DbRegistry', () => {
       query.response();
     });
 
-    let uuid = await registry.create({
+    let uuid = await manager.create({
       data: [[1,2], [3,4]],
       schema: [{name: 'id'}, {name: 'value'}],
       visualization: {type: 'bar'}
@@ -45,7 +45,7 @@ describe('DbRegistry', () => {
   it('should validate data correctly');
 
   it('should extract schema from data', () => {
-    let detectResult = DbRegistry.extractSchema([
+    let detectResult = Manager.extractSchema([
       {test: 1}, {test: 2}
     ]);
 
@@ -70,7 +70,7 @@ describe('DbRegistry', () => {
       }]);
     });
 
-    let ddf = await registry.get(checkUuid);
+    let ddf = await manager.get(checkUuid);
     assert.lengthOf(ddf.data, 2);
     assert.equal(3, ddf.data[1][0]);
     assert.equal('bar', ddf.visualization.type);

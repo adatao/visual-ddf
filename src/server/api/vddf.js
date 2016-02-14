@@ -2,14 +2,14 @@ import url from 'url';
 import rp from 'request-promise';
 import Baby from 'babyparse';
 
-async function loadFromCsv(registry, data, source) {
+async function loadFromCsv(manager, data, source) {
   const parsed = Baby.parse(data, {
     header: true
   });
 
-  const uuid = await registry.create({data: parsed.data, source});
+  const uuid = await manager.create({data: parsed.data, source});
 
-  return await registry.get(uuid);
+  return await manager.get(uuid);
 }
 
 function getEmbedCode(uuid, baseUri) {
@@ -30,11 +30,11 @@ export async function load(app, request, ctx) {
   let bits = url.parse(requestedUri);
   let vddf;
 
-  // 1st try our own registry
+  // 1st try our own manager
   if (/\/vddf\/[a-zA-Z0-9\-]+/.test(bits.pathname)) {
     const uuid = bits.pathname.split('/').pop();
 
-    vddf = await app.registry.get(uuid);
+    vddf = await app.manager.get(uuid);
   } else {
     // TODO: this may expose a loop hole to allow attacker to abuse
     // vddf server to request to any other site, we should think about how to
@@ -45,7 +45,7 @@ export async function load(app, request, ctx) {
     // 2nd try load the csv file, only support file with headers for now
     try {
       let response = await rp(requestedUri, {resolveWithFullResponse: true});
-      vddf = await loadFromCsv(app.registry, response.body, requestedUri);
+      vddf = await loadFromCsv(app.manager, response.body, requestedUri);
     } catch (ex) {
       console.log(ex.stack);
     }
@@ -71,7 +71,7 @@ export async function get(app, request, ctx) {
 
   return {
     status: 'success',
-    result: await app.registry.get(uuid)
+    result: await app.manager.get(uuid)
   };
 }
 
@@ -80,7 +80,7 @@ export async function embed(app, request, ctx) {
   if (!uuid) throw new Error('Uuid is required');
 
   // make sure the vddf is available
-  await app.registry.get(uuid);
+  await app.manager.get(uuid);
 
   return {
     status: 'success',
@@ -98,7 +98,7 @@ export async function create(app, request) {
     throw new Error('Not enough parameter');
   }
 
-  const vddfUuid = await app.registry.create(body);
+  const vddfUuid = await app.manager.create(body);
 
   return {
     status: 'success',

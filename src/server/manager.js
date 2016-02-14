@@ -1,7 +1,7 @@
 import uuid from 'uuid';
 import SchemaDetector from '../vddf/schemadetector';
 
-export default class DbRegistry {
+export default class Manager {
   constructor(db) {
     this.db = db;
   }
