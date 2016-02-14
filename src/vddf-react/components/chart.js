@@ -272,9 +272,7 @@ export default class Chart extends React.Component {
 
   getChart() {
     return (
-      <div style={{position: 'relative'}}>
-        <AdaVizChart spec={this.state.adaviz} />
-      </div>
+      <AdaVizChart spec={this.state.adaviz} />
     );
   }
 
