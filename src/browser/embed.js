@@ -13,10 +13,8 @@ function mountAllvDDF() {
     if (!el.className.includes('vddf-chart')) {
       const uri = el.getAttribute('data-vddf');
 
-      el.className = 'vddf-chart';
       window.vDDF.manager.load(uri)
         .then((vddf) => {
-          el.__vddf__ = vddf;
           return vddf.render(el);
         }).catch(err => {
           console.log(err.stack);

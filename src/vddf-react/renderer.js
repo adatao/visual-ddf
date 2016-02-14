@@ -50,6 +50,11 @@ export default class ReactRenderer {
       // cleanup
       ReactDOM.unmountComponentAtNode(el);
       el.innerHTML = '';
+      el.__vddf__ = vddf;
+
+      if (el.className.indexOf('vddf-chart') === -1) {
+        el.className = ' vddf-chart';
+      }
 
       ReactDOM.render(<Chart vddf={vddf} width={width} height={height} baseUrl={vddf.config.baseUrl} />, el);
     } catch (ex) {
