@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Menu from 'material-ui/lib/menus/menu';
 import FontIcon from 'material-ui/lib/font-icon';
-import autobind from 'autobind-decorator';
 import Popover from './popover';
 
 const style = {

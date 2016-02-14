@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import Paper from 'material-ui/lib/paper';
 import Menu from 'material-ui/lib/menus/menu';
 import FontIcon from 'material-ui/lib/font-icon';
-import autobind from 'autobind-decorator';
 
 const style = {
   root: {
@@ -46,8 +45,7 @@ export default class Popover extends React.Component {
     };
   }
 
-  @autobind
-  toggle() {
+  toggle = () => {
     this.setState({
       open: !this.state.open
     });
@@ -61,8 +59,7 @@ export default class Popover extends React.Component {
     document.removeEventListener('click', this.handleDocumentClick);
   }
 
-  @autobind
-  handleDocumentClick(event) {
+  handleDocumentClick = (event) => {
     if (event.target && this.state.open) {
       let elem = ReactDOM.findDOMNode(this.refs.root);
 

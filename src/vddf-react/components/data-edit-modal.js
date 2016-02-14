@@ -4,7 +4,6 @@ import ReactDataGrid, { Toolbar } from 'react-data-grid/addons';
 import RaisedButton from 'material-ui/lib/raised-button';
 import FlatButton from 'material-ui/lib/flat-button';
 import Modal from './modal';
-import autobind from 'autobind-decorator';
 
 export default class DataEditModal extends React.Component {
   static propTypes = {
