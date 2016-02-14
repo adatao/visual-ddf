@@ -49,15 +49,7 @@ export default class Popover extends React.Component {
     this.setState({
       open: !this.state.open
     });
-  }
-
-  componentDidMount() {
-    document.addEventListener('click', this.handleDocumentClick);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('click', this.handleDocumentClick);
-  }
+  };
 
   handleDocumentClick = (event) => {
     if (event.target && this.state.open) {
@@ -71,8 +63,15 @@ export default class Popover extends React.Component {
         }
       }
     }
+  };
+
+  componentDidMount() {
+    document.addEventListener('click', this.handleDocumentClick);
   }
 
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleDocumentClick);
+  }
 
   getPopover() {
     let paperStyle = {...style.paper, ...this.props.paperStyle};
