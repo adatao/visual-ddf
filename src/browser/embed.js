@@ -1,5 +1,6 @@
 import 'babel-polyfill';
 import 'material-ui/lib/text-field';
+import 'whatwg-fetch';
 import Manager from '../vddf/manager';
 import ReactRenderer from '../vddf-react/renderer';
 

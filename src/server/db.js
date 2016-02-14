@@ -1,5 +1,6 @@
 import knex from 'knex';
 import Manager from './manager';
+import PhantomJsRenderer from '../vddf-phantomjs/renderer';
 
 export default function setupDatabase(app) {
   app.db = knex(app.config.database);
@@ -24,4 +25,8 @@ export default function setupDatabase(app) {
     });
 
   app.manager = new Manager(app.db);
+  app.manager.renderer = new PhantomJsRenderer({
+    rootDir: app.rootDir,
+    baseUrl: `http://localhost:${app.config.port}`
+  });
 };

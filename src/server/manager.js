@@ -65,6 +65,10 @@ export default class Manager {
     return newUuid;
   }
 
+  async render(vddf, ...params) {
+    return await this.renderer.render(vddf, ...params);
+  }
+
   async get(uuid) {
     let row = await this.db.table('vddf').select('*')
           .where('uuid','=',uuid);

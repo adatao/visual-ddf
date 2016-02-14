@@ -3,3 +3,4 @@ build
 data.sqlite
 adaviz
 npm-debug.log
+assets/charts/*

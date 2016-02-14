@@ -18,9 +18,15 @@ export default function setupRoutes(app) {
 
     let [ uuid, type ] = this.params.uuid.split('.');
 
-    if (type === 'json') {
+    if (type === 'png') {
+      let vddf = await app.manager.get(uuid);
+      let imageFile = await app.manager.render(vddf);
+
+      this.set('Content-Type', 'image/png');
+      this.body = await fs.readFile(imageFile);
+    } else if (type === 'json') {
       try {
-        let vddf = await app.manager.load(uuid);
+        let vddf = await app.manager.get(uuid);
 
         this.body = vddf;
       } catch (ex) {
@@ -34,7 +40,8 @@ export default function setupRoutes(app) {
     } else {
       const template = swig.renderFile(`${app.rootDir}/templates/embed.html`, {
         uuid: this.params.uuid,
-        uri: `${this.request.origin}/vddf/${this.params.uuid}`
+        uri: `${this.request.origin}/vddf/${this.params.uuid}`,
+        mode: this.query.mode
       });
 
       this.body = template;

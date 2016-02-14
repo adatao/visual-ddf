@@ -9,7 +9,7 @@ if (typeof window.vDDF === 'undefined') {
   var scriptTag = document.createElement('script');
   scriptTag.setAttribute('type', 'text/javascript');
   scriptTag.setAttribute('src', '{{ scriptUrl }}');
-  scriptTag.setAttribute('async', 'ascync');
+  scriptTag.setAttribute('async', 'async');
 
   body.appendChild(scriptTag);
 }

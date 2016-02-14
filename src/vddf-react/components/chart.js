@@ -300,9 +300,18 @@ export default class Chart extends React.Component {
 
   render() {
     let title = this.vddf.title || 'Untititled Chart';
+    let mode = this.props.mode;
+
+    if (mode === 'chartonly') {
+      return (
+        <div>
+          {this.state.adaviz && this.getChart()}
+        </div>
+      );
+    }
 
     return (
-      <div style={Object.assign(style.container, {width: this.props.width})}>
+      <div style={{...style.container, width: this.props.width}}>
         <div className='viz-title' style={style.title}>
           {title}
           {this.getToolbar()}

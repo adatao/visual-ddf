@@ -36,6 +36,7 @@ export default class ReactRenderer {
     try {
       let width = el.getAttribute('data-width');
       let height = el.getAttribute('data-height');
+      let mode = el.getAttribute('data-mode');
 
       // if not specify width, try to get element outer width
       if (!width) {
@@ -56,7 +57,7 @@ export default class ReactRenderer {
         el.className = ' vddf-chart';
       }
 
-      ReactDOM.render(<Chart vddf={vddf} width={width} height={height} baseUrl={vddf.config.baseUrl} />, el);
+      ReactDOM.render(<Chart vddf={vddf} mode={mode} width={width} height={height} baseUrl={vddf.config.baseUrl} />, el);
     } catch (ex) {
       el.innerHTML = `Error: ${ex.message}`;
       console.log(ex.stack);
