@@ -2,13 +2,15 @@ import url from 'url';
 import rp from 'request-promise';
 
 function getEmbedCode(uuid, baseUri) {
-  const uri = `${baseUri}/vddf/${uuid}`;
-  const embedCode = `<div data-vddf="${uri}"></div>` +
+  const link = `${baseUri}/vddf/${uuid}`;
+  const embedCode = `<div data-vddf="${link}"></div>` +
           `<script type="text/javascript" src="${baseUri}/embed.js"></script>`;
+  const image = `${link}.png`;
 
   return {
     uuid,
-    uri,
+    link,
+    image,
     embedCode
   };
 }

@@ -186,7 +186,7 @@ export default class Chart extends React.Component {
     case 'title':
       return <EditTitleModal title={this.vddf.title} onSave={this.saveTitle} onRequestClose={() => this.toggleModal('title')} />;
     case 'export':
-      return <ExportModal embedCode={this.state.embedResult.embedCode} onRequestClose={() => this.toggleModal('export')} />;
+      return <ExportModal embed={this.state.embedResult} onRequestClose={() => this.toggleModal('export')} />;
     }
   }
 
@@ -263,7 +263,8 @@ export default class Chart extends React.Component {
         <DropdownMenu>
           <MenuItem onClick={() => this.toggleModal('title')} primaryText='Edit title ...'/>
           <MenuItem onClick={() => this.toggleModal('data')} primaryText='Edit data ...'/>
-        {this.vddf.isModified() ? <MenuItem onClick={this.exportChart} primaryText='Export ...'/> : <MenuItem onClick={this.embedChart} primaryText='Embed ...'/>}
+          <MenuItem onClick={this.embedChart} primaryText='Embed ...'/>
+          {this.vddf.isModified() && <MenuItem onClick={this.exportChart} primaryText='Export ...'/>}
           <MenuItem onClick={this.downloadChart} primaryText='Download as CSV'/>
         </DropdownMenu>
       </div>
