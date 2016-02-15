@@ -9,7 +9,6 @@ export default function setupApi(app) {
 
   router.use('/', function*(next) {
     try {
-      this.set('Access-Control-Allow-Origin', '*');
       yield next;
     } catch (ex) {
       console.log(`API request error: ${ex.message}`);
@@ -22,6 +21,13 @@ export default function setupApi(app) {
         };
       }
     }
+  });
+
+  router.all('/*', function* (next) {
+    this.set('Access-Control-Allow-Origin', '*');
+    this.set('Access-Control-Allow-Headers', ['Content-Type']);
+
+    yield next;
   });
 
   // create new vddf by post
