@@ -7,8 +7,16 @@ import swig from 'swig';
 export default function setupRoutes(app) {
   let router = koaRouter();
 
+  function getBaseScriptUrl(script, origin, version) {
+    return process.env.NODE_ENV === 'production' ?
+      `${origin}/build/${script}` + (version ? `?v=${version}` : '') :
+      `http://localhost:8080/build/${script}`;
+  }
+
   router.get('/', async function() {
-    const template = swig.renderFile(`${app.rootDir}/templates/home.html`);
+    const template = swig.renderFile(`${app.rootDir}/templates/home.html`, {
+      scriptUrl: getBaseScriptUrl('webapp.js', this.request.origin)
+    });
 
     this.body = template;
   });
@@ -51,9 +59,7 @@ export default function setupRoutes(app) {
   router.get('/embed.js', async function() {
     const version = app.config.version;
     const origin = this.request.origin;
-    const scriptUrl = process.env.NODE_ENV === 'production' ?
-            `${origin}/build/embed.js` + (version ? `?v=${version}` : '') :
-            'http://localhost:8080/build/embed.js';
+    const scriptUrl = getBaseScriptUrl('embed.js', origin, version);
 
     this.set('Content-Type', 'text/javascript');
     this.body = swig.renderFile(`${app.rootDir}/templates/embed.js`, {
