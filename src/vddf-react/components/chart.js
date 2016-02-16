@@ -293,6 +293,10 @@ export default class Chart extends React.Component {
     }
   }
 
+  onFileDrop(files) {
+    console.log(files)
+  }
+
   revertChange = () => {
     this.vddf.revert();
   };

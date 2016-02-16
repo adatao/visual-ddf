@@ -9,6 +9,7 @@ export default class Manager {
     }
 
     this.config = config;
+    this.loaders = [];
     this.storage = storage;
   }
 
@@ -71,19 +72,27 @@ export default class Manager {
     return result.result;
   }
 
-  async load(uri) {
+  async load(source) {
     let response;
 
+    // loop through all loaders to check if any of it support this source
+    for (let loader in this.loaders) {
+      if (loader.isSupported(source)) {
+        return await loader.load(source);
+      }
+    }
+
+    // TODO: convert below to a loader as well
     if (this.config.baseUrl) {
       response = await fetch(`${this.config.baseUrl}/api/vddf/load`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({uri: uri})
+        body: JSON.stringify({uri: source})
       });
     } else {
-      response = await fetch(uri, {});
+      response = await fetch(source, {});
     }
 
     if (response.status !== 200) {
@@ -97,13 +106,15 @@ export default class Manager {
     }
 
     let result = json.result ? json.result : json;
-    let vddf = new vDDF(result.uuid, uri, this.config);
+    let vddf = new vDDF(result.uuid, source, this.config);
     vddf.manager = this;
     vddf.deserialize(result);
 
     // restore from local storage and track changes
-    this.storage.restore(vddf);
-    this.storage.track(vddf);
+    if (vddf.uuid) {
+      this.storage.restore(vddf);
+      this.storage.track(vddf);
+    }
 
     return vddf;
   }

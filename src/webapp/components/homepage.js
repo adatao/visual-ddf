@@ -4,6 +4,7 @@ import AppBar from 'material-ui/lib/app-bar';
 import TextField from 'material-ui/lib/text-field';
 import RaisedButton from 'material-ui/lib/raised-button';
 import CircularProgress from 'material-ui/lib/circular-progress';
+import Dropzone from 'react-dropzone';
 
 const style = {
   formContainer: {
@@ -17,6 +18,23 @@ const style = {
   loadingBlock: {
     textAlign: 'center',
     margin: '20px 0'
+  },
+  dropzone: {
+    width: 700,
+    height: 48
+  },
+  dropzoneActive: {
+    color: 'black',
+    paddingTop: 8,
+    border: '1px dashed silver',
+    textAlign: 'center',
+    fontFamily: 'Helvetica, Arial',
+    color: '#ccc'
+  },
+  dropzoneCancelButton: {
+    fontSize: '0.75em',
+    color: '#999',
+    cursor: 'pointer'
   }
 };
 
@@ -36,6 +54,10 @@ export default class Homepage extends React.Component {
       return;
     }
 
+    this.loadAndRendervDDF(url);
+  };
+
+  loadAndRendervDDF(url) {
     this.setState({
       loading: true
     });
@@ -56,13 +78,45 @@ export default class Homepage extends React.Component {
           loading: false
         });
       });
-  };
+  }
 
   renderLoadingBlock() {
     return (
       <div style={style.loadingBlock}>
         <CircularProgress size={0.5} />
       </div>
+    );
+  }
+
+  renderInput() {
+    let input;
+
+    if (this.state.fileActive) {
+      input = (
+        <span>Drag the file here to continue.<br/><span onClick={() => {
+              this.setState({fileActive: false});
+
+              // https://github.com/okonet/react-dropzone/issues/140
+              this.refs.dropzone.setState({isDragActive: false});
+            }} style={style.dropzoneCancelButton}>cancel</span>.</span>
+      );
+    } else {
+      input = (
+        <div>
+          <TextField ref='url' hintText="Paste a vDDF link or CSV link to start." style={style.urlInput} />
+          <RaisedButton onClick={this.handleClick} disabled={this.state.loading} label="Go" />
+        </div>
+      );
+    }
+
+    return (
+      <Dropzone ref='dropzone' disableClick multiple={false} style={style.dropzone}
+                activeStyle={style.dropzoneActive}
+                onDragEnter={() => this.setState({fileActive: true})}
+                onDrop={(file) => this.setState({fileActive: false})}
+                onDragLeave={() => this.setState({fileActive: false})}>
+        {input}
+      </Dropzone>
     );
   }
 
@@ -74,8 +128,7 @@ export default class Homepage extends React.Component {
            title="Visual DDF"
            />
         <div style={style.formContainer}>
-          <TextField ref='url' hintText="Paste a vDDF link or CSV link to start." style={style.urlInput} />
-          <RaisedButton onClick={this.handleClick} disabled={this.state.loading} label="Go" />
+          {this.renderInput()}
           {this.state.loading && this.renderLoadingBlock()}
           <div ref="vddf" style={{marginTop: '15px', display: this.state.loading ? 'none' : 'block'}}></div>
         </div>
@@ -83,3 +136,5 @@ export default class Homepage extends React.Component {
     );
   }
 }
+
+export default Homepage;
