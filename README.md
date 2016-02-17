@@ -13,6 +13,8 @@ You will need Node 4.x+ to run vddf-server properly.
 
 By default, vddf-server will use the configuration provided in `config.json`, you can also override the config file with `CONFIG_FILE` environment variable.
 
+For some linux distro, you may need to install **libfontconfig** to make phantomjs works.
+
 ### Testing with BigApps ###
 
   * Check out branch **visual-ddf-integration** in BigApps
