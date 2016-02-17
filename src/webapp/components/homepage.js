@@ -57,6 +57,11 @@ export default class Homepage extends React.Component {
     this.loadAndRendervDDF(url);
   };
 
+  handleFileDrop = (file) => {
+    this.setState({fileActive: false});
+    this.loadAndRendervDDF(file);
+  };
+
   loadAndRendervDDF(url) {
     this.setState({
       loading: true
@@ -73,6 +78,8 @@ export default class Homepage extends React.Component {
       })
       .catch(err => {
         alert(err);
+
+        console.log(err.stack);
 
         this.setState({
           loading: false
@@ -110,11 +117,11 @@ export default class Homepage extends React.Component {
     }
 
     return (
-      <Dropzone ref='dropzone' disableClick multiple={false} style={style.dropzone}
+      <Dropzone ref='dropzone' disableClick disablePreview multiple={false} style={style.dropzone}
                 activeStyle={style.dropzoneActive}
                 onDragEnter={() => this.setState({fileActive: true})}
-                onDrop={(file) => this.setState({fileActive: false})}
-                onDragLeave={() => this.setState({fileActive: false})}>
+                onDragLeave={() => this.setState({fileActive: false})}
+                onDrop={this.handleFileDrop}>
         {input}
       </Dropzone>
     );

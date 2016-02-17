@@ -1,6 +1,7 @@
 import Storage from './storage';
 import vDDF from './vddf';
 import fetch from 'fetch';
+import UrlLoader from './loaders/url';
 
 export default class Manager {
   constructor(config, storage) {
@@ -9,8 +10,27 @@ export default class Manager {
     }
 
     this.config = config;
-    this.loaders = [];
     this.storage = storage;
+
+    // setup loaders with default loaders
+    this.loaders = [
+      new UrlLoader(this.config.baseUrl)
+    ];
+  }
+
+  create(uuid, source, data) {
+    let vddf = new vDDF(uuid, source, this.config);
+    vddf.manager = this;
+
+    if (!data.visualization) {
+      data.visualization = {
+        type: 'datatable'
+      };
+    }
+
+    vddf.deserialize(data);
+
+    return vddf;
   }
 
   async render(vddf, ...params) {
@@ -73,45 +93,22 @@ export default class Manager {
   }
 
   async load(source) {
-    let response;
+    let vddf;
 
     // loop through all loaders to check if any of it support this source
-    for (let loader in this.loaders) {
+    for (let i in this.loaders) {
+      const loader = this.loaders[i];
+
       if (loader.isSupported(source)) {
-        return await loader.load(source);
+        vddf = await loader.load(source, this);
+        break;
       }
     }
 
-    // TODO: convert below to a loader as well
-    if (this.config.baseUrl) {
-      response = await fetch(`${this.config.baseUrl}/api/vddf/load`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({uri: source})
-      });
-    } else {
-      response = await fetch(source, {});
-    }
-
-    if (response.status !== 200) {
-      throw new Error(`Unable to retrieve vDDF`);
-    }
-
-    let json = await response.json();
-
-    if (json.error) {
-      throw new Error(json.error.message);
-    }
-
-    let result = json.result ? json.result : json;
-    let vddf = new vDDF(result.uuid, source, this.config);
-    vddf.manager = this;
-    vddf.deserialize(result);
-
-    // restore from local storage and track changes
-    if (vddf.uuid) {
+    if (!vddf) {
+      throw new Error('Source type is not supported');
+    } else if (vddf.uuid) {
+      // restore from local storage and track changes
       this.storage.restore(vddf);
       this.storage.track(vddf);
     }
