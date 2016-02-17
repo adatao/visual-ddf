@@ -126,6 +126,8 @@ export default class Chart extends React.Component {
         }
       }
 
+      if (!measurement) measurement = '_value';
+
       data.forEach(d => {
         const key = keys.reduce((obj, cur) => ({ ...obj, [cur]: d[cur]}), {});
         const hash = Object.values(key).join(',');
@@ -145,6 +147,9 @@ export default class Chart extends React.Component {
         let series = g.values.map(c => parseFloat(c[measurement]));
 
         switch (viz.aggregation) {
+        case 'count':
+          value = series.length;
+          break;
         case 'min':
           value = series.reduce((prev, cur) => Math.min(prev, cur));
           break;
@@ -236,14 +241,18 @@ export default class Chart extends React.Component {
   };
 
   embedChart = () => {
-    this.vddf.manager.embed(this.vddf)
-      .then(result => {
-        this.setState({
-          embedResult: result
-        });
+    if (!this.vddf.uuid) {
+      this.exportChart();
+    } else {
+      this.vddf.manager.embed(this.vddf)
+        .then(result => {
+          this.setState({
+            embedResult: result
+          });
 
-        this.toggleModal('export');
-      });
+          this.toggleModal('export');
+        });
+    }
   };
 
   downloadChart = () => {

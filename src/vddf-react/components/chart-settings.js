@@ -75,7 +75,6 @@ export default class ChartSettings extends React.Component {
 
     viz.aggregation = update.aggregation;
 
-
     if (!viz.color) delete viz.color;
     delete viz.xLabel;
     delete viz.yLabel;
@@ -166,7 +165,7 @@ export default class ChartSettings extends React.Component {
         {this.getChartTypes()}
         <div>
           {fieldComponents}
-          {this.getFieldDropdown('Aggregation', 'aggregation', ['sum', 'avg', 'min', 'max'].map(c => ({name: c})))}
+          {this.getFieldDropdown('Aggregation', 'aggregation', ['sum', 'avg', 'min', 'max', 'count'].map(c => ({name: c})))}
         </div>
       </div>
     );
