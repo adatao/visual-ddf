@@ -2,6 +2,7 @@ import React from 'react';
 import SelectField from 'material-ui/lib/select-field';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 import FlatButton from 'material-ui/lib/flat-button';
+import { Types } from 'src/vddf/schemadetector';
 
 const style = {
   container: {
@@ -83,20 +84,28 @@ export default class ChartSettings extends React.Component {
     this.props.vddf.visualization = viz;
   };
 
+  getFieldList(type) {
+    return this.props.vddf.schema
+      .filter(c => type == 'number' ? Types.isNumber(c.type) : true)
+      .map(c => c.name);
+  }
+
   changeChartType(type) {
     let vddf = this.props.vddf;
     this.updateChart(type);
   }
 
-  getFieldDropdown(label, key, items) {
+  getFieldDropdown(field, items) {
+    const { key, label } = field;
+
     const onChange = (event, index, value) => {
       this.setState({[key]: value !== '--' ? value : ''});
 
       setTimeout(() => this.updateChart(), 300);
     };
 
-    items = (items || this.props.vddf.schema).map(c => (
-      <MenuItem key={c.name} value={c.name} primaryText={c.name} />
+    items = (items || this.getFieldList(field.type)).map(c => (
+      <MenuItem key={c} value={c} primaryText={c} />
     ));
 
     return (
@@ -126,7 +135,7 @@ export default class ChartSettings extends React.Component {
   render() {
     let fields = [
       {label: 'Category', key: 'category'},
-      {label: 'Measurement', key: 'measurement'},
+      {label: 'Measurement', key: 'measurement', type: 'number'},
       {label: 'Group By', key: 'category2'}
     ];
 
@@ -135,7 +144,7 @@ export default class ChartSettings extends React.Component {
     case 'scatterplot':
       fields = [
         {label: 'X', key: 'category'},
-        {label: 'Y', key: 'measurement'},
+        {label: 'Y', key: 'measurement', type: 'number'},
         {label: 'Group By', key: 'category2'}
       ];
       break;
@@ -143,14 +152,14 @@ export default class ChartSettings extends React.Component {
     case 'donut':
       fields = [
         {label: 'Category', key: 'category'},
-        {label: 'Measurement', key: 'measurement'}
+        {label: 'Measurement', key: 'measurement', type: 'number'}
       ];
       break;
     case 'heatmap':
       fields = [
         {label: 'Row', key: 'category'},
         {label: 'Column', key: 'category2'},
-        {label: 'Measurement', key: 'measurement'}
+        {label: 'Measurement', key: 'measurement', type: 'number'}
       ];
       break;
     case 'datatable':
@@ -158,14 +167,14 @@ export default class ChartSettings extends React.Component {
       break;
     }
 
-    let fieldComponents = fields.map(field => this.getFieldDropdown(field.label, field.key));
+    let fieldComponents = fields.map(field => this.getFieldDropdown(field));
 
     return (
       <div style={style.container}>
         {this.getChartTypes()}
         <div>
           {fieldComponents}
-          {this.getFieldDropdown('Aggregation', 'aggregation', ['sum', 'avg', 'min', 'max', 'count'].map(c => ({name: c})))}
+          {this.getFieldDropdown({label: 'Aggregation', key: 'aggregation'}, ['sum', 'avg', 'min', 'max', 'count'])}
         </div>
       </div>
     );

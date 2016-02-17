@@ -86,7 +86,7 @@ export default class Chart extends React.Component {
     this.renderChart();
   };
 
-  renderChart() {
+  async renderChart() {
     const vddf = this.props.vddf;
     const viz = vddf.visualization;
     const raw = vddf.fetch();
@@ -144,7 +144,7 @@ export default class Chart extends React.Component {
 
       let aggregated = Object.values(groupBy).map(g => {
         let value;
-        let series = g.values.map(c => parseFloat(c[measurement]));
+        let series = g.values.map(c => c[measurement] ? parseFloat(c[measurement]) : 0);
 
         switch (viz.aggregation) {
         case 'count':
