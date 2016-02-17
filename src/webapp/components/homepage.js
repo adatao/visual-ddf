@@ -110,7 +110,7 @@ export default class Homepage extends React.Component {
     } else {
       input = (
         <div>
-          <TextField ref='url' hintText="Paste a vDDF link or CSV link to start." style={style.urlInput} />
+          <TextField ref='url' hintText="Paste a CSV link or drop a file to start." style={style.urlInput} />
           <RaisedButton onClick={this.handleClick} disabled={this.state.loading} label="Go" />
         </div>
       );
