@@ -22,6 +22,11 @@ export default class FileLoader {
   async load(source, manager) {
     const file = Array.isArray(source) ? source[0] : source;
 
+    // don't support large file yet ...
+    // in the future, we can upload then stream from server
+    if (file.size > 1024000) {
+      throw new Error('Only support file less than 1MB.');
+    }
 
     // only support csv file
     if (!/\.csv$/.test(file.name)) {
