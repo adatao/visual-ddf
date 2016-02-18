@@ -5,6 +5,13 @@ import RaisedButton from 'material-ui/lib/raised-button';
 import FlatButton from 'material-ui/lib/flat-button';
 import Modal from './modal';
 
+const style = {
+  modal: {
+    width: '95%',
+    maxWidth: 'auto'
+  }
+};
+
 export default class DataEditModal extends React.Component {
   static propTypes = {
     vddf: React.PropTypes.object.isRequired
@@ -133,7 +140,7 @@ export default class DataEditModal extends React.Component {
 
     // TODO: detect height by window height
     return (
-      <Modal open actions={this.getActions()} title='Edit Data'  onRequestClose={this.props.onRequestClose}>
+      <Modal contentStyle={style.modal} open autoDetectWindowHeight actions={this.getActions()} title='Edit Data'  onRequestClose={this.props.onRequestClose}>
         <div style={{textAlign: 'right'}}>
           <FlatButton onClick={this.handleAddRow} label="Add Row"/>
           <FlatButton onClick={this.handleAddColumn} label="Add Column"/>

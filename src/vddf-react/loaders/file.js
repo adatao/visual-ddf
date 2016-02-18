@@ -38,7 +38,12 @@ export default class FileLoader {
     const schema = result.data[0].map(c => ({name: c || 'id'}));
     const data = result.data.slice(1, result.data.length);
 
+    // use the filename as title
+    const title = file.name ? file.name.replace(/\.[^\.]+$/, '') : '';
+
+
     return manager.create(null, 'local://' + file.name, {
+      title: title,
       schema: schema,
       data: data
     });
