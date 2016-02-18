@@ -35,18 +35,17 @@ export default class ChartSettings extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.vizHelper = new AdaVizHelper();
   }
 
   componentDidMount() {
-    this.setState(this.vizHelper.extractMapping(this.props.vddf.visualization));
+    this.setState(AdaVizHelper.extractMapping(this.props.vddf.visualization));
   }
 
   updateChart(type) {
     let viz = this.props.vddf.visualization;
     let mapping = this.state;
 
-    this.props.vddf.visualization = this.vizHelper.updateMapping(type, mapping, viz);
+    this.props.vddf.visualization = AdaVizHelper.updateMapping(type, mapping, viz);
   };
 
   getFieldList(type) {

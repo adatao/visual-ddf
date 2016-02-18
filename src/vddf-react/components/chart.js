@@ -8,6 +8,7 @@ import ChartSettings from './chart-settings';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 import FontIcon from 'material-ui/lib/font-icon';
 import Immutable from 'immutable';
+import AdaVizHelper from '../helpers/adaviz';
 
 const style = {
   container: {
@@ -89,89 +90,6 @@ export default class Chart extends React.Component {
   async renderChart() {
     const vddf = this.props.vddf;
     const viz = vddf.visualization;
-    const raw = vddf.fetch();
-
-    // convert to adaviz data structure
-    let data = raw.map(d => {
-      return this.props.vddf.schema.reduce((obj,column,idx) => {
-        return Object.assign(obj, {[column.name]: d[idx] });
-      }, {});
-    });
-
-
-    // TODO: move this out of this component
-    // TODO: cache this computation
-    if (viz.aggregation && viz.type !== 'datatable') {
-      let groupBy = {};
-      let keys = [viz.x];
-      let measurement = viz.y;
-
-      if (viz.mapping) {
-        keys = [viz.mapping.category];
-        measurement = viz.mapping.measurement;
-
-        if (viz.mapping.category2) {
-          keys.push(viz.mapping.category2);
-        }
-      } else {
-        // parameters passed by adaviz is messed up, there is no way
-        // we can identify which part is category and measurement
-        if (viz.orientation === 'horizontal') {
-          keys = [viz.y];
-          measurement = viz.x;
-        }
-
-        if (viz.color) {
-          keys.push(viz.color);
-        }
-      }
-
-      if (!measurement) measurement = '_value';
-
-      data.forEach(d => {
-        const key = keys.reduce((obj, cur) => ({ ...obj, [cur]: d[cur]}), {});
-        const hash = Object.values(key).join(',');
-
-        if (!groupBy[hash]) {
-          groupBy[hash] = {
-            key: key,
-            values: []
-          };
-        }
-
-        groupBy[hash].values.push(d);
-      });
-
-      let aggregated = Object.values(groupBy).map(g => {
-        let value;
-        let series = g.values.map(c => c[measurement] ? parseFloat(c[measurement]) : 0);
-
-        switch (viz.aggregation) {
-        case 'count':
-          value = series.length;
-          break;
-        case 'min':
-          value = series.reduce((prev, cur) => Math.min(prev, cur));
-          break;
-        case 'max':
-          value = series.reduce((prev, cur) => Math.max(prev, cur));
-          break;
-        case 'sum':
-          value = series.reduce((prev, cur) => prev + cur, 0);
-          break;
-        case 'avg':
-          value = series.reduce((prev, cur) => prev + cur, 0) / g.values.length;
-          break;
-        }
-
-        return {
-          ...g.key,
-          [measurement]: value
-        };
-      });
-
-      data = aggregated;
-    }
 
     this.setState({
       adaviz: Immutable.fromJS({
@@ -179,7 +97,7 @@ export default class Chart extends React.Component {
           width: this.props.width,
           height: this.props.height
         }),
-        data
+        data: await AdaVizHelper.aggregateData(vddf)
       })
     });
   }
