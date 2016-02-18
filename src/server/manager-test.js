@@ -1,4 +1,5 @@
 import Manager from './manager';
+import Storage from './storage';
 import { assert } from 'chai';
 import sinon from 'sinon';
 import knex from 'knex';
@@ -8,6 +9,7 @@ describe('Manager', () => {
   let db;
   let tracker;
   let manager;
+  let storage;
 
   beforeEach(() => {
     db = knex({ client: 'sqlite' });
@@ -15,7 +17,8 @@ describe('Manager', () => {
     tracker = mockDb.getTracker();
     tracker.install();
 
-    manager = new Manager(db);
+    storage = new Storage(db);
+    manager = new Manager(storage);
   });
 
   afterEach(() => {

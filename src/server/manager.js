@@ -1,16 +1,13 @@
-import uuid from 'uuid';
 import SchemaDetector from '../vddf/schemadetector';
 import rp from 'request-promise';
 import Baby from 'babyparse';
 
 export default class Manager {
-  constructor(db) {
-    this.db = db;
+  constructor(storage) {
+    this.storage = storage;
   }
 
   async create(vddf) {
-    const newUuid = uuid.v4();
-
     // additional validation
     if (vddf.data.length === 0) {
       throw new Error('vDDF data can not be empty');
@@ -53,16 +50,7 @@ export default class Manager {
       };
     }
 
-    await this.db.table('vddf').insert({
-      uuid: newUuid,
-      title: vddf.title,
-      source: vddf.source,
-      data: JSON.stringify(vddf.data),
-      schema: JSON.stringify(vddf.schema),
-      visualization: JSON.stringify(vddf.visualization)
-    });
-
-    return newUuid;
+    return await this.storage.create(vddf);
   }
 
   async render(vddf, ...params) {
@@ -70,14 +58,13 @@ export default class Manager {
   }
 
   async get(uuid) {
-    let row = await this.db.table('vddf').select('*')
-          .where('uuid','=',uuid);
+    let row = await this.storage.get(uuid);
 
-    if (!row.length) {
+    if (!row) {
       throw new Error('vDDF is not available');
     }
 
-    return this._deserializeRow(row[0]);
+    return row;
   }
 
   async load(requestUri) {
@@ -119,17 +106,6 @@ export default class Manager {
     return {
       data: newData,
       schema: schema
-    };
-  }
-
-  _deserializeRow(row) {
-    return {
-      uuid: row.uuid,
-      title: row.title,
-      source: row.source,
-      data: JSON.parse(row.data),
-      schema: JSON.parse(row.schema),
-      visualization: JSON.parse(row.visualization)
     };
   }
 }

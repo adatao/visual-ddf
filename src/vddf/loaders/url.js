@@ -1,6 +1,12 @@
 import fetch from 'fetch';
 import vDDF from '../vddf';
 
+/**
+ * Load a vDDF from a remote URL
+ *
+ * If vDDF server is available, then we will ask
+ * the server to load the file for us
+ */
 export default class UrlLoader {
   constructor(serverUrl) {
     this.serverUrl = serverUrl;

@@ -11,7 +11,7 @@ export default function setupApi(app) {
     try {
       yield next;
     } catch (ex) {
-      console.log(`API request error: ${ex.message}`);
+      console.log(`API request error: ${ex.stack}`);
 
       if (!this.body) {
         this.body = {
