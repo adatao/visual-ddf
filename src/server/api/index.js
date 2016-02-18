@@ -23,6 +23,7 @@ export default function setupApi(app) {
     }
   });
 
+  // enable cors for all api
   router.all('/*', function* (next) {
     this.set('Access-Control-Allow-Origin', '*');
     this.set('Access-Control-Allow-Headers', ['Content-Type']);

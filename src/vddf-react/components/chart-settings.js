@@ -3,6 +3,7 @@ import SelectField from 'material-ui/lib/select-field';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 import FlatButton from 'material-ui/lib/flat-button';
 import { Types } from 'src/vddf/schemadetector';
+import AdaVizHelper from '../helpers/adaviz';
 
 const style = {
   container: {
@@ -34,54 +35,18 @@ export default class ChartSettings extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.vizHelper = new AdaVizHelper();
   }
 
   componentDidMount() {
-    let viz = this.props.vddf.visualization;
-    let mapping = viz.mapping || viz;
-
-    const category = mapping.category || (viz.orientation === 'horizontal' ? viz.y : viz.x);
-    const measurement = mapping.measurement || (viz.orientation === 'horizontal' ? viz.x : viz.y);
-    const category2 = mapping.category2 || viz.color || viz.detail;
-    const aggregation = mapping.aggregation;
-
-    this.setState({category, measurement, category2, aggregation});
+    this.setState(this.vizHelper.extractMapping(this.props.vddf.visualization));
   }
 
   updateChart(type) {
     let viz = this.props.vddf.visualization;
-    let update = this.state;
+    let mapping = this.state;
 
-    viz.mapping = update;
-
-    if (type) {
-      viz.type = type;
-    }
-
-    if (viz.type == 'heatmap') {
-      viz.y = update.category;
-      viz.x = update.category2;
-      viz.color = update.measurement;
-    } else {
-      if (viz.orientation === 'horizontal') {
-        viz.y = update.category;
-        viz.x = update.measurement;
-      } else {
-        viz.x = update.category;
-        viz.y = update.measurement;
-      }
-
-      viz.color = update.category2;
-    }
-
-    viz.aggregation = update.aggregation;
-
-    if (!viz.color) delete viz.color;
-    delete viz.xLabel;
-    delete viz.yLabel;
-    delete viz.measurementColumns;
-
-    this.props.vddf.visualization = viz;
+    this.props.vddf.visualization = this.vizHelper.updateMapping(type, mapping, viz);
   };
 
   getFieldList(type) {
