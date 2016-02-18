@@ -47,7 +47,7 @@ export default class DbStorage {
 
   _serialize(vddf) {
     return {
-      uuid: vddf.uui,
+      uuid: vddf.uuid,
       title: vddf.title,
       source: vddf.source,
       data: JSON.stringify(vddf.data),

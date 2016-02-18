@@ -47,8 +47,13 @@ export default function setupApi(app) {
     this.body = await vddfApi.embed(app, this.request, this);
   });
 
+  // don't support delete and update yet
   // router.delete('/vddf/:uuid', async function() {
   //   this.body = await vddfApi.delete(app, this.request, this);
+  // });
+
+  // router.post('/vddf/:uuid', async function() {
+  //   this.body = await vddfApi.update(app, this.request, this);
   // });
 
   app

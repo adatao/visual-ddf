@@ -2,6 +2,9 @@ import React from 'react';
 import AdaViz from 'adaviz';
 import Immutable from 'immutable';
 
+/**
+ * AdaViz Chart component
+ */
 export default class AdaVizChart extends React.Component {
   static propTypes = {
     spec: React.PropTypes.object.isRequired
