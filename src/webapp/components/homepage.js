@@ -79,7 +79,7 @@ export default class Homepage extends React.Component {
       .catch(err => {
         alert(err);
 
-        console.log(err.stack);
+        console.log(err.stack || err);
 
         this.setState({
           loading: false

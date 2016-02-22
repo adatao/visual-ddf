@@ -69,8 +69,8 @@ export default class FileLoader {
           reject(err);
         },
         complete: (result) => {
-          if (result.errors.length) {
-            reject(result.errors[0]);
+          if (result.errors.length && !result.data) {
+            reject(new Error(result.errors[0].message));
           } else {
             resolve(result);
           }

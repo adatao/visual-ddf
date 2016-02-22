@@ -194,7 +194,7 @@ export default class Chart extends React.Component {
       {title: 'Embed ...', action: this.embedChart},
       {title: 'Download as CSV', action: this.downloadChart}
     ];
-
+ 
     if (this.vddf.isModified) {
       menus.splice(3, 0, {
         title: 'Export ...',
