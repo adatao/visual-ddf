@@ -67,19 +67,6 @@ export default class Manager {
     }
   }
 
-  async getDownloadLink(vddf) {
-    let csv = '';
-
-    // header
-    csv += vddf.schema.map(field => `\"${field.name}\"`).join(',') + '\n';
-
-    vddf.fetch().forEach(row => {
-      csv += row.map(field => `\"${field}\"`).join(',') + '\n';
-    });
-
-    return `data:application/csv;charset=utf-8,` + encodeURIComponent(csv);
-  }
-
   async embed(vddf) {
     const apiUrl = `${this.config.baseUrl}/api/vddf/${vddf.uuid}/embed`;
 

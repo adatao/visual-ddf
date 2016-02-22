@@ -177,24 +177,13 @@ export default class Chart extends React.Component {
     }
   };
 
-  downloadChart = () => {
-    this.vddf.manager.getDownloadLink(this.vddf)
-      .then(downloadLink => {
-        let link = document.createElement('a');
-        link.download = `${this.vddf.title}.csv`;
-        link.href = downloadLink;
-        link.click();
-      });
-  };
-
   getToolbar() {
     const menus = [
       {title: 'Edit title ...', action: () => this.toggleModal('title')},
       {title: 'Edit data ...', action: () => this.toggleModal('data')},
       {title: 'Embed ...', action: this.embedChart},
-      {title: 'Download as CSV', action: this.downloadChart}
     ];
- 
+
     if (this.vddf.isModified) {
       menus.splice(3, 0, {
         title: 'Export ...',
@@ -202,7 +191,7 @@ export default class Chart extends React.Component {
       });
     }
 
-    this.vddf.manager.handle(Handles.UI_TOOLBAR_MENUS, menus);
+    this.vddf.manager.handle(Handles.UI_TOOLBAR_MENUS, menus, this.vddf);
 
     const menuElements = menus.map((m,i) => (
       <MenuItem key={i} primaryText={m.title} onClick={m.action} />
@@ -240,15 +229,21 @@ export default class Chart extends React.Component {
     }
   }
 
+  getHeader() {
+    return (
+      <div className='viz-title' style={style.title}>
+        {this.vddf.title || 'Untititled Chart'}
+        {this.getToolbar()}
+      </div>
+    );
+  }
+
   revertChange = () => {
     this.vddf.revert();
   };
 
   render() {
-    let title = this.vddf.title || 'Untititled Chart';
-    let mode = this.props.mode;
-
-    if (mode === 'chartonly') {
+    if (this.props.mode === 'chartonly') {
       return (
         <div>
           {this.state.adaviz && this.getChart()}
@@ -258,10 +253,7 @@ export default class Chart extends React.Component {
 
     const view = (
       <div style={{...style.container, width: this.props.width}}>
-        <div className='viz-title' style={style.title}>
-          {title}
-          {this.getToolbar()}
-        </div>
+        {this.getHeader()}
         {this.state.showChartSettings && this.getChartSettings()}
         {this.state.adaviz && this.getChart()}
         {this.getNotificationNotice()}

@@ -22,25 +22,13 @@ export default class FileLoader {
   async load(source, manager) {
     const file = Array.isArray(source) ? source[0] : source;
 
-    // don't support large file yet ...
-    // in the future, we can upload then stream from server
-    if (file.size > 1024000) {
-      throw new Error('Only support file less than 1MB.');
-    }
-
-    // only support csv file
-    if (!/\.csv$/.test(file.name)) {
-      throw new Error('Only csv file is supported');
-    }
-
     // assume file always has header
-    const result = await this.readCsvFile(file);
+    const result = await this.constructor.readCsvFile(file);
     const schema = result.data[0].map(c => ({name: c || 'id'}));
     const data = result.data.slice(1, result.data.length);
 
     // use the filename as title
     const title = file.name ? file.name.replace(/\.[^\.]+$/, '') : '';
-
 
     return manager.create(null, 'local://' + file.name, {
       title: title,
@@ -49,19 +37,20 @@ export default class FileLoader {
     });
   }
 
-  readCsvFile(file) {
+  static readCsvFile(file) {
     return new Promise((resolve, reject) => {
-      // let reader = new window.FileReader();
+      // don't support large file yet ...
+      // in the future, we can upload then stream from server
+      if (file.size > 1024000) {
+        reject(new Error('Only support file less than 1MB.'));
+        return;
+      }
 
-      // reader.onload = (e) => {
-      //   resolve(e.target.result);
-      // };
-
-      // reader.onerror = (e) => {
-      //   reject(e.target.error);
-      // };
-
-      // reader.readAsText(file);
+      // only support csv file
+      if (!/\.csv$/.test(file.name)) {
+        reject(new Error('Only csv file is supported'));
+        return;
+      }
 
       PapaParse.parse(file, {
         error: (err, file, inputElm, reason) => {
