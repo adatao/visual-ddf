@@ -11,11 +11,37 @@ export default class Manager {
 
     this.config = config;
     this.storage = storage;
+    this.handlers = {};
 
     // setup loaders with default loaders
     this.loaders = [
       new UrlLoader(this.config.baseUrl)
     ];
+  }
+
+  addHandler(handler) {
+    handler.register(this);
+  }
+
+  addHandle(name, callback) {
+    if (!this.handlers[name]) {
+      this.handlers[name] = [];
+    }
+
+    this.handlers[name].push(callback);
+  }
+
+  async handle(name, ...args) {
+    let result = null;
+
+    if (this.handlers[name]) {
+      for (let i in this.handlers[name]) {
+        let handle = this.handlers[name][i];
+        result = await handle(...args);
+      }
+    }
+
+    return result;
   }
 
   create(uuid, source, data) {

@@ -41,7 +41,7 @@ export default class vDDF extends EventEmitter {
     this._emitUpdate();
   }
 
-  getChartType() {
+  get chartType() {
     return this.visualization.type;
   }
 

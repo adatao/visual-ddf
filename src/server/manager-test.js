@@ -36,13 +36,13 @@ describe('Manager', () => {
       query.response();
     });
 
-    let uuid = await manager.create({
+    let vddf = await manager.create({
       data: [[1,2], [3,4]],
       schema: [{name: 'id'}, {name: 'value'}],
       visualization: {type: 'bar'}
     });
 
-    assert.isNotNull(uuid);
+    assert.isNotNull(vddf.uuid);
   });
 
   it('should validate data correctly');

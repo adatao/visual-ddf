@@ -12,4 +12,6 @@ if (typeof window.vDDF === 'undefined') {
   scriptTag.setAttribute('async', 'async');
 
   body.appendChild(scriptTag);
+} else if (window.vDDF.mountAll) {
+  window.vDDF.mountAll();
 }

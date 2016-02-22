@@ -43,6 +43,10 @@ const style = {
   }
 };
 
+export const Handles = {
+  UI_TOOLBAR_MENUS: 'ui-toolbar-menus'
+};
+
 export default class Chart extends React.Component {
   static defaultProps = {
     width: 750,
@@ -184,15 +188,31 @@ export default class Chart extends React.Component {
   };
 
   getToolbar() {
+    const menus = [
+      {title: 'Edit title ...', action: () => this.toggleModal('title')},
+      {title: 'Edit data ...', action: () => this.toggleModal('data')},
+      {title: 'Embed ...', action: this.embedChart},
+      {title: 'Download as CSV', action: this.downloadChart}
+    ];
+
+    if (this.vddf.isModified) {
+      menus.splice(3, 0, {
+        title: 'Export ...',
+        action: this.exportChart
+      });
+    }
+
+    this.vddf.manager.handle(Handles.UI_TOOLBAR_MENUS, menus);
+
+    const menuElements = menus.map((m,i) => (
+      <MenuItem key={i} primaryText={m.title} onClick={m.action} />
+    ));
+
     return (
       <div style={{float: 'right'}}>
         <FontIcon style={style.menuIcon} onClick={this.toggleChartSettings} className='material-icons'>equalizer</FontIcon>
         <DropdownMenu>
-          <MenuItem onClick={() => this.toggleModal('title')} primaryText='Edit title ...'/>
-          <MenuItem onClick={() => this.toggleModal('data')} primaryText='Edit data ...'/>
-          <MenuItem onClick={this.embedChart} primaryText='Embed ...'/>
-          {this.vddf.isModified() && <MenuItem onClick={this.exportChart} primaryText='Export ...'/>}
-          <MenuItem onClick={this.downloadChart} primaryText='Download as CSV'/>
+          {menuElements}
         </DropdownMenu>
       </div>
     );
@@ -220,10 +240,6 @@ export default class Chart extends React.Component {
     }
   }
 
-  onFileDrop(files) {
-    console.log(files)
-  }
-
   revertChange = () => {
     this.vddf.revert();
   };
@@ -240,7 +256,7 @@ export default class Chart extends React.Component {
       );
     }
 
-    return (
+    const view = (
       <div style={{...style.container, width: this.props.width}}>
         <div className='viz-title' style={style.title}>
           {title}
@@ -252,5 +268,7 @@ export default class Chart extends React.Component {
         {this.getActiveModals()}
       </div>
     );
+
+    return view;
   }
 }

@@ -1,8 +1,7 @@
 import 'babel-polyfill';
 import 'material-ui/lib/text-field';
 import 'whatwg-fetch';
-import Manager from '../vddf/manager';
-import ReactRenderer from '../vddf-react/renderer';
+import Manager from '../vddf-react/manager';
 
 function mountAllvDDF() {
   // TODO: querySelectorAll may not be available in older browsers.
@@ -25,9 +24,6 @@ function mountAllvDDF() {
 }
 
 if (window.vDDF && !window.vDDF.manager) {
-  let renderer = new ReactRenderer();
-  renderer.loadResources();
-  window.vDDF.config.renderer = renderer;
   window.vDDF.manager = new Manager(window.vDDF.config);
   window.vDDF.mountAll = mountAllvDDF;
 }

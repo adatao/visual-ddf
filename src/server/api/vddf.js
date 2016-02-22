@@ -85,10 +85,10 @@ export async function create(app, request) {
     throw new Error('Not enough parameter');
   }
 
-  const vddfUuid = await app.manager.create(body);
+  let vddf = await app.manager.create(body);
 
   return {
     status: 'success',
-    result: getEmbedCode(vddfUuid, request.origin)
+    result: getEmbedCode(vddf.uuid, request.origin)
   };
 }

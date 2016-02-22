@@ -39,12 +39,14 @@ if (system.args.length < 3 || system.args.length > 5) {
   }
 
   page.onInitialized = function() {
+    // XXX: we need to wait until the chart is fully rendered
+    // so 2s will not gurantee
     page.onCallback = function(data) {
       if (data && data.ready) {
         window.setTimeout(function () {
           page.render(output);
           phantom.exit();
-        }, 2000);
+        }, 2500);
       }
     };
 

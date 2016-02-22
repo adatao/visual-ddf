@@ -104,7 +104,7 @@ export default class ChartSettings extends React.Component {
     ];
 
     // special treatment for some chart types
-    switch (this.props.vddf.getChartType()) {
+    switch (this.props.vddf.chartType) {
     case 'scatterplot':
       fields = [
         {label: 'X', key: 'category'},

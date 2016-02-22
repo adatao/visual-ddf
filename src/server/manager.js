@@ -50,7 +50,9 @@ export default class Manager {
       };
     }
 
-    return await this.storage.create(vddf);
+    vddf.uuid = await this.storage.create(vddf);
+
+    return vddf;
   }
 
   async render(vddf, ...params) {
