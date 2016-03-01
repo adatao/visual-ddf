@@ -87,10 +87,6 @@ export default class Chart extends React.Component {
     this.vddf.off('update', this.handleUpdate);
   }
 
-  handleUpdate = () => {
-    this.renderChart();
-  };
-
   async renderChart() {
     const vddf = this.props.vddf;
     const viz = vddf.visualization;
@@ -127,6 +123,10 @@ export default class Chart extends React.Component {
     }
 
     this.setState({modal: modal});
+  };
+
+  handleUpdate = () => {
+    this.renderChart();
   };
 
   getActiveModals = () => {
@@ -175,6 +175,10 @@ export default class Chart extends React.Component {
           this.toggleModal('export');
         });
     }
+  };
+
+  revertChange = () => {
+    this.vddf.revert();
   };
 
   getToolbar() {
@@ -237,10 +241,6 @@ export default class Chart extends React.Component {
       </div>
     );
   }
-
-  revertChange = () => {
-    this.vddf.revert();
-  };
 
   render() {
     if (this.props.mode === 'chartonly') {

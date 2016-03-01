@@ -40,13 +40,13 @@ if (system.args.length < 3 || system.args.length > 5) {
 
   page.onInitialized = function() {
     // XXX: we need to wait until the chart is fully rendered
-    // so 2s will not gurantee
+    // so 5s will not gurantee that the capture is done
     page.onCallback = function(data) {
       if (data && data.ready) {
         window.setTimeout(function () {
           page.render(output);
           phantom.exit();
-        }, 2500);
+        }, 5000);
       }
     };
 

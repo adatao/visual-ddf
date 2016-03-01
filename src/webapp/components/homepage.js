@@ -101,10 +101,9 @@ export default class Homepage extends React.Component {
     if (this.state.fileActive) {
       input = (
         <span>Drag the file here to continue.<br/><span onClick={() => {
-              this.setState({fileActive: false});
-
+              this.setState({ fileActive: false });
               // https://github.com/okonet/react-dropzone/issues/140
-              this.refs.dropzone.setState({isDragActive: false});
+              this.refs.dropzone.setState({ isDragActive: false });
             }} style={style.dropzoneCancelButton}>cancel</span>.</span>
       );
     } else {
