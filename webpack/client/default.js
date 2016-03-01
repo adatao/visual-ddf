@@ -25,7 +25,8 @@ module.exports = {
     modulesDirectories: ['node_modules', 'bower_components'],
     extensions: ['', '.js'],
     alias: {
-      'src': path.join(ROOT, config.path.src).slice(0, -1)
+      'src': path.join(ROOT, config.path.src).slice(0, -1),
+      'adaviz': path.join(ROOT, 'adaviz/').slice(0, -1)
     }
   },
   module: {
