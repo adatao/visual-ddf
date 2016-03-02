@@ -109,7 +109,7 @@ export default class vDDF extends EventEmitter {
   }
 
   isModified() {
-    return this.payload !== this.originalPayload;
+    return this.uuid && this.payload !== this.originalPayload;
   }
 
   revert() {

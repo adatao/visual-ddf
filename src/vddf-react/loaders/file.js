@@ -61,6 +61,16 @@ export default class FileLoader {
           if (result.errors.length && !result.data) {
             reject(new Error(result.errors[0].message));
           } else {
+            // sometime the last row is empty because of blank empty line in the file
+            // we want to remove this row for now
+            if (result.data) {
+              const lastRow = result.data[result.data.length - 1];
+
+              if (lastRow.length == 1 && lastRow[0] === '') {
+                result.data.pop();
+              }
+            }
+
             resolve(result);
           }
         }
