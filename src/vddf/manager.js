@@ -107,6 +107,10 @@ export default class Manager {
     return result.result;
   }
 
+  addLoader(loader) {
+    this.loaders.unshift(loader);
+  }
+
   async load(source) {
     let vddf;
 

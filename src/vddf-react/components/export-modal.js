@@ -15,7 +15,6 @@ const style = {
 };
 
 export default class ExportModal extends React.Component {
-
   constructor(props) {
     super(props);
 

@@ -1,4 +1,7 @@
 import { Handles } from '../components/chart';
+import { downloadData } from '../../browser/utils';
+import exportHtml from '../../vddf/helpers/html-exporter';
+import exportCsv from '../../vddf/helpers/csv-exporter';
 
 export default class DownloadCsvHandler {
   register(manager) {
@@ -10,28 +13,23 @@ export default class DownloadCsvHandler {
       title: 'Download as CSV',
       action: () => this.downloadChart(vddf)
     });
+
+    menus.push({
+      title: 'Download as HTML',
+      action: () => this.downloadHtml(vddf)
+    });
+  }
+
+  downloadHtml(vddf) {
+    const html = exportHtml(vddf, {
+      inline: true
+    });
+
+    downloadData(`${vddf.title}.html`, 'text/html', html);
   }
 
   downloadChart(vddf) {
-    this.getDownloadLink(vddf)
-      .then(downloadLink => {
-        let link = document.createElement('a');
-        link.download = `${vddf.title}.csv`;
-        link.href = downloadLink;
-        link.click();
-      });
+    const csvData = exportCsv(vddf);
+    downloadData(`${vddf.title}.csv`, 'application/csv', csvData);
   };
-
-  async getDownloadLink(vddf) {
-    let csv = '';
-
-    // header
-    csv += vddf.schema.map(field => `\"${field.name}\"`).join(',') + '\n';
-
-    vddf.fetch().forEach(row => {
-      csv += row.map(field => `\"${field}\"`).join(',') + '\n';
-    });
-
-    return `data:application/csv;charset=utf-8,` + encodeURIComponent(csv);
-  }
 }

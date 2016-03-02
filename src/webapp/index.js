@@ -12,7 +12,7 @@ window.addEventListener('load', () => {
     baseUrl: window.location.origin
   });
 
-  manager.loaders.push(new FileLoader());
+  manager.addLoader(new FileLoader());
 
   ReactDOM.render(<Homepage manager={manager} />, document.getElementById('app'));
 });

@@ -1,6 +1,7 @@
 import Manager from '../vddf/manager';
 import ReactRenderer from './renderer';
 import DownloadCsvHandler from './handlers/download-csv';
+import EmbedScriptLoader from './loaders/embed-script';
 
 export default class ReactvDDFManager extends Manager {
   constructor(...args) {
@@ -10,5 +11,6 @@ export default class ReactvDDFManager extends Manager {
     this.config.renderer.loadResources();
 
     this.addHandler(new DownloadCsvHandler());
+    this.addLoader(new EmbedScriptLoader());
   }
 }
