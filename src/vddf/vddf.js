@@ -99,6 +99,9 @@ export default class vDDF extends EventEmitter {
   }
 
   deserialize(payload) {
+    payload.schema = payload.schema || [];
+    payload.visualization = payload.visualization || {};
+
     this.originalPayload = Immutable.fromJS(payload);
     this.payload = this.originalPayload;
     this._updateSchema();

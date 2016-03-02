@@ -2,6 +2,7 @@ import Storage from './storage';
 import vDDF from './vddf';
 import fetch from 'fetch';
 import UrlLoader from './loaders/url';
+import InlineLoader from './loaders/inline';
 
 export default class Manager {
   constructor(config, storage) {
@@ -15,7 +16,8 @@ export default class Manager {
 
     // setup loaders with default loaders
     this.loaders = [
-      new UrlLoader(this.config.baseUrl)
+      new UrlLoader(this.config.baseUrl),
+      new InlineLoader()
     ];
   }
 
