@@ -13,6 +13,22 @@ You will need Node 4.x+ to run vddf-server properly.
 
 By default, vddf-server will use the configuration provided in `config.json`, you can also override the config file with `CONFIG_FILE` environment variable.
 
+For production environment, you should switch storage from sqlite to mysql. You can do it by edit the `database` section in `config.json`. Below is an example for configuration with mysql:
+
+```
+...
+  database: {
+    client: 'mysql',
+    connection: {
+      host     : '127.0.0.1',
+      user     : 'your_database_user',
+      password : 'your_database_password',
+      database : 'myapp_test'
+    }
+  }
+...
+```
+
 For some linux distro, you may need to install **libfontconfig** to make phantomjs works.
 
 ### Testing with BigApps ###

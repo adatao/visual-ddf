@@ -11,7 +11,7 @@ export default class DbStorage {
   init() {
     return this.db.schema.hasTable('vddf')
       .then((exists) => {
-        return !exists ? app.this.schema.createTableIfNotExists('vddf', (table) => {
+        return !exists ? this.db.schema.createTableIfNotExists('vddf', (table) => {
           table.increments('id');
           table.uuid('uuid').unique();
           table.text('title');
