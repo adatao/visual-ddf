@@ -19,7 +19,8 @@ export default function setupDatabase(app) {
 
   app.manager = new Manager(storage);
 
-  // use phantom renderer for server side, assume that the vddf will always available in the storage
+  // use phantom renderer for server side, assume that the vddf
+  // will always available in the storage
   app.manager.renderer = new PhantomJsRenderer({
     rootDir: app.rootDir,
     baseUrl: `http://localhost:${app.config.port}`

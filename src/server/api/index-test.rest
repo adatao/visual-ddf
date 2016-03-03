@@ -17,3 +17,11 @@ Content-Type: application/json
 
 # Retrieve a vDDF
 GET http://localhost:5001/api/vddf/858a9667-4fc6-426d-bd40-f94728d6d465
+
+# Run query
+POST http://localhost:5001/api/query
+Content-Type: application/json
+
+{
+  "sql": "select count(*) from vddf_cda53d6b_bf2b_4cf5_829c_6d75a705d040"
+}

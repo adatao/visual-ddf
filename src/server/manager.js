@@ -69,6 +69,13 @@ export default class Manager {
     return row;
   }
 
+  /**
+   * Create a vDDF from a sql query
+   */
+  query(sql) {
+    return this.storage.query(sql);
+  }
+
   async load(requestUri) {
     // TODO: we need to think about caching strategy too, do we always want to
     // return the same vddf or create new for each load ?

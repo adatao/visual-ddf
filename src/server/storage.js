@@ -1,4 +1,5 @@
 import UUID from 'uuid';
+import { Types } from '../vddf/schemadetector';
 
 /**
  * vDDF Storage using knex
@@ -25,13 +26,14 @@ export default class DbStorage {
 
   async create(vddf) {
     vddf.uuid = UUID.v4();
+
+    // create a vddf record
     await this.db.table('vddf').insert(this._serialize(vddf));
 
-    return vddf.uuid;
-  }
+    // does not support yet
+    // await this.createTable(vddf);
 
-  async update(vddf) {
-    // TODO
+    return vddf.uuid;
   }
 
   async get(uuid) {
@@ -41,8 +43,53 @@ export default class DbStorage {
     return row.length ? this._deserialize(row[0]) : null;
   }
 
+  async update(vddf) {
+    throw new Error('Not supported');
+  }
+
   async remove(uuid) {
-    // TODO
+    throw new Error('Not supported');
+  }
+
+  query(sql) {
+    // TODO: this is dangerous!
+
+    // TODO: replace table name
+
+    return this.db.raw(sql).then(result => {
+      return result[0];
+    });
+  }
+
+  async createTable(vddf) {
+    const tableName = 'vddf_' + vddf.uuid.replace(/-/g, '_');
+    return this.db.schema.createTableIfNotExists(tableName, (table) => {
+      vddf.schema.forEach(c => {
+        switch (c.type) {
+        case Types.Integer:
+          table.integer(c.name);
+          break;
+        case Types.Float:
+          table.float(c.name);
+          break;
+        default:
+          table.text(c.name);
+        }
+      });
+    }).then(() => {
+      // we can't use batchInsert, so i will just do it by myself here
+      // see https://github.com/colonyamerican/mock-knex/issues/21
+
+      return Promise.all(vddf.data.map(r => {
+        const record = {};
+
+        vddf.schema.forEach((c,i) => {
+          record[c.name] = r[i];
+        });
+
+        return this.db.table(tableName).insert(record);
+      }));
+    });
   }
 
   _serialize(vddf) {

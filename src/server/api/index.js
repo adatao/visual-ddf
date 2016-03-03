@@ -31,6 +31,15 @@ export default function setupApi(app) {
     yield next;
   });
 
+  // router.post('/query', async function() {
+  //   const result = await app.manager.query(this.request.body.sql);
+
+  //   this.body = {
+  //     status: 'success',
+  //     result: result
+  //   };
+  // });
+
   // create new vddf by post
   router.post('/vddf/create', async function() {
     this.body = await vddfApi.create(app, this.request, this);
