@@ -44,7 +44,11 @@ export default class DbStorage {
   }
 
   async update(vddf) {
+    let row = this._serialize(vddf);
+
     throw new Error('Not supported');
+
+    return vddf.uuid;
   }
 
   async remove(uuid) {

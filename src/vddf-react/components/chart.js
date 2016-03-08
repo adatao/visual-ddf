@@ -91,15 +91,17 @@ export default class Chart extends React.Component {
   async renderChart() {
     const vddf = this.props.vddf;
     const viz = vddf.visualization;
+    const spec = Immutable.fromJS({
+      input: {
+          ...viz,
+        width: this.props.width,
+        height: this.props.height
+      },
+      data: await AdaVizHelper.aggregateData(vddf)
+    });
 
     this.setState({
-      adaviz: Immutable.fromJS({
-        input: Object.assign(viz, {
-          width: this.props.width,
-          height: this.props.height
-        }),
-        data: await AdaVizHelper.aggregateData(vddf)
-      })
+      adaviz: spec
     });
   }
 

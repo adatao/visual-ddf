@@ -55,6 +55,13 @@ export default class Manager {
     return vddf;
   }
 
+  async update(vddf) {
+    vddf.schema = (new SchemaDetector).detect(vddf.data, vddf.schema);
+    await this.storage.update(vddf);
+
+    return vddf;
+  }
+
   async render(vddf, ...params) {
     return await this.renderer.render(vddf, ...params);
   }

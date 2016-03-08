@@ -26,18 +26,25 @@ export default class AdaVizHelper {
   static async aggregateData(vddf) {
     let data = await this.fetchData(vddf);
     let viz = vddf.visualization;
+    const mapping = viz.mapping || {};
+    let aggregation = viz.aggregation;
 
-    if (viz.aggregation && viz.type !== 'datatable') {
+    // automatically fallback to count to make the visualization eaiser
+    if (!aggregation && mapping.category && !mapping.measurement) {
+      aggregation = 'count';
+    }
+
+    if (aggregation && viz.type !== 'datatable') {
       let groupBy = {};
       let keys = [viz.x];
       let measurement = viz.y;
 
-      if (viz.mapping) {
-        keys = [viz.mapping.category];
-        measurement = viz.mapping.measurement;
+      if (mapping) {
+        keys = [mapping.category];
+        measurement = mapping.measurement;
 
-        if (viz.mapping.category2) {
-          keys.push(viz.mapping.category2);
+        if (mapping.category2) {
+          keys.push(mapping.category2);
         }
       } else {
         // parameters passed by adaviz is messed up, there is no way
@@ -74,7 +81,7 @@ export default class AdaVizHelper {
         let value;
         let series = g.values.map(c => c[measurement] ? parseFloat(c[measurement]) : 0);
 
-        switch (viz.aggregation) {
+        switch (aggregation) {
         case 'count':
           value = series.length;
           break;
@@ -109,7 +116,12 @@ export default class AdaVizHelper {
       viz.type = type;
     }
 
-    if (viz.type == 'heatmap') {
+    if (viz.type == 'pie' || viz.type == 'donut') {
+      viz.size = mapping.measurement;
+      viz.color = mapping.category;
+
+      if (!viz.size) viz.size = '_value';
+    } else if (viz.type == 'heatmap') {
       viz.y = mapping.category;
       viz.x = mapping.category2;
       viz.color = mapping.measurement;

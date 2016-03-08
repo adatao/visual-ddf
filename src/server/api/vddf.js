@@ -92,3 +92,9 @@ export async function create(app, request) {
     result: getEmbedCode(vddf.uuid, request.origin)
   };
 }
+
+export async function update(app, request) {
+  return {
+    status: 'success'
+  };
+}
