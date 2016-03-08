@@ -9,6 +9,10 @@ const style = {
   modal: {
     width: '95%',
     maxWidth: 'auto'
+  },
+  toolbarContainer: {
+    textAlign: 'right',
+    marginBottom: '5px'
   }
 };
 
@@ -133,6 +137,15 @@ export default class DataEditModal extends React.Component {
     );
   }
 
+  getToolbar() {
+    return (
+      <div style={this.toolbarContainer}>
+        <FlatButton onClick={this.handleAddRow} label="Add Row"/>
+        <FlatButton onClick={this.handleAddColumn} label="Add Column"/>
+      </div>
+    );
+  }
+
   render() {
     if (this.state.columns.length == 0) {
       return (<div></div>);
@@ -141,10 +154,7 @@ export default class DataEditModal extends React.Component {
     // TODO: detect height by window height
     return (
       <Modal contentStyle={style.modal} open autoDetectWindowHeight actions={this.getActions()} title='Edit Data'  onRequestClose={this.props.onRequestClose}>
-        <div style={{textAlign: 'right'}}>
-          <FlatButton onClick={this.handleAddRow} label="Add Row"/>
-          <FlatButton onClick={this.handleAddColumn} label="Add Column"/>
-        </div>
+        {this.getToolbar()}
         <ReactDataGrid
            columns={this.state.columns}
            rowsCount={this.state.rows.length}

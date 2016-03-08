@@ -30,7 +30,7 @@ export default class DbStorage {
     // create a vddf record
     await this.db.table('vddf').insert(this._serialize(vddf));
 
-    // does not support yet
+    // does not work well yet :(
     // await this.createTable(vddf);
 
     return vddf.uuid;

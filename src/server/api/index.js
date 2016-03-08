@@ -31,6 +31,7 @@ export default function setupApi(app) {
     yield next;
   });
 
+  // don't enable query for now
   // router.post('/query', async function() {
   //   const result = await app.manager.query(this.request.body.sql);
 

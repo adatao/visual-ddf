@@ -8,7 +8,9 @@ export default class DownloadCsvHandler {
     manager.addHandle(Handles.UI_TOOLBAR_MENUS, this.addMenu.bind(this));
   }
 
-  addMenu(menus, vddf) {
+  addMenu(menus, view) {
+    const vddf = view.vddf;
+
     menus.push({
       title: 'Download as CSV',
       action: () => this.downloadChart(vddf)

@@ -100,11 +100,7 @@ export default class Homepage extends React.Component {
 
     if (this.state.fileActive) {
       input = (
-        <span>Drag the file here to continue.<br/><span onClick={() => {
-              this.setState({ fileActive: false });
-              // https://github.com/okonet/react-dropzone/issues/140
-              this.refs.dropzone.setState({ isDragActive: false });
-            }} style={style.dropzoneCancelButton}>cancel</span>.</span>
+        <div>Drag the file here to continue.</div>
       );
     } else {
       input = (
@@ -116,14 +112,21 @@ export default class Homepage extends React.Component {
     }
 
     return (
-      <Dropzone ref='dropzone' disableClick disablePreview multiple={false} style={style.dropzone}
-                activeStyle={style.dropzoneActive}
-                onDragEnter={() => this.setState({fileActive: true})}
-                onDragLeave={() => this.setState({fileActive: false})}
-                onDrop={this.handleFileDrop}>
-        {input}
-      </Dropzone>
+      <div onDragLeave={() => this._resetDropzone()}>
+        <Dropzone ref='dropzone' disableClick disablePreview multiple={false} style={style.dropzone}
+                  activeStyle={style.dropzoneActive}
+                  onDragEnter={() => this.setState({fileActive: true})}
+          onDrop={this.handleFileDrop}>
+          {input}
+        </Dropzone>
+      </div>
     );
+  }
+
+  _resetDropzone() {
+    this.setState({ fileActive: false });
+    // https://github.com/okonet/react-dropzone/issues/140
+    this.refs.dropzone.setState({ isDragActive: false });
   }
 
   render() {

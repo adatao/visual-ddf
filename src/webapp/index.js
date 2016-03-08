@@ -13,6 +13,5 @@ window.addEventListener('load', () => {
   });
 
   manager.addLoader(new FileLoader());
-
   ReactDOM.render(<Homepage manager={manager} />, document.getElementById('app'));
 });

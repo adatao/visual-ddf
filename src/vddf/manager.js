@@ -33,13 +33,13 @@ export default class Manager {
     this.handlers[name].push(callback);
   }
 
-  async handle(name, ...args) {
+  handle(name, ...args) {
     let result = null;
 
     if (this.handlers[name]) {
       for (let i in this.handlers[name]) {
         let handle = this.handlers[name][i];
-        result = await handle(...args);
+        result = handle(...args);
       }
     }
 

@@ -44,7 +44,8 @@ const style = {
 };
 
 export const Handles = {
-  UI_TOOLBAR_MENUS: 'ui-toolbar-menus'
+  UI_TOOLBAR_MENUS: 'ui-toolbar-menus',
+  UI_ACTIVATE_MODAL: 'ui-activate-modal'
 };
 
 export default class Chart extends React.Component {
@@ -110,6 +111,8 @@ export default class Chart extends React.Component {
       return <EditTitleModal title={this.vddf.title} onSave={this.saveTitle} onRequestClose={() => this.toggleModal('title')} />;
     case 'export':
       return <ExportModal embed={this.state.embedResult} onRequestClose={() => this.toggleModal('export')} />;
+    default:
+      return this.vddf.manager.handle(Handles.UI_ACTIVATE_MODAL, name, this);
     }
   }
 
@@ -182,6 +185,7 @@ export default class Chart extends React.Component {
   };
 
   getToolbar() {
+    // TODO: cache menus
     const menus = [
       {title: 'Edit title ...', action: () => this.toggleModal('title')},
       {title: 'Edit data ...', action: () => this.toggleModal('data')},
@@ -195,7 +199,7 @@ export default class Chart extends React.Component {
       });
     }
 
-    this.vddf.manager.handle(Handles.UI_TOOLBAR_MENUS, menus, this.vddf);
+    this.vddf.manager.handle(Handles.UI_TOOLBAR_MENUS, menus, this);
 
     const menuElements = menus.map((m,i) => (
       <MenuItem key={i} primaryText={m.title} onClick={m.action} />
