@@ -8,55 +8,14 @@ export default class Manager {
   }
 
   async create(vddf) {
-    // additional validation
-    if (vddf.data.length === 0) {
-      throw new Error('vDDF data can not be empty');
-    }
-
-    if (!vddf.schema) {
-      const schemaResult = this.constructor.extractSchema(vddf.data);
-      vddf.data = schemaResult.data;
-      vddf.schema = schemaResult.schema;
-    }
-
-    if (vddf.schema.length === 0) {
-      throw new Error('Schema can not be empty');
-    } else {
-      let rowId;
-      let schemaLength = vddf.schema.length;
-
-      // make sure all rows have same size with schema
-      vddf.data.some((d, i) => {
-        if (d.length !== schemaLength) {
-          rowId = i;
-          return true;
-        }
-
-        return false;
-      });
-
-      if (rowId !== undefined) {
-        throw new Error(`Data is mismatch at row ${rowId}.`);
-      }
-    }
-
-    // run one round of schema detection
-    vddf.schema = (new SchemaDetector).detect(vddf.data, vddf.schema);
-
-    // fallback to data table
-    if (!vddf.visualization) {
-      vddf.visualization = {
-        type: 'datatable'
-      };
-    }
-
+    this._validate(vddf);
     vddf.uuid = await this.storage.create(vddf);
 
     return vddf;
   }
 
   async update(vddf) {
-    vddf.schema = (new SchemaDetector).detect(vddf.data, vddf.schema);
+    this._validate(vddf);
     await this.storage.update(vddf);
 
     return vddf;
@@ -101,6 +60,52 @@ export default class Manager {
     const uuid = await this.create({data: parsed.data, source});
 
     return await this.get(uuid);
+  }
+
+  _validate(vddf) {
+    // additional validation
+    if (vddf.data.length === 0) {
+      throw new Error('vDDF data can not be empty');
+    }
+
+    if (!vddf.schema) {
+      const schemaResult = this.constructor.extractSchema(vddf.data);
+      vddf.data = schemaResult.data;
+      vddf.schema = schemaResult.schema;
+    }
+
+    if (vddf.schema.length === 0) {
+      throw new Error('Schema can not be empty');
+    } else {
+      let rowId;
+      let schemaLength = vddf.schema.length;
+
+      // make sure all rows have same size with schema
+      vddf.data.some((d, i) => {
+        if (d.length !== schemaLength) {
+          rowId = i;
+          return true;
+        }
+
+        return false;
+      });
+
+      if (rowId !== undefined) {
+        throw new Error(`Data is mismatch at row ${rowId}.`);
+      }
+    }
+
+    // run one round of schema detection
+    vddf.schema = (new SchemaDetector).detect(vddf.data, vddf.schema);
+
+    // fallback to data table
+    if (!vddf.visualization) {
+      vddf.visualization = {
+        type: 'datatable'
+      };
+    }
+
+    return vddf;
   }
 
   static extractSchema(data) {

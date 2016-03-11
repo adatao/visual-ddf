@@ -18,6 +18,23 @@ Content-Type: application/json
 # Retrieve a vDDF
 GET http://localhost:5001/api/vddf/858a9667-4fc6-426d-bd40-f94728d6d465
 
+# Update a vDDF
+POST http://localhost:5001/api/vddf/6c439954-f9cb-44e3-8377-dd969cb94283
+Content-Type: application/json
+
+{
+  "schema": [
+      {
+        "type": "Float",
+        "name": "sales1"
+      },
+      {
+        "type": "String",
+        "name": "state"
+      }
+    ]
+}
+
 # Run query
 POST http://localhost:5001/api/query
 Content-Type: application/json

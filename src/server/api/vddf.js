@@ -93,8 +93,27 @@ export async function create(app, request) {
   };
 }
 
-export async function update(app, request) {
+export async function update(app, request, ctx) {
+  const uuid = ctx.params.uuid;
+  let body = request.body;
+
+  if (!body) {
+    throw new Error('Post body is invalid');
+  }
+
+  let vddf = await app.manager.get(uuid);
+
+  // only pick a few fields to update from body
+  ['title', 'schema', 'data', 'visualization'].forEach(f => {
+    if (body[f]) {
+      vddf[f] = body[f];
+    }
+  });
+
+  await app.manager.update(vddf);
+
   return {
-    status: 'success'
+    status: 'success',
+    result: vddf
   };
 }

@@ -58,14 +58,16 @@ export default function setupApi(app) {
     this.body = await vddfApi.embed(app, this.request, this);
   });
 
-  // don't support delete and update yet
+  // don't support delete
   // router.delete('/vddf/:uuid', async function() {
   //   this.body = await vddfApi.delete(app, this.request, this);
   // });
 
-  // router.post('/vddf/:uuid', async function() {
-  //   this.body = await vddfApi.update(app, this.request, this);
-  // });
+  // XXX: this one does not cover authentication yet
+  // we need to think of a scheme where people can 
+  router.post('/vddf/:uuid', async function() {
+    this.body = await vddfApi.update(app, this.request, this);
+  });
 
   app
     .use(router.routes())

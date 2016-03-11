@@ -37,16 +37,17 @@ export default class DbStorage {
   }
 
   async get(uuid) {
-    let row = await this.db.table('vddf').select('*')
+    const row = await this.db.table('vddf').select('*')
           .where('uuid','=',uuid);
 
     return row.length ? this._deserialize(row[0]) : null;
   }
 
   async update(vddf) {
-    let row = this._serialize(vddf);
-
-    throw new Error('Not supported');
+    const row = this._serialize(vddf);
+    const affectedRows = await this.db.table('vddf').where({
+      uuid: row.uuid
+    }).update(row);
 
     return vddf.uuid;
   }
