@@ -543,7 +543,7 @@ Matrix.prototype = {
   // scaled up or switched, and the determinant is preserved.
   toRightTriangular: function() {
     var M = this.dup(), els;
-    var n = this.elements.length, k = n, i, np, kp = this.elements[0].length, p;
+    var n = this.elements.length, k = n, i, j, np, kp = this.elements[0].length, p;
     do { i = k - n;
       if (M.elements[i][i] == 0) {
         for (j = i + 1; j < k; j++) {
