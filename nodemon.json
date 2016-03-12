@@ -4,10 +4,12 @@
     "adaviz/*",
     "*-test.js",
     "webpack",
+    "build/*",
     "assets/*",
     "src/vddf-react",
     "src/browser",
-    "src/webapp"
+    "src/webapp",
+    "src/chrome/*"
   ],
   "exec": "npm run start-dev-server",
   "ext": "js"

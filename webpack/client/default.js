@@ -5,7 +5,6 @@ var webpack = require('webpack');
 var config  = require('../config.json');
 var ROOT    = require('../path-helper').ROOT;
 
-
 module.exports = {
   context: ROOT,
   entry: {

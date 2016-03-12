@@ -18,4 +18,4 @@ else
 fi
 
 echo "\nBuilding server side ..."
-babel --ignore=browser,webapp,chrome,test src -d build
+babel --ignore=browser,webapp,chrome,test src -d build/vddf-server
