@@ -1,0 +1,33 @@
+{
+  "manifest_version": 2,
+
+  "name": "Visual DDF",
+  "description": "Prototype extension for Visual DDF",
+  "version": "1.0",
+
+  "icons": {
+    "64": "icon64.png"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["http://*/*","https://*/*"],
+      "js": ["chrome-content.js"]
+    }
+  ],
+
+  "background": {
+    "scripts": ["chrome-background.js"],
+    "persistent": false
+  },
+
+  "permissions": [
+    "storage",
+    "tabs",
+    "http://*/*",
+    "https://*/*"
+  ],
+  "web_accessible_resources": [
+    "chrome-inject.js"
+  ]
+}
