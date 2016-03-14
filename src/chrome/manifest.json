@@ -9,6 +9,14 @@
     "64": "icon64.png"
   },
 
+  "page_action": {
+    "default_icon": {
+      "19": "icon19.png",
+      "38": "icon38.png"
+    },
+    "default_title": "Visual DDF"
+  },
+
   "content_scripts": [
     {
       "matches": ["http://*/*","https://*/*"],
@@ -24,10 +32,12 @@
   "permissions": [
     "storage",
     "tabs",
+    "activeTab",
     "http://*/*",
     "https://*/*"
   ],
   "web_accessible_resources": [
-    "chrome-inject.js"
+    "chrome-inject.js",
+    "icon64.png"
   ]
 }

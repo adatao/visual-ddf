@@ -21,7 +21,9 @@ devConfig.output.path = path.join(ROOT, config.path.build, 'chrome'),
 devConfig.plugins.shift();
 devConfig.plugins.push(new CopyWebpackPlugin([
   {from: 'src/chrome/manifest.json'},
-  {from: 'src/chrome/icon64.png'}
+  {from: 'src/chrome/icon64.png'},
+  {from: 'src/chrome/icon38.png'},
+  {from: 'src/chrome/icon19.png'}
 ]));
 
 module.exports = devConfig;

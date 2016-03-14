@@ -18,7 +18,8 @@ module.exports = {
     chunkFilename: '[name].chunk.[id].js'
   },
   externals: {
-    'fetch': 'fetch'
+    'fetch': 'fetch',
+    'chrome': 'chrome'
   },
   resolve: {
     modulesDirectories: ['node_modules', 'bower_components'],

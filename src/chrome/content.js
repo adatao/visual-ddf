@@ -1,5 +1,6 @@
 // import 'babel-polyfill';
-// import chrome from 'chrome';
+import chrome from 'chrome';
+import Events from './events';
 // import ChromeStorageContentProxyStorageServer from './storage/chrome-storage-proxy-server';
 
 // function sql(query) {
@@ -28,4 +29,18 @@
 
     head.appendChild(script);
   }
+
+  document.addEventListener(Events.DetectionReady, () => {
+    console.log('done done');
+    chrome.extension.sendMessage({
+      msg: Events.DetectionReady
+    });
+  });
+
+  chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    // just proxy the event to document
+    if (request.msg == Events.PageActionClicked) {
+      Events.dispatch(request.msg);
+    }
+  });
 })();
