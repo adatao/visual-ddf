@@ -36,6 +36,13 @@ import Events from './events';
     });
   });
 
+  document.addEventListener(Events.SaveChart, (e) => {
+    chrome.extension.sendMessage({
+      msg: Events.SaveChart,
+      data: e.detail.data
+    });
+  });
+
   // tell the background page so it can open a tab for us
   document.addEventListener(Events.SubmissionDone, () => {
     chrome.extension.sendMessage({

@@ -25,12 +25,14 @@ document.addEventListener(Events.PageActionClicked, (e) => {
     e.setAttribute('version', '1.1');
     e.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
 
-    const source = getSource(e).source[0];
+    const source = getSource(e);
+    const svgSource = source.source[0];
 
     return {
+      title: source.title,
       node: e,
-      svg: source,
-      svgDataUrl: 'data:image/svg+xml;base64,' + btoa(source)
+      svg: svgSource,
+      svgDataUrl: 'data:image/svg+xml;base64,' + btoa(svgSource)
     };
   });
 
@@ -55,29 +57,43 @@ function submitCharts(charts) {
 
     // convert to vddf schema
     const data = [];
-    const schema = candidate.schema.map(c => ({name: c}));
+    let schema = candidate.schema.map((c,i) => {
+      let name = (c || `c${i+1}`).toLowerCase().replace(/[^a-z0-9]/gi, '_');
+
+      if (/\d/.test(name[0])) {
+        name = `c${name}`;
+      }
+
+      return { name };
+    });
 
     for (let i = 0; i < count; i++) {
       const row = [];
 
-      schema.forEach(c => {
-        row.push(candidate.data[c.name][i] || null);
+      candidate.schema.forEach(name => {
+        row.push(candidate.data[name][i] || null);
       });
 
       data.push(row);
     }
 
     return manager.load({
+      title: c.title,
       schema,
       data,
       source: window.location + ''
     }).then(vddf => {
+      schema = vddf.schema;
       return manager.export(vddf);
     }).then(result => {
-      // TODO: tell browser to remember it
       // also submit svg to server
 
-      console.log(result);
+      result.title = c.title;
+      result.name = (c.title + '').toLowerCase().replace(/[^a-z0-9]/gi, '_');
+      result.data = data;
+      result.schema = schema;
+
+      Events.dispatch(Events.SaveChart, null, {data: result});
     }).catch(err => {
       console.log('There was an error', err.stack);
       throw err;
@@ -85,8 +101,8 @@ function submitCharts(charts) {
   });
 
   Promise.all(promises).then(() => {
-    closeSidebar();
-    Events.dispatch(Events.SubmissionDone);
+    // closeSidebar();
+    // Events.dispatch(Events.SubmissionDone);
   }).catch(err => {
     // TODO: error handling
     console.log('Fail to submit all charts');

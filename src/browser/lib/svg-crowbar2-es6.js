@@ -33,7 +33,7 @@ export function getSource(svg) {
   // done remove the tmp svg for now
   window.document.body.removeChild(emptySvg);
 
-  return {
+  const result = {
     top: rect.top,
     left: rect.left,
     width: rect.width,
@@ -42,6 +42,24 @@ export function getSource(svg) {
     id: svg.getAttribute("id"),
     source: [doctype + source]
   };
+
+  result.title = suggestChartName(source);
+
+  return result;
+}
+
+function suggestChartName(source) {
+  let filename;
+
+  if (source.id) {
+    filename = source.id;
+  } else if (source.class) {
+    filename = source.class;
+  } else if (window.document.title) {
+    filename = window.document.title;
+  }
+
+  return filename;
 }
 
 function setInlineStyles(svg, emptySvgDeclarationComputed) {

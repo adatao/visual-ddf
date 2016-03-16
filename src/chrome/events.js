@@ -1,6 +1,7 @@
 const Events = {
   DetectionReady: 'detection-ready',
   PageActionClicked: 'page-action-clicked',
+  SaveChart: 'save-chart',
   SubmissionDone: 'submission-done',
 
   dispatch(event, target, data) {
