@@ -16,7 +16,7 @@
 
   function initialize() {
     var documents = [window.document],
-        SVGSources = [];
+        SVGSources = [],
         iframes = document.querySelectorAll("iframe"),
         objects = document.querySelectorAll("object");
 

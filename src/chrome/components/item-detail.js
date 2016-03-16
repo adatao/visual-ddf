@@ -14,7 +14,9 @@ export default class ItemDetail extends React.Component {
                                  transitionEnterTimeout={300}
                                  transitionLeaveTimeout={300}
                                  >
-          <div className='detail-view'>Hello World</div>
+          <div className='detail-view'>
+            TODO: chart here
+          </div>
         </ReactCSSTransitionGroup>
       </div>
     );

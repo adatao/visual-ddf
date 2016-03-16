@@ -10,6 +10,8 @@ export default class ChartPreview extends React.Component {
   render() {
     const isChecked = this.props.checked;
     const baseUrl = this.context.baseUrl;
+    const chart = this.props.chart;
+    const imgUrl = chart.svgDataUrl || 'http://localhost:5001/chromeapp/preview1.png';
 
     let overlay;
 
@@ -27,7 +29,7 @@ export default class ChartPreview extends React.Component {
       <div onClick={this.props.onClick} className='vddf-chart-preview'>
         {overlay}
         <div>
-          <img width='100%' src='http://localhost:5001/chromeapp/preview1.png' />
+          <img width='100%' src={imgUrl} />
         </div>
       </div>
     );

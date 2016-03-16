@@ -7,7 +7,9 @@ const prefix = {
 };
 
 export function getSource(svg) {
-  const emptySvgDeclarationComputed = createEmptySvgDeclarationComputed();
+  var emptySvg = window.document.createElementNS(prefix.svg, 'svg');
+  window.document.body.appendChild(emptySvg);
+  var emptySvgDeclarationComputed = getComputedStyle(emptySvg);
 
   svg.setAttribute("version", "1.1");
 
@@ -28,6 +30,9 @@ export function getSource(svg) {
   var source = (new XMLSerializer()).serializeToString(cloneSvg);
   var rect = svg.getBoundingClientRect();
 
+  // done remove the tmp svg for now
+  window.document.body.removeChild(emptySvg);
+
   return {
     top: rect.top,
     left: rect.left,
@@ -39,14 +44,6 @@ export function getSource(svg) {
   };
 }
 
-function createEmptySvgDeclarationComputed() {
-  var emptySvg = window.document.createElementNS(prefix.svg, 'svg');
-  window.document.body.appendChild(emptySvg);
-  var emptySvgDeclarationComputed = getComputedStyle(emptySvg);
-
-  return emptySvgDeclarationComputed;
-}
-
 function setInlineStyles(svg, emptySvgDeclarationComputed) {
   function getStyles(element) {
     var cSSStyleDeclarationComputed = getComputedStyle(element);
@@ -56,6 +53,12 @@ function setInlineStyles(svg, emptySvgDeclarationComputed) {
       key=cSSStyleDeclarationComputed[i];
       value=cSSStyleDeclarationComputed.getPropertyValue(key);
       if (value!==emptySvgDeclarationComputed.getPropertyValue(key)) {
+
+        // if width & height specified in element, then ignore if css is auto
+        if (key == 'width' || key == 'height') {
+          if (element.getAttribute(key) && value === 'auto') continue;
+        }
+
         computedStyleStr+=key+":"+value+";";
       }
     }

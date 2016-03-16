@@ -46,6 +46,10 @@ export default class Sidebar extends React.Component {
     });
   };
 
+  save = () => {
+    this.props.closeSidebar();
+  };
+
   getChildContext() {
     return {
       baseUrl: this.props.baseUrl
@@ -53,11 +57,11 @@ export default class Sidebar extends React.Component {
   }
 
   render() {
-    const availableCharts = [1,2,3];
-    const charts = availableCharts.map(c => {
-      const isChecked = this.state.selectedCharts[c];
+    const availableCharts = this.props.charts;
+    const charts = availableCharts.map((c, key) => {
+      const isChecked = this.state.selectedCharts[key];
 
-      return <ChartPreview key={c} checked={isChecked} onClick={() => this.toggleChart(c)} />;
+      return <ChartPreview key={key} chart={c} checked={isChecked} onClick={() => this.toggleChart(key)} />;
     });
 
     return (
@@ -80,7 +84,7 @@ export default class Sidebar extends React.Component {
              backgroundColor='#07AE88'
              labelColor='white'
              label='Save'
-             onClick={this.props.closeSidebar} />
+             onClick={this.save} />
         </div>
       </div>
     );
