@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import React from 'react';
 import chrome from 'chrome';
 import ReactDOM from 'react-dom';
@@ -6,18 +7,54 @@ import { loadMaterialFonts } from './utils';
 import 'flexboxgrid';
 import './common.css';
 import './app.css';
-import * as SQL from './sql';
+import Events from './events';
+import * as Storage from './storage';
+import Manager from 'src/vddf-react/manager';
+
 
 loadMaterialFonts();
 
-// i can still listen to message if i want
+let _manager = null;
+
+function getManager() {
+  if (_manager) return Promise.resolve(_manager);
+  else {
+    return new Promise((resolve, reject) => {
+      chrome.storage.sync.get('serverUrl', (item) => {
+        _manager = new Manager({baseUrl: item.serverUrl});
+
+        resolve(_manager);
+      });
+    });
+  }
+}
+
+function gogoVDDF() {
+  let manager;
+
+  getManager()
+    .then(res => {
+      manager = res;
+
+      return Storage.list();
+    })
+    .then(charts => {
+      ReactDOM.render(
+        <Directory manager={manager} charts={charts} />,
+        document.getElementById('app')
+      );
+    });
+}
+
 chrome.extension.onMessage.addListener(function (request, sender, sendResponse) {
-  console.log(request);
+  if (request.msg === Events.SubmissionDone) {
+    // TODO: we want to wait a bit longer before new charts are available
+    gogoVDDF();
+  }
 });
 
 window.addEventListener('load', () => {
-  ReactDOM.render(
-    <Directory />,
-    document.getElementById('app')
-  );
+  gogoVDDF();
 });
+
+window.Storage = Storage;

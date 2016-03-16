@@ -14,13 +14,15 @@ const style = {
   container: {
     margin: '0 auto',
     boxShadow: '0 0 4px 2px rgba(0,0,0,0.1)',
-    borderRadius: '2px'
+    borderRadius: '2px',
+    background: 'white'
   },
   title: {
     background: '#f2f2f2',
     color: '#448afd',
     padding: '6px 10px',
-    position: 'relative'
+    position: 'relative',
+    height: 28
   },
   menuIcon: {
     color: '#cecece',
@@ -91,11 +93,21 @@ export default class Chart extends React.Component {
   async renderChart() {
     const vddf = this.props.vddf;
     const viz = vddf.visualization;
+    let height = this.props.height - 28;
+
+    if (this.vddf.isModified()) {
+      height -= 22; // footer modification notice
+    }
+
+    if (this.state.showChartSettings) {
+      height -= 100;
+    }
+
     const spec = Immutable.fromJS({
       input: {
           ...viz,
         width: this.props.width,
-        height: this.props.height
+        height
       },
       data: await AdaVizHelper.aggregateData(vddf)
     });
@@ -144,6 +156,10 @@ export default class Chart extends React.Component {
     this.setState({
       showChartSettings: !this.state.showChartSettings
     });
+
+    setTimeout(() => {
+      this.renderChart();
+    }, 100);
   };
 
   saveData = (data, schema) => {

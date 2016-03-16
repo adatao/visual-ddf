@@ -99,6 +99,7 @@ body {
     height: 500px;
     background: #4A4A4A;
     margin-bottom: 4px;
+    overflow: hidden;
 }
 
 .directory .detail-arrow {

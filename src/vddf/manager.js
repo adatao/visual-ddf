@@ -70,41 +70,42 @@ export default class Manager {
   }
 
   async embed(vddf) {
-    const apiUrl = `${this.config.baseUrl}/api/vddf/${vddf.uuid}/embed`;
-
-    let response = await fetch(apiUrl);
-
-    let result = await response.json();
-    if (result.error) {
-      throw new Error(result.error);
-    }
-
-    return result.result;
+    return this.request('GET', `api/vddf/${vddf.uuid}/embed`);
   }
 
   // export keyword has problem with emacs :(
   async ['export'](vddf) {
-    const apiUrl = `${this.config.baseUrl}/api/vddf/create`;
     let body = vddf.serialize();
 
     // remove uuid and change the source
     delete body.uuid;
     body.source = vddf.uri;
 
-    let response = await fetch(apiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(body)
-    });
+    return this.request('POST', 'api/vddf/create', body);
+  }
 
-    let result = await response.json();
-    if (result.error) {
-      throw new Error(result.error);
+  async request(method, api, body) {
+    const apiUrl = `${this.config.baseUrl}/${api}`;
+    let params = {};
+
+    if (method === 'POST' || method === 'PUT') {
+      params = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      };
     }
 
-    return result.result;
+    const response = await fetch(apiUrl, params);
+    const json = await response.json();
+
+    if (json.error) {
+      throw new Error(json.error);
+    }
+
+    return json.result;
   }
 
   addLoader(loader) {

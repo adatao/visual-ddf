@@ -1,5 +1,6 @@
 import koaRouter from 'koa-router';
 import * as vddfApi from './vddf.js';
+import fs from 'fs-promise';
 
 export default function setupApi(app) {
   const prefix = '/api';
@@ -67,6 +68,26 @@ export default function setupApi(app) {
   // we need to think of a scheme where people can 
   router.post('/vddf/:uuid', async function() {
     this.body = await vddfApi.update(app, this.request, this);
+  });
+
+  router.post('/vddf/:uuid/svg', async function() {
+    let vddf = await app.manager.get(this.params.uuid);
+
+    const file = app.rootDir + `/assets/charts/${this.params.uuid}.svg`;
+
+    try {
+      await fs.unlink(file);
+    } catch (ex) {}
+
+    await fs.writeFile(file, this.request.body.svg, 'utf8');
+
+    // add a flag to indicate we have the preview svg
+    vddf.visualization.hasPreview = true;
+    await app.manager.update(vddf);
+
+    this.body = {
+      success: true
+    };
   });
 
   app

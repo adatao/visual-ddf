@@ -7,7 +7,8 @@ import AdaVizHelper from '../helpers/adaviz';
 
 const style = {
   container: {
-    padding: '4px 8px'
+    padding: '4px 8px',
+    height: 100
   },
   chartButton: {
     width: 28,

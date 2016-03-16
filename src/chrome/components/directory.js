@@ -12,6 +12,16 @@ export default class Directory extends React.Component {
     };
   }
 
+  static childContextTypes = {
+    manager: React.PropTypes.object
+  };
+
+  getChildContext() {
+    return {
+      manager: this.props.manager
+    };
+  }
+
   clickChart(c, i) {
     this.setState({
       selected: this.state.selected !== i ? i : -1
@@ -19,16 +29,16 @@ export default class Directory extends React.Component {
   };
 
   render() {
-    const availabelCharts = [1,2,3,4,5,6,7,8,9,10,11];
-    const charts = availabelCharts.map((c,i) => {
-      return <Item key={c} title={'Chart ' + (c)} onClick={() => this.clickChart(c, i)} />;
+    const charts = this.props.charts.map((c,i) => {
+      return <Item key={i} chart={c} name={c.name} onClick={() => this.clickChart(c, i)} />;
     });
 
     // we hardcode only 4 items per grid now
     if (this.state.selected !== -1) {
+      const chart = this.props.charts[this.state.selected];
       const selectedIndex = this.state.selected;
       const detailView = (
-        <ItemDetail arrowOffset={selectedIndex % 4} key='detail' />
+        <ItemDetail arrowOffset={selectedIndex % 4} key='detail' chart={chart} />
       );
 
       charts.splice(Math.ceil((selectedIndex+1) / 4)*4, 0, detailView);

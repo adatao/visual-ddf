@@ -2,12 +2,15 @@
     border: 1px solid #D9D9D9;
     background: white;
     width: 300px;
-    height: 180px;
     margin-bottom: 16px;
     margin-right: 16px;
     position: relative;
     cursor: pointer;
     display: inline-block;
+}
+
+.vddf-chart-preview .img {
+    height: 180px;
     overflow: hidden;
 }
 

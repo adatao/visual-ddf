@@ -28,7 +28,7 @@ export default class ChartPreview extends React.Component {
     return (
       <div onClick={this.props.onClick} className='vddf-chart-preview'>
         {overlay}
-        <div>
+        <div className='img'>
           <img width='100%' src={imgUrl} />
         </div>
       </div>
