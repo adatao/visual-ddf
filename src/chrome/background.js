@@ -43,6 +43,25 @@ chrome.pageAction.onClicked.addListener(function(tab) {
   });
 });
 
+chrome.contextMenus.removeAll();
+chrome.contextMenus.create({
+  title: "My Directory",
+  contexts: ["page_action"],
+  onclick: function() {
+    const params = {
+      url: chrome.extension.getURL('assets/app.html')
+    };
+
+    chrome.tabs.query(params, (tabs) => {
+      if (tabs.length) {
+        chrome.tabs.update(tabs[0].id, {active: true});
+      } else {
+        chrome.tabs.create({...params, active: true});
+      }
+    });
+  }
+});
+
 // chrome.runtime.onMessage.addListener(
 //   function(request, sender, sendResponse) {
 //     console.log(request);

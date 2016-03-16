@@ -1,0 +1,26 @@
+.vddf-sidebar {
+    font-size: 14px;
+    color: #9B9B9B;
+}
+
+.vddf-sidebar h4 {
+    color: #00AF87;
+    font-weight: normal;
+    margin: 0 0 1em 0;
+}
+
+.vddf-sidebar .charts-container {
+    height: calc(100% - 126px);
+    margin-bottom: 8px;
+    overflow: auto
+}
+
+.vddf-sidebar .vddf-chart-preview {
+    margin-right: 0;
+}
+
+.vddf-sidebar h6 {
+    font-weight: normal;
+    font-size: 12px;
+    margin: 0 0 1em 0;
+}

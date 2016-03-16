@@ -26,18 +26,20 @@
 
   "background": {
     "scripts": ["chrome-background.js"],
-    "persistent": false
+    "persistent": true
   },
 
   "permissions": [
     "storage",
     "tabs",
     "activeTab",
+    "contextMenus",
     "http://*/*",
     "https://*/*"
   ],
   "web_accessible_resources": [
     "chrome-inject.js",
-    "icon64.png"
+    "icon64.png",
+    "assets/*"
   ]
 }

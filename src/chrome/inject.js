@@ -2,6 +2,7 @@ import $ from 'jQuery';
 import Events from './events';
 import { createDragHandle } from './dragHandler';
 import './sidebar';
+import { getSource } from 'src/browser/lib/svg-crowbar2-es6';
 
 function detectCharts() {
   let found = 0;
@@ -19,9 +20,9 @@ function detectCharts() {
     });
 
     if (isD3) {
-      const handle = createDragHandle(el);
-      $el.data('vddf-handler', handle.attr('id'));
-      $('body').append(handle);
+      // const handle = createDragHandle(el);
+      // $el.data('vddf-handler', handle.attr('id'));
+      // $('body').append(handle);
       found++;
     }
   });
@@ -36,3 +37,5 @@ function detectCharts() {
 setTimeout(() => {
   detectCharts();
 }, 500); // TODO: change to 2s later
+
+window.getSVGSource = getSource;

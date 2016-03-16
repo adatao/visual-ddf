@@ -3,7 +3,7 @@ const Events = {
   PageActionClicked: 'page-action-clicked',
 
   dispatch(event, target, data) {
-    var done = new CustomEvent(event, data);
+    const done = new CustomEvent(event, {detail: data});
     (target || document).dispatchEvent(done);
   }
 };

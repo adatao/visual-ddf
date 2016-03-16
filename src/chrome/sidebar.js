@@ -2,10 +2,19 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Sidebar from './components/sidebar';
 import Events from './events';
+import { loadMaterialFonts } from './utils';
+import './common.css';
+import './sidebar.css';
+
 
 let store = {};
 
+loadMaterialFonts();
+
 document.addEventListener(Events.PageActionClicked, (e) => {
+  // scan all charts and add to sidebar
+  store.baseUrl = e.detail.baseUrl;
+
   renderSidebar();
 });
 
@@ -26,5 +35,5 @@ export function renderSidebar() {
     document.body.appendChild(el);
   }
 
-  ReactDOM.render(<Sidebar store={store} closeSidebar={closeSidebar} />, el);
+  ReactDOM.render(<Sidebar baseUrl={store.baseUrl} closeSidebar={closeSidebar} />, el);
 }

@@ -11,6 +11,7 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 devConfig.entry = {
   'chrome-content': path.join(ROOT, config.path.src, 'chrome/content'),
   'chrome-inject': path.join(ROOT, config.path.src, 'chrome/inject'),
+  'chrome-app': path.join(ROOT, config.path.src, 'chrome/app'),
   'chrome-background': path.join(ROOT, config.path.src, 'chrome/background')
 };
 
@@ -23,7 +24,8 @@ devConfig.plugins.push(new CopyWebpackPlugin([
   {from: 'src/chrome/manifest.json'},
   {from: 'src/chrome/icon64.png'},
   {from: 'src/chrome/icon38.png'},
-  {from: 'src/chrome/icon19.png'}
+  {from: 'src/chrome/icon19.png'},
+  {from: 'src/chrome/assets', to: 'assets'}
 ]));
 
 module.exports = devConfig;

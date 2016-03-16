@@ -31,7 +31,6 @@ import Events from './events';
   }
 
   document.addEventListener(Events.DetectionReady, () => {
-    console.log('done done');
     chrome.extension.sendMessage({
       msg: Events.DetectionReady
     });
@@ -40,7 +39,9 @@ import Events from './events';
   chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     // just proxy the event to document
     if (request.msg == Events.PageActionClicked) {
-      Events.dispatch(request.msg);
+      Events.dispatch(request.msg, null, {
+        baseUrl: chrome.extension.getURL('assets')
+      });
     }
   });
 })();
