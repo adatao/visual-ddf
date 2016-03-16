@@ -47,7 +47,15 @@ export default class Sidebar extends React.Component {
   };
 
   save = () => {
-    this.props.closeSidebar();
+    const selectedCharts = this.props.charts.filter((c,key) => {
+      return this.state.selectedCharts[key];
+    });
+
+    if (selectedCharts.length === 0) {
+      this.props.closeSidebar();
+    } else {
+      this.props.onSubmit(selectedCharts);
+    }
   };
 
   getChildContext() {

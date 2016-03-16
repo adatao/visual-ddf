@@ -17,6 +17,8 @@
     "default_title": "Visual DDF"
   },
 
+  "options_page": "assets/options.html",
+
   "content_scripts": [
     {
       "matches": ["http://*/*","https://*/*"],

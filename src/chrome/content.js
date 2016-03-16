@@ -36,11 +36,21 @@ import Events from './events';
     });
   });
 
+  // tell the background page so it can open a tab for us
+  document.addEventListener(Events.SubmissionDone, () => {
+    chrome.extension.sendMessage({
+      msg: Events.SubmissionDone
+    });
+  });
+
   chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     // just proxy the event to document
     if (request.msg == Events.PageActionClicked) {
-      Events.dispatch(request.msg, null, {
-        baseUrl: chrome.extension.getURL('assets')
+      chrome.storage.sync.get(['serverUrl'], (data) => {
+        Events.dispatch(request.msg, null, {
+          baseUrl: chrome.extension.getURL('assets'),
+          serverUrl: data.serverUrl
+        });
       });
     }
   });

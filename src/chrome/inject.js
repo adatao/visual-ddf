@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import $ from 'jQuery';
 import Events from './events';
 // import { createDragHandle } from './dragHandler';
