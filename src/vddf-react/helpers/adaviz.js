@@ -109,12 +109,19 @@ export default class AdaVizHelper {
     return data;
   }
 
+  static updateType(type, viz) {
+    return this.updateMapping(type, viz.mapping, viz);
+  }
+
   static updateMapping(type, mapping, viz) {
+    mapping = mapping || {};
     viz.mapping = mapping;
 
     if (type) {
       viz.type = type;
     }
+
+    viz.previousType = viz.type;
 
     // clean some unuse variables
     delete viz.size;

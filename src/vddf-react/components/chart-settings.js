@@ -8,18 +8,7 @@ import AdaVizHelper from '../helpers/adaviz';
 const style = {
   container: {
     padding: '4px 8px',
-    height: 100
-  },
-  chartButton: {
-    width: 28,
-    height: 28,
-    minWidth: 'auto',
-    textAlign: 'center'
-  },
-  chartIcon: {
-    padding: 0,
-    height: 20,
-    maxWidth: 20
+    height: 80
   },
   fieldDropdown: {
     width: '24%',
@@ -55,11 +44,6 @@ export default class ChartSettings extends React.Component {
       .map(c => c.name);
   }
 
-  changeChartType(type) {
-    let vddf = this.props.vddf;
-    this.updateChart(type);
-  }
-
   getFieldDropdown(field, items) {
     const { key, label } = field;
 
@@ -81,23 +65,8 @@ export default class ChartSettings extends React.Component {
     );
   }
 
-  getChartTypes() {
-    const baseUrl = this.context.baseUrl;
-
-    const types = this.props.vddf.getAvailableCharts().map(type => (
-      <FlatButton onClick={() => this.changeChartType(type)} key={type} style={style.chartButton}>
-        <img style={style.chartIcon} src={`${baseUrl}chart-icons/${type}.svg`} />
-      </FlatButton>
-    ));
-
-    return (
-      <div>
-        {types}
-      </div>
-    );
-  }
-
   render() {
+    const type = this.props.vddf.chartType;
     let fields = [
       {label: 'Category', key: 'category'},
       {label: 'Measurement', key: 'measurement', type: 'number'},
@@ -105,7 +74,7 @@ export default class ChartSettings extends React.Component {
     ];
 
     // special treatment for some chart types
-    switch (this.props.vddf.chartType) {
+    switch (type) {
     case 'scatterplot':
       fields = [
         {label: 'X', key: 'category'},
@@ -134,12 +103,12 @@ export default class ChartSettings extends React.Component {
 
     let fieldComponents = fields.map(field => this.getFieldDropdown(field));
 
+    fieldComponents.push(this.getFieldDropdown({label: 'Aggregation', key: 'aggregation'}, ['sum', 'avg', 'min', 'max', 'count']));
+
     return (
       <div style={style.container}>
-        {this.getChartTypes()}
         <div>
           {fieldComponents}
-          {this.getFieldDropdown({label: 'Aggregation', key: 'aggregation'}, ['sum', 'avg', 'min', 'max', 'count'])}
         </div>
       </div>
     );

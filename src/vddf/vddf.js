@@ -31,10 +31,10 @@ export default class vDDF extends EventEmitter {
     this._chartTypes = suggestChartType(this.schema);
   }
 
-  changeChartType(type) {
+  set chartType(value) {
     this.payload = this.payload.mergeDeep({
       visualization: {
-        type: type
+        type: value
       }
     });
 

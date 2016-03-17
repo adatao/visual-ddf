@@ -4,7 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Sidebar from './components/sidebar';
 import Events from './events';
-import { loadMaterialFonts } from './utils';
+import { loadMaterialFonts } from 'src/browser/utils';
 import './common.css';
 import './sidebar.css';
 import { getSource } from 'src/browser/lib/svg-crowbar2-es6';

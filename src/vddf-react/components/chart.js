@@ -10,6 +10,7 @@ import FontIcon from 'material-ui/lib/font-icon';
 import Immutable from 'immutable';
 import AdaVizHelper from '../helpers/adaviz';
 import Table from './table';
+import Sidebar from './sidebar';
 
 const style = {
   container: {
@@ -18,7 +19,7 @@ const style = {
     borderRadius: '4px 4px 0 0',
     background: 'white'
   },
-  title: {
+  toolbar: {
     background: '#F1F1F1',
     color: '#448afd',
     padding: '8px 10px',
@@ -26,11 +27,24 @@ const style = {
     borderRadius: '4px 4px 0 0',
     height: 32
   },
+  title: {
+    fontSize: '16px',
+    color: '#4A4A4A',
+    height: 50,
+    borderBottom: '1px solid #DDDDDD',
+    textAlign: 'center',
+    paddingTop: '16px'
+  },
+  titleIcon: {
+    color: '#9B9B9B',
+    marginRight: '26px',
+    cursor: 'pointer'
+  },
   menuIcon: {
     color: '#9B9B9B',
     fontSize: 20,
     cursor: 'pointer',
-    marginLeft: '8px'
+    marginLeft: '16px'
   },
   menuItem: {
     paddingLeft: '16px',
@@ -48,6 +62,7 @@ const style = {
 };
 
 export const Handles = {
+  UI_TOOLBAR_BUTTONS: 'ui-toolbar-buttons',
   UI_TOOLBAR_MENUS: 'ui-toolbar-menus',
   UI_ACTIVATE_MODAL: 'ui-activate-modal'
 };
@@ -92,20 +107,29 @@ export default class Chart extends React.Component {
     this.vddf.off('update', this.handleUpdate);
   }
 
-  async renderChart() {
-    const vddf = this.props.vddf;
-    const viz = vddf.visualization;
-    let height = this.props.height - 32;
-    let width = this.props.width;
-
-
+  getCanvasHeight() {
+    let height = this.props.height - 32 - 50; // header + title
 
     if (this.vddf.isModified()) {
       height -= 22; // footer modification notice
     }
 
+    return height;
+  }
+
+  async renderChart() {
+    const vddf = this.props.vddf;
+    const viz = vddf.visualization;
+    let height = this.getCanvasHeight();
+    let width = this.props.width;
+
     if (this.state.showChartSettings) {
-      height -= 100;
+      width -= 185;
+      height -= 80;
+    }
+
+    if (viz.type !== 'datatable') {
+      width = Math.min(800, width);
     }
 
     const spec = Immutable.fromJS({
@@ -162,9 +186,10 @@ export default class Chart extends React.Component {
       showChartSettings: !this.state.showChartSettings
     });
 
+    // TODO: optimize this by recalculate the height
     setTimeout(() => {
       this.renderChart();
-    }, 100);
+    }, 80);
   };
 
   saveData = (data, schema) => {
@@ -211,7 +236,6 @@ export default class Chart extends React.Component {
     // TODO: cache menus
     const menus = [
       {title: 'Edit title ...', action: () => this.toggleModal('title')},
-      {title: 'Edit data ...', action: () => this.toggleModal('data')},
       {title: 'Embed ...', action: this.embedChart},
     ];
 
@@ -222,44 +246,118 @@ export default class Chart extends React.Component {
       });
     }
 
+    // TODO: google spreadsheet ?
+    const toolbarButtons = [
+      {icon: 'mdi-table-edit', action: () => this.toggleModal('data')}
+    ];
+
+    // extension point
     this.vddf.manager.handle(Handles.UI_TOOLBAR_MENUS, menus, this);
+    this.vddf.manager.handle(Handles.UI_TOOLBAR_BUTTONS, toolbarButtons, this);
 
     const menuElements = menus.map((m,i) => (
       <MenuItem key={i} primaryText={m.title} onClick={m.action} />
     ));
 
+    const buttonElements = toolbarButtons.map((b,i) => {
+      return <FontIcon key={i} style={style.menuIcon} onClick={b.action} className={'mdi ' + b.icon} />;
+    });
+
     return (
-      <div style={{float: 'right'}}>
-        <FontIcon style={style.menuIcon} onClick={this.toggleChartSettings} className='material-icons'>equalizer</FontIcon>
-        <FontIcon style={style.menuIcon} onClick={this.toggleChartSettings} className='material-icons'>file_download</FontIcon>
-        <DropdownMenu iconStyle={style.menuIcon} icon='share'>
-          {menuElements}
-        </DropdownMenu>
+      <div className='viz-toolbar' style={style.toolbar}>
+        <div style={{float: 'right'}}>
+          {buttonElements}
+          <DropdownMenu iconStyle={style.menuIcon} icon='mdi-share-variant'>
+            {menuElements}
+          </DropdownMenu>
+        </div>
       </div>
     );
   }
 
+  getTitle() {
+    const chartType = this.vddf.chartType;
+    const icons = [
+      { icon: 'mdi-table', action: this.switchToTable, active: chartType === 'datatable' },
+      { icon: 'mdi-chart-bar', action: this.switchToChart, active: chartType !== 'datatable' }
+    ];
+
+    const titleIcons = icons.map((i,k) => {
+      return <FontIcon key={k} color={i.active ? '#F99400' : null} style={style.titleIcon} className={`mdi ${i.icon}`} onClick={i.action} />;
+    });
+
+    return (
+      <div className='vddf-chart-title' style={style.title}>
+        <div style={{position: 'absolute', marginLeft: 18}}>
+          {titleIcons}
+        </div>
+        {this.vddf.title}
+      </div>
+    );
+  }
+
+  switchToChart = () => {
+    if (this.vddf.chartType === 'datatable') {
+      this.setState({
+        showChartSettings: true
+      });
+
+      this.vddf.chartType = this.vddf.visualization.previousType || this.vddf.getAvailableCharts()[0];
+    } else {
+      this.toggleChartSettings();
+    }
+  };
+
+  switchToTable = () => {
+    // hide chart settings if necessary
+    if (this.state.showChartSettings)
+      this.toggleChartSettings();
+
+    // also force to table
+    this.vddf.chartType = 'datatable';
+  };
+
   getChart() {
     try {
       const input = this.state.adaviz.get('input').toJS();
+      const wrapperStyle = {width: this.props.width, overflow: 'hidden'};
+      let el;
 
       if (input.type === 'datatable') {
-        return <Table spec={this.state.adaviz} />;
+        // use directly vddf payload to speed up the renderer
+        const data = this.vddf.payload.get('data');
+        const schema = this.vddf.payload.get('schema');
+
+        el = (
+          <div style={{overflow: 'auto', margin: '0 auto', paddingRight: '8px', width: input.width - 16, height: input.height}}>
+            <Table data={data} schema={schema} width={input.width} height={input.height} />
+          </div>
+        );
+      } else {
+        el = (
+          <div style={{width: input.width, height: input.height, margin: '0 auto'}}>
+            <AdaVizChart spec={this.state.adaviz} />
+          </div>
+        );
+      }
+
+      if (this.state.showChartSettings) {
+        wrapperStyle.width -= 185;
+        wrapperStyle.marginLeft = 185;
       }
 
       return (
-        <div style={{width: input.width, height: input.height}}>
-          <AdaVizChart spec={this.state.adaviz} />
+        <div style={wrapperStyle}>
+          {this.state.showChartSettings ? <ChartSettings key={1} vddf={this.vddf} /> : null}
+          {el}
         </div>
       );
-    } catch (ex) {
-      console.log(ex);
-    }
+    } catch (ex) { }
   }
 
   getChartSettings() {
     return (
-      <ChartSettings vddf={this.vddf} />
+      <Sidebar vddf={this.vddf} height={this.getCanvasHeight()}></Sidebar>
     );
   }
 
@@ -273,15 +371,6 @@ export default class Chart extends React.Component {
     }
   }
 
-  getHeader() {
-    return (
-      <div className='viz-title' style={style.title}>
-        {this.vddf.title || 'Untititled Chart'}
-        {this.getToolbar()}
-      </div>
-    );
-  }
-
   render() {
     if (this.props.mode === 'chartonly') {
       return (
@@ -293,9 +382,12 @@ export default class Chart extends React.Component {
 
     const view = (
       <div style={{...style.container, width: this.props.width}}>
-        {this.getHeader()}
-        {this.state.showChartSettings && this.getChartSettings()}
-        {this.state.adaviz && this.getChart()}
+        {this.getToolbar()}
+        {this.getTitle()}
+        <div style={{overflow: 'hidden', height: this.getCanvasHeight()}}>
+          {this.state.showChartSettings && this.getChartSettings()}
+          {this.state.adaviz && this.getChart()}
+        </div>
         {this.getNotificationNotice()}
         {this.getActiveModals()}
       </div>

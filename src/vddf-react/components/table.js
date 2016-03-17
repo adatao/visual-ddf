@@ -4,7 +4,7 @@ const style = {
   container: {
     overflow: 'auto',
     margin: '0 auto',
-    padding: '8px 0'
+    padding: '0 0 8px 0'
   },
 
   table: {
@@ -17,7 +17,6 @@ const style = {
 
   th: {
     margin: 0,
-    borderTop: '1px solid #DDDDDD',
     borderBottom: '1px solid #DDDDDD',
     textAlign: 'left',
     fontSize: '14px',
@@ -40,30 +39,36 @@ const style = {
 };
 
 export default class Table extends React.Component {
+
+  shouldComponentUpdate(nextProps) {
+    const toUpdate = nextProps.data !== this.props.data && this.props.schema !== this.props.schema;
+
+    return toUpdate;
+  }
+
   render() {
-    const spec = this.props.spec.toJS();
-    const { width, height } = spec.input;
-    const schema = Object.keys(spec.data[0]).sort();
+    const data = this.props.data.toJS();
+    const schema = this.props.schema.toJS();
     const head = schema.map((c,i) => {
-      return <th key={i} style={style.th}>{c}</th>;
+      return <th key={i} style={style.th}>{c.name}</th>;
     });
 
-    const body = spec.data.map((c,j) => {
-      const tds = schema.map((k,i) => {
+    const body = data.map((c,j) => {
+      const tds = c.map((v,i) => {
         let tdStyle = {...style.td};
 
         if (j % 2 == 0) {
           tdStyle = Object.assign(tdStyle, style.even);
         }
 
-        return <td style={tdStyle} key={i}>{c[k] ? c[k] + '' : ''}</td>;
+        return <td style={tdStyle} key={i}>{v ? v + '' : ''}</td>;
       });
 
       return <tr key={j}>{tds}</tr>;
     });
 
     return (
-      <div style={{...style.container, width: width-16, height}}>
+      <div>
         <div style={{paddingRight: 16}}>
         <table style={style.table}>
           <thead><tr style={style.thead}>{head}</tr></thead>

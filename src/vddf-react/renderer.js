@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Chart from './components/chart';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import { loadMaterialFonts } from 'src/browser/utils';
 
 /**
  * vDDF renderer with React and AdaViz
@@ -9,21 +10,13 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 export default class ReactRenderer {
 
   async loadResources() {
-    let head = document.getElementsByTagName('head')[0];
-
     try {
       injectTapEventPlugin();
     } catch (ex) {
       // safe to ingore
     }
 
-    if (head) {
-      let iconFont = document.createElement('link');
-      iconFont.setAttribute('href', 'https://fonts.googleapis.com/icon?family=Material+Icons');
-      iconFont.setAttribute('rel', 'stylesheet');
-
-      head.appendChild(iconFont);
-    }
+    loadMaterialFonts();
 
     require('./styles.css');
 

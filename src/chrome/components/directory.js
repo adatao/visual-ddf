@@ -55,7 +55,7 @@ export default class Directory extends React.Component {
               </div>
               <div className='search-input'>
                 <span className='icon'>
-                  <FontIcon color='#9B9B9B' className='material-icons'>search</FontIcon>
+                  <FontIcon color='#9B9B9B' className='mdi mdi-magnify' />
                 </span>
                 <input placeholder='Search for your Visual DDF' />
               </div>

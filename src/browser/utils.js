@@ -8,3 +8,15 @@ export function downloadData(filename, type, data) {
   link.href = generateDataUrl(type, data);
   link.click();
 }
+
+export function loadMaterialFonts() {
+  // also add material icons resource
+  let head = document.getElementsByTagName('head')[0];
+  if (head) {
+    let iconFont = document.createElement('link');
+    iconFont.setAttribute('href', 'https://cdn.materialdesignicons.com/1.5.54/css/materialdesignicons.min.css');
+    iconFont.setAttribute('rel', 'stylesheet');
+
+    head.appendChild(iconFont);
+  }
+}

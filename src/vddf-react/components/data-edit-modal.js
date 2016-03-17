@@ -110,7 +110,7 @@ export default class DataEditModal extends React.Component {
   getRow = (i) => {
     return this.state.rows[i].reduce((obj, value, index) => {
       return Object.assign(obj, {
-        [index]: value
+        [index]: typeof(value) !== 'object' ? value : value+''
       });
     }, {});
   };
