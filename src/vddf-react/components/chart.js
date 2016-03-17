@@ -9,26 +9,28 @@ import MenuItem from 'material-ui/lib/menus/menu-item';
 import FontIcon from 'material-ui/lib/font-icon';
 import Immutable from 'immutable';
 import AdaVizHelper from '../helpers/adaviz';
+import Table from './table';
 
 const style = {
   container: {
     margin: '0 auto',
     boxShadow: '0 0 4px 2px rgba(0,0,0,0.1)',
-    borderRadius: '2px',
+    borderRadius: '4px 4px 0 0',
     background: 'white'
   },
   title: {
-    background: '#f2f2f2',
+    background: '#F1F1F1',
     color: '#448afd',
-    padding: '6px 10px',
+    padding: '8px 10px',
     position: 'relative',
-    height: 28
+    borderRadius: '4px 4px 0 0',
+    height: 32
   },
   menuIcon: {
-    color: '#cecece',
-    fontSize: 18,
+    color: '#9B9B9B',
+    fontSize: 20,
     cursor: 'pointer',
-    marginRight: '4px'
+    marginLeft: '8px'
   },
   menuItem: {
     paddingLeft: '16px',
@@ -93,7 +95,10 @@ export default class Chart extends React.Component {
   async renderChart() {
     const vddf = this.props.vddf;
     const viz = vddf.visualization;
-    let height = this.props.height - 28;
+    let height = this.props.height - 32;
+    let width = this.props.width;
+
+
 
     if (this.vddf.isModified()) {
       height -= 22; // footer modification notice
@@ -106,7 +111,7 @@ export default class Chart extends React.Component {
     const spec = Immutable.fromJS({
       input: {
           ...viz,
-        width: this.props.width,
+        width,
         height
       },
       data: await AdaVizHelper.aggregateData(vddf)
@@ -226,7 +231,8 @@ export default class Chart extends React.Component {
     return (
       <div style={{float: 'right'}}>
         <FontIcon style={style.menuIcon} onClick={this.toggleChartSettings} className='material-icons'>equalizer</FontIcon>
-        <DropdownMenu>
+        <FontIcon style={style.menuIcon} onClick={this.toggleChartSettings} className='material-icons'>file_download</FontIcon>
+        <DropdownMenu iconStyle={style.menuIcon} icon='share'>
           {menuElements}
         </DropdownMenu>
       </div>
@@ -234,9 +240,21 @@ export default class Chart extends React.Component {
   }
 
   getChart() {
-    return (
-      <AdaVizChart spec={this.state.adaviz} />
-    );
+    try {
+      const input = this.state.adaviz.get('input').toJS();
+
+      if (input.type === 'datatable') {
+        return <Table spec={this.state.adaviz} />;
+      }
+
+      return (
+        <div style={{width: input.width, height: input.height}}>
+          <AdaVizChart spec={this.state.adaviz} />
+        </div>
+      );
+    } catch (ex) {
+      console.log(ex);
+    }
   }
 
   getChartSettings() {

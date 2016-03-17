@@ -26,11 +26,14 @@ export default class ItemDetail extends React.Component {
   }
 
   render() {
-    const arrowMargin = 140 + 316 * this.props.arrowOffset;
     const chart = this.props.chart;
+    const width = 1216;
+    const height = 500;
+    const offset = (this.props.screenWidth - 1240) / 2;
+    const arrowMargin = 140 + 316 * this.props.arrowOffset + offset;
 
     return (
-      <div className='detail-view-container'>
+      <div style={{left: -offset, width: this.props.screenWidth}} className='detail-view-container'>
         <div className='detail-arrow' style={{marginLeft: arrowMargin}}></div>
         <ReactCSSTransitionGroup transitionName='slidedown'
                                  transitionAppear={true}
@@ -39,7 +42,7 @@ export default class ItemDetail extends React.Component {
                                  transitionLeaveTimeout={300}
                                  >
           <div data-key={chart.uuid} className='detail-view'>
-            <div ref='chart' data-width='800' data-height='500' style={{width: 800, margin: '0 auto'}}>
+            <div ref='chart' data-width={width} data-height={height} style={{width: width, margin: '0 auto'}}>
             </div>
           </div>
         </ReactCSSTransitionGroup>

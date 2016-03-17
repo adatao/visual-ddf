@@ -88,9 +88,11 @@ export default class Popover extends React.Component {
   }
 
   render() {
+    const iconStyle = this.props.iconStyle || style.toggleIcon;
+
     return (
       <div ref='root' style={style.root}>
-        <FontIcon onClick={this.toggle} style={style.toggleIcon} className='material-icons'>{this.props.icon}</FontIcon>
+        <FontIcon onClick={this.toggle} style={iconStyle} className='material-icons'>{this.props.icon}</FontIcon>
         {this.state.open && this.getPopover()}
       </div>
     );

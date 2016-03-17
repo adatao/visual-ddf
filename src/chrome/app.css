@@ -95,8 +95,9 @@ body {
 }
 
 .directory .detail-view {
-    width: calc(100% - 16px);
-    height: 500px;
+    /* width: calc(100% - 16px); */
+    height: 532px;
+    padding-top: 16px;
     background: #4A4A4A;
     margin-bottom: 4px;
     overflow: hidden;

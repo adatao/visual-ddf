@@ -1,7 +1,8 @@
-import 'babel-polyfill';
-import 'material-ui/lib/text-field';
 import 'whatwg-fetch';
-import Manager from '../vddf-react/manager';
+
+if (!window._babelPolyfill) {
+  require('babel-polyfill');
+}
 
 function mountAllvDDF() {
   // TODO: querySelectorAll may not be available in older browsers.
@@ -24,6 +25,7 @@ function mountAllvDDF() {
 }
 
 if (window.vDDF && !window.vDDF.manager) {
+  const Manager = require('../vddf-react/manager').default;
   window.vDDF.manager = new Manager(window.vDDF.config);
   window.vDDF.mountAll = mountAllvDDF;
 }

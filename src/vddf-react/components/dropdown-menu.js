@@ -9,12 +9,6 @@ const style = {
     position: 'relative',
     display: 'inline-block'
   },
-  menuIcon: {
-    color: '#cecece',
-    fontSize: 18,
-    cursor: 'pointer',
-    marginRight: '4px'
-  },
   menuList: {
     paddingTop: '4px',
     paddingBottom: '4px'
@@ -30,7 +24,7 @@ export default class DropdownMenu extends React.Component {
 
   static defaultProps = {
     icon: 'keyboard_arrow_down'
-  };
+  }
 
   constructor(props) {
     super(props);
@@ -41,7 +35,7 @@ export default class DropdownMenu extends React.Component {
 
   render() {
     return (
-      <Popover icon='keyboard_arrow_down' onRequestClose={this.props.onRequestClose}>
+      <Popover icon={this.props.icon} iconStyle={this.props.iconStyle} onRequestClose={this.props.onRequestClose}>
         <Menu desktop autowidth={false} listStyle={style.menuList}>
           {this.props.children}
         </Menu>

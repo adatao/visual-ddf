@@ -40,7 +40,7 @@ function gogoVDDF() {
     })
     .then(charts => {
       ReactDOM.render(
-        <Directory manager={manager} charts={charts} />,
+        <Directory screenWidth={window.innerWidth} manager={manager} charts={charts} />,
         document.getElementById('app')
       );
     });

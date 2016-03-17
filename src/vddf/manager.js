@@ -3,6 +3,7 @@ import vDDF from './vddf';
 import fetch from 'fetch';
 import UrlLoader from './loaders/url';
 import InlineLoader from './loaders/inline';
+import Client from './client';
 
 export default class Manager {
   constructor(config, storage) {
@@ -13,6 +14,7 @@ export default class Manager {
     this.config = config;
     this.storage = storage;
     this.handlers = {};
+    this.client = config.client || new Client(this.config.baseUrl);
 
     // setup loaders with default loaders
     this.loaders = [
@@ -70,7 +72,7 @@ export default class Manager {
   }
 
   async embed(vddf) {
-    return this.request('GET', `api/vddf/${vddf.uuid}/embed`);
+    return this.client.request('GET', `api/vddf/${vddf.uuid}/embed`);
   }
 
   // export keyword has problem with emacs :(
@@ -81,31 +83,7 @@ export default class Manager {
     delete body.uuid;
     body.source = vddf.uri;
 
-    return this.request('POST', 'api/vddf/create', body);
-  }
-
-  async request(method, api, body) {
-    const apiUrl = `${this.config.baseUrl}/${api}`;
-    let params = {};
-
-    if (method === 'POST' || method === 'PUT') {
-      params = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(body)
-      };
-    }
-
-    const response = await fetch(apiUrl, params);
-    const json = await response.json();
-
-    if (json.error) {
-      throw new Error(json.error);
-    }
-
-    return json.result;
+    return this.client.request('POST', 'api/vddf/create', body);
   }
 
   addLoader(loader) {

@@ -59,7 +59,11 @@ function submitCharts(charts) {
 
     // convert to vddf schema
     const data = [];
-    let schema = candidate.schema.map((c,i) => {
+    let schema = candidate.schema.filter(c => {
+      const sample = candidate.data[c][0];
+
+      return sample !== null && sample !== undefined && typeof sample !== 'object';
+    }).map((c,i) => {
       let name = (c || `c${i+1}`).toLowerCase().replace(/[^a-z0-9]/gi, '_');
 
       if (/\d/.test(name[0])) {
@@ -89,7 +93,7 @@ function submitCharts(charts) {
       return manager.export(vddf);
     }).then(result => {
       // also submit svg to server
-      manager.request('POST', `api/vddf/${result.uuid}/svg`, {
+      manager.client.request('POST', `api/vddf/${result.uuid}/svg`, {
         svg: c.svg
       });
 
