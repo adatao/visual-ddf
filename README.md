@@ -6,6 +6,12 @@ You will need Node 4.x+ to run vddf-server properly.
   * Run `./scripts/install_adaviz.sh` to clone and compile adaviz.
   * Run `npm run dev` to start vddf-server on port 5001.
 
+### Chrome Extension Development ###
+
+Chrome extension is auto built when you run `npm run dev`. You can [load the extension](https://developer.chrome.com/extensions/getstarted#unpacked) from `build/chrome`.
+
+**Important**: in development mode, you will need to configure the extension to use local vddf-server. Please visit the Chrome Extension page, then click on **Options** link and set VDDF Server to `http://localhost:5001`.
+
 ### Deployment  ###
 
   * Run `npm run build` to build all assets for production
