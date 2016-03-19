@@ -30,7 +30,7 @@ export default class ItemDetail extends React.Component {
     const width = 1216;
     const height = 500;
     const offset = (this.props.screenWidth - 1240) / 2;
-    const arrowMargin = 140 + 316 * this.props.arrowOffset + offset;
+    const arrowMargin = 140 + 316 * this.props.arrowOffset ;
 
     return (
       <div style={{left: -offset, width: this.props.screenWidth}} className='detail-view-container'>

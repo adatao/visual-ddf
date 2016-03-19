@@ -34,26 +34,25 @@ export function extractD3Data(node) {
         // http://bl.ocks.org/rpgove/raw/4016178/
       }
 
-      // it does not work very well :(
-      // if (sample && typeof sample === 'object' && !Array.isArray(sample)) {
-      //   // try to expand the array of object
-      //   const sampleSchema = Object.keys(sample);
+      if (sample && typeof sample === 'object' && !Array.isArray(sample)) {
+        // try to expand the array of object
+        const sampleSchema = Object.keys(sample);
 
-      //   if (sampleSchema.length === 0) continue;
+        if (sampleSchema.length === 0) continue;
 
-      //   // XXX: we don't handle schema conflict here yet
-      //   // const hasFieldConflict = sampleSchema.some(f => s.schema.indexOf(f) !== -1);
+        // XXX: we don't handle schema conflict here yet
+        // const hasFieldConflict = sampleSchema.some(f => s.schema.indexOf(f) !== -1);
 
-      //   schema = schema.concat(sampleSchema);
-      //   values.forEach(v => {
-      //     sampleSchema.forEach(f => {
-      //       if (!data[f]) data[f] = [v[f]];
-      //       else data[f].push(v[f]);
-      //     });
-      //   });
+        schema = schema.concat(sampleSchema);
+        values.forEach(v => {
+          sampleSchema.forEach(f => {
+            if (!data[f]) data[f] = [v[f]];
+            else data[f].push(v[f]);
+          });
+        });
 
-      //   continue;
-      // }
+        continue;
+      }
 
       schema.push(field);
       data[field] = values;

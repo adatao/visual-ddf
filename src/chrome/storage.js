@@ -91,6 +91,10 @@ export async function list() {
   }));
 }
 
+export function sql(query) {
+  return SQL.run(query);
+}
+
 export async function remove(name) {
   const result = await SQL.run('select * from metadata where name = ? or uuid = ?', [name, name]);
 

@@ -59,11 +59,13 @@ function submitCharts(charts) {
 
     // convert to vddf schema
     const data = [];
-    let schema = candidate.schema.filter(c => {
+
+    let candidateSchema = candidate.schema.filter(c => {
       const sample = candidate.data[c][0];
 
       return sample !== null && sample !== undefined && typeof sample !== 'object';
-    }).map((c,i) => {
+    });
+    let schema = candidateSchema.map((c,i) => {
       let name = (c || `c${i+1}`).toLowerCase().replace(/[^a-z0-9]/gi, '_');
 
       if (/\d/.test(name[0])) {
@@ -76,12 +78,14 @@ function submitCharts(charts) {
     for (let i = 0; i < count; i++) {
       const row = [];
 
-      candidate.schema.forEach(name => {
+      candidateSchema.forEach(name => {
         row.push(candidate.data[name][i] || null);
       });
 
       data.push(row);
     }
+
+    console.log('Submitting', candidate, {schema, data});
 
     return manager.load({
       title: c.title,
@@ -107,7 +111,7 @@ function submitCharts(charts) {
 
       Events.dispatch(Events.SaveChart, null, {data: result});
     }).catch(err => {
-      console.log('There was an error', err.stack);
+      console.log('There was an error submit', {schema, data}, err.stack);
       throw err;
     });
   });

@@ -39,9 +39,15 @@ export default class ChartSettings extends React.Component {
   };
 
   getFieldList(type) {
-    return this.props.vddf.schema
-      .filter(c => type == 'number' ? Types.isNumber(c.type) : true)
-      .map(c => c.name);
+    let list = this.props.vddf.schema;
+
+    if (type === 'number') {
+      list = list.filter(c => Types.isNumber(c.type));
+    } else if (type === 'category') {
+      list = list.filter(c => c.type !== Types.Float);
+    }
+
+    return list.map(c => c.name);
   }
 
   getFieldDropdown(field, items) {
@@ -67,11 +73,7 @@ export default class ChartSettings extends React.Component {
 
   render() {
     const type = this.props.vddf.chartType;
-    let fields = [
-      {label: 'Category', key: 'category'},
-      {label: 'Measurement', key: 'measurement', type: 'number'},
-      {label: 'Group By', key: 'category2'}
-    ];
+    let fields;
 
     // special treatment for some chart types
     switch (type) {
@@ -79,26 +81,38 @@ export default class ChartSettings extends React.Component {
       fields = [
         {label: 'X', key: 'category'},
         {label: 'Y', key: 'measurement', type: 'number'},
-        {label: 'Group By', key: 'category2'}
+        {label: 'Group By', key: 'category2', type: 'category'}
+      ];
+      break;
+    case 'treemap':
+      fields = [
+        {label: 'Category', key: 'category', type: 'category'},
+        {label: 'Size', key: 'measurement', type: 'number'}
       ];
       break;
     case 'pie':
     case 'donut':
       fields = [
-        {label: 'Category', key: 'category'},
+        {label: 'Category', key: 'category', type: 'category'},
         {label: 'Measurement', key: 'measurement', type: 'number'}
       ];
       break;
     case 'heatmap':
       fields = [
-        {label: 'Row', key: 'category'},
-        {label: 'Column', key: 'category2'},
+        {label: 'Row', key: 'category', type: 'category'},
+        {label: 'Column', key: 'category2', type: 'category'},
         {label: 'Measurement', key: 'measurement', type: 'number'}
       ];
       break;
     case 'datatable':
       fields = [];
       break;
+    default:
+      fields = [
+        {label: 'Category', key: 'category', type: 'category'},
+        {label: 'Measurement', key: 'measurement', type: 'number'},
+        {label: 'Group By', key: 'category2', type: 'category'}
+      ];
     }
 
     let fieldComponents = fields.map(field => this.getFieldDropdown(field));

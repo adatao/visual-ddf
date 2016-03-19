@@ -17,5 +17,12 @@ else
   webpack --config webpack/client/production.js
 fi
 
+echo "\nBuilding chrome app ..."
+if [ $IS_DEV ]; then
+  webpack --config webpack/chrome/development.js
+else
+    webpack --config webpack/chrome/production.js
+fi
+
 echo "\nBuilding server side ..."
 babel --ignore=browser,webapp,chrome,test src -d build/vddf-server

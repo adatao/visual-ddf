@@ -298,11 +298,15 @@ export default class Chart extends React.Component {
 
   switchToChart = () => {
     if (this.vddf.chartType === 'datatable') {
+      this.vddf.chartType = this.vddf.visualization.previousType || this.vddf.getAvailableCharts()[0];
+
       this.setState({
         showChartSettings: true
       });
 
-      this.vddf.chartType = this.vddf.visualization.previousType || this.vddf.getAvailableCharts()[0];
+      setTimeout(() => {
+        this.renderChart();
+      }, 80);
     } else {
       this.toggleChartSettings();
     }

@@ -1,7 +1,8 @@
 import React from 'react';
-import FontIcon from 'material-ui/lib/font-icon';
+import Header from './directory-header';
 import Item from './directory-item';
 import ItemDetail from './item-detail';
+import fuzzysearch from 'fuzzysearch';
 
 export default class Directory extends React.Component {
   constructor(props) {
@@ -28,8 +29,67 @@ export default class Directory extends React.Component {
     });
   };
 
+  handleKeywordChange = (value) => {
+    this.setState({
+      keyword: value,
+      selected: -1
+    });
+  };
+
+  handleSqlRequest = (query) => {
+    let resultVddf;
+
+    this.props.storage.sql(query)
+      .then(result => {
+        const schema = Object.keys(result.rows[0]).map(c => ({name: c}));
+        const data = [].slice.call(result.rows).map(r => {
+          return schema.map(c => r[c.name]);
+        });
+
+        // TODO: sanitize column name
+
+        return this.props.manager.load({
+          schema,
+          data,
+          source: 'sql',
+          visualization: {
+            type: 'datatable',
+            sql: query
+          }
+        });
+      })
+      .then(vddf => {
+        resultVddf = vddf;
+        return this.props.manager.export(vddf);
+      })
+      .then(r => {
+        return this.props.storage.create({
+          uuid: r.uuid,
+          name: 'untitled', // need a better name :(
+          title: 'My query',
+          schema: resultVddf.schema,
+          data: resultVddf.fetch()
+        });
+      })
+      .then(() => {
+        this.props.reload();
+      })
+      .catch(e => {
+        alert('Error ' + e.message);
+        console.log(e.stack);
+      });
+  };
+
   render() {
-    const charts = this.props.charts.map((c,i) => {
+    let charts = this.props.charts;
+
+    if (this.state.keyword) {
+      charts = charts.filter(c => {
+        return fuzzysearch(this.state.keyword, c.name);
+      });
+    }
+
+    charts = charts.map((c,i) => {
       return <Item key={i} chart={c} name={c.name} onClick={() => this.clickChart(c, i)} />;
     });
 
@@ -45,26 +105,10 @@ export default class Directory extends React.Component {
     }
 
     return (
-
       <div className='directory'>
-        <header>
-          <div className='row'>
-            <div className='col-xs-11'>
-              <div className='title'>
-                <h1>Visual DDF</h1>
-              </div>
-              <div className='search-input'>
-                <span className='icon'>
-                  <FontIcon color='#9B9B9B' className='mdi mdi-magnify' />
-                </span>
-                <input placeholder='Search for your Visual DDF' />
-              </div>
-            </div>
-          <div className='col-xs-1 profile'>
-            <img src='avatar.png' width={40} />
-          </div>
-          </div>
-        </header>
+        <Header onFilter={this.handleKeywordChange}
+                onSql={this.handleSqlRequest}
+                />
         <div className='chart-list'>
           {charts}
         </div>

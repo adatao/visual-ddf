@@ -70,7 +70,7 @@ export default function setupRoutes(app) {
 
   app
     .use(koaStatic(app.rootDir + '/assets'))
-    .use(koaBodyParser())
+    .use(koaBodyParser({limit: '10mb'}))
     .use(router.routes())
     .use(router.allowedMethods());
 }

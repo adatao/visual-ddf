@@ -60,6 +60,36 @@ body {
     padding: 0;
 }
 
+.directory .sql-input-container {
+    background: #FFFFFF;
+    border-radius: 4px;
+    height: 44px;
+    display: inline-block;
+    width: calc(100% - 136px);
+    vertical-align: middle;
+    position: relative;
+}
+
+.directory .sql-input {
+    left: 0;
+    right: 0;
+    position: absolute;
+    background: white;
+    box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.50);
+    border-radius: 4px;
+    z-index: 100;
+    font-size: 14px;
+    line-height: 24px;
+    overflow: hidden;
+}
+
+.directory .sql-input .run-button {
+    position: absolute;
+    right: 12px;
+    bottom: 8px;
+    z-index: 20;
+}
+
 .directory .profile {
     text-align: right;
 }
@@ -118,4 +148,9 @@ body {
 .slidedown-appear.slidedown-appear-active {
     max-height: 500px;
     transition: max-height .3s linear;
+}
+
+#sql-box .ace_line,
+#sql-box .ace_gutter-cell {
+    line-height: 28px;
 }

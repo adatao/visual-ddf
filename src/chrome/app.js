@@ -9,6 +9,7 @@ import './common.css';
 import './app.css';
 import Events from './events';
 import * as Storage from './storage';
+import * as SQL from './sql';
 import Manager from 'src/vddf-react/manager';
 
 
@@ -40,7 +41,7 @@ function gogoVDDF() {
     })
     .then(charts => {
       ReactDOM.render(
-        <Directory screenWidth={window.innerWidth} manager={manager} charts={charts} />,
+        <Directory screenWidth={window.innerWidth} storage={Storage} manager={manager} charts={charts} reload={gogoVDDF} />,
         document.getElementById('app')
       );
     });
@@ -57,4 +58,5 @@ window.addEventListener('load', () => {
   gogoVDDF();
 });
 
+window.SQL = SQL;
 window.Storage = Storage;
