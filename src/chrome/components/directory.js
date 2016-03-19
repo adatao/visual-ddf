@@ -14,12 +14,14 @@ export default class Directory extends React.Component {
   }
 
   static childContextTypes = {
-    manager: React.PropTypes.object
+    manager: React.PropTypes.object,
+    storage: React.PropTypes.object
   };
 
   getChildContext() {
     return {
-      manager: this.props.manager
+      manager: this.props.manager,
+      storage: this.props.storage
     };
   }
 
@@ -39,7 +41,7 @@ export default class Directory extends React.Component {
   handleSqlRequest = (query) => {
     let resultVddf;
 
-    this.props.storage.sql(query)
+    return this.props.storage.sql(query)
       .then(result => {
         const schema = Object.keys(result.rows[0]).map(c => ({name: c}));
         const data = [].slice.call(result.rows).map(r => {
@@ -73,10 +75,6 @@ export default class Directory extends React.Component {
       })
       .then(() => {
         this.props.reload();
-      })
-      .catch(e => {
-        alert('Error ' + e.message);
-        console.log(e.stack);
       });
   };
 

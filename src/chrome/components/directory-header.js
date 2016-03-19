@@ -18,7 +18,8 @@ export default class DirectoryHeader extends React.Component {
     if (/^\s*select/i.test(value)) {
       this.setState({
         mode: 'sql',
-        sql: value
+        sql: value,
+        error: ''
       });
 
       this.props.onFilter('');
@@ -48,10 +49,18 @@ export default class DirectoryHeader extends React.Component {
   };
 
   onRun = () => {
-    this.props.onSql(this.state.sql);
+    this.props.onSql(this.state.sql)
+      .then(() => {
+        // we are done now, so just reset filter
+        this.onSqlChange('');
+      })
+      .catch(e => {
+        this.setState({
+          error: e.message
+        });
 
-    // reset filter
-    this.onSqlChange('');
+        this.refs.sqlbox.focus();
+      });
   };
 
   renderInput() {
@@ -67,7 +76,7 @@ export default class DirectoryHeader extends React.Component {
 
   renderSqlBox() {
     return (
-      <SqlBox value={this.state.sql} onRun={this.onRun} onChange={this.onSqlChange}/>
+      <SqlBox ref='sqlbox' value={this.state.sql} error={this.state.error} onRun={this.onRun} onChange={this.onSqlChange}/>
     );
   }
 
