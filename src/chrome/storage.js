@@ -15,21 +15,27 @@ function init() {
 
 init();
 
-export async function reset() {
-  const result = await SQL.run('select * from metadata');
+export function reset() {
+  SQL.run('select * from metadata')
+    .then(result => {
+      const promises = [];
 
-  for (let i = 0; i < result.rows.length; i++) {
-    let row = result.rows[i];
+      for (let i = 0; i < result.rows.length; i++) {
+        let row = result.rows[i];
 
-    try {
-      await SQL.run('drop table ' + row.name);
-    } catch (ex) {
-      // ignore
-    }
-  }
+        // catch so no promise will be rejected
+        promises.push(
+          SQL.run('drop table ' + row.name)
+            .catch(() => { })
+        );
+      }
 
-  SQL.run('drop table metadata');
-  init();
+      return Promise.all(promises);
+    })
+    .then(_ => {
+      SQL.run('drop table metadata');
+      init();
+    });
 }
 
 export async function getUniqueName(name) {
@@ -97,15 +103,16 @@ export async function create(data) {
   }
 }
 
-export async function list() {
-  const result = await SQL.run('select * from metadata order by createdAt DESC');
-
-  return [].slice.call(result.rows).map(r => ({
-    name: r.name,
-    uuid: r.uuid,
-    title: r.title,
-    preview: r.preview
-  }));
+export function list() {
+  return SQL.run('select * from metadata order by createdAt DESC')
+    .then(result => {
+      return [].slice.call(result.rows).map(r => ({
+        name: r.name,
+        uuid: r.uuid,
+        title: r.title,
+        preview: r.preview
+      }));
+    });
 }
 
 export function sql(query) {

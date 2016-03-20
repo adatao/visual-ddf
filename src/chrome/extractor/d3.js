@@ -1,20 +1,58 @@
+import $ from 'jQuery';
+// import _ from 'underscore';
 import D3Deconstruct from 'src/browser/lib/d3-deconstruct';
-import _ from 'underscore';
+import { getSource as getSvgSource } from 'src/browser/lib/svg-crowbar2-es6';
 
-function cartesianProductOf() {
-  return _.reduce(arguments, function(a, b) {
-    return _.flatten(_.map(a, function(x) {
-      return _.map(b, function(y) {
-        return x.concat([y]);
+export function preview(source) {
+  const node = source.node;
+
+  node.setAttribute('version', '1.1');
+  node.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+
+  const svgSource = getSvgSource(node);
+  const svgRaw = svgSource.source[0];
+
+  return {
+    title: svgSource.title,
+    node,
+    svg: svgRaw,
+    svgDataUrl: 'data:image/svg+xml;base64,' + btoa(svgRaw)
+  };
+}
+
+export function detect() {
+  let found = 0, sources = [];
+
+  $('svg').each(function() {
+    const el = this;
+    const $el = $(this);
+    let isD3 = false;
+
+    $el.find('*').each(function (i, child) {
+      if (child.__data__) {
+        isD3 = true;
+        return false;
+      }
+    });
+
+    if (isD3) {
+      el.__d3__ = true;
+
+      // const handle = createDragHandle(el);
+      // $el.data('vddf-handler', handle.attr('id'));
+      // $('body').append(handle);
+      sources.push({
+        type: 'd3',
+        node: el
       });
-    }), true);
-  }, [ [] ]);
-};
+    }
+  });
 
-/**
- * Implement a heuristic ranking to pick the best schema from deconstruct schemas
- */
-export function extractD3Data(node) {
+  return Promise.resolve(sources);
+}
+
+export function extract(source) {
+  const node = source.node;
   const raw = D3Deconstruct.Deconstruct.deconstruct(node);
   const candidates = raw.groups.filter(s => {
     // for now only take group has schema
@@ -105,3 +143,13 @@ export function extractD3Data(node) {
     raw
   });
 }
+
+// function cartesianProductOf() {
+//   return _.reduce(arguments, function(a, b) {
+//     return _.flatten(_.map(a, function(x) {
+//       return _.map(b, function(y) {
+//         return x.concat([y]);
+//       });
+//     }), true);
+//   }, [ [] ]);
+// };

@@ -7,11 +7,12 @@ import Events from './events';
 import { loadMaterialFonts } from 'src/browser/utils';
 import './common.css';
 import './sidebar.css';
-import { getSource } from 'src/browser/lib/svg-crowbar2-es6';
-import { extractD3Data } from './extractor';
+import { detectSources, extractSource, previewSource } from './extractor';
 import Manager from 'src/vddf/manager';
 
-let store = {};
+let store = {
+  sources: []
+};
 
 loadMaterialFonts();
 
@@ -21,22 +22,9 @@ document.addEventListener(Events.PageActionClicked, (e) => {
   store.baseUrl = e.detail.baseUrl;
   store.serverUrl = e.detail.serverUrl;
 
-  // scan all charts and add to sidebar
-  // these charts have been detected earlier with a __d3__ flag
-  store.charts = allSvgs.filter(e => e.__d3__).map(e => {
-    e.setAttribute('version', '1.1');
-    e.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-
-    const source = getSource(e);
-    const svgSource = source.source[0];
-
-    return {
-      title: source.title,
-      node: e,
-      svg: svgSource,
-      svgDataUrl: 'data:image/svg+xml;base64,' + btoa(svgSource)
-    };
-  });
+  // now preview source
+  store.charts = store.sources
+    .map(previewSource);
 
   renderSidebar();
 });
@@ -89,17 +77,17 @@ function flattenData(candidate) {
 function submitCharts(charts) {
   const manager = new Manager({baseUrl: store.serverUrl});
 
-  const promises = charts.map(c => {
+  const promises = charts.map(source => {
     let schema, data;
 
-    return extractD3Data(c.node)
+    return extractSource(source)
       .then(detect => {
         const flatten = flattenData(detect.candidate);
         schema = flatten.schema;
         data = flatten.data;
 
         return manager.load({
-          title: c.title,
+          title: source.title,
           schema,
           data,
           source: window.location + ''
@@ -111,11 +99,11 @@ function submitCharts(charts) {
       }).then(result => {
       // also submit svg to server
       manager.client.request('POST', `api/vddf/${result.uuid}/svg`, {
-        svg: c.svg
+        svg: source.svg
       });
 
-      result.title = c.title;
-      result.name = (c.title ? c.title + '' : 'untitiled').toLowerCase()
+      result.title = source.title;
+      result.name = (source.title ? source.title + '' : 'untitiled').toLowerCase()
         .replace(/[^a-z0-9]/gi, '_') // special chars
         .replace(/_+/g, '_'); // this will make the name easier to read
 
@@ -123,7 +111,7 @@ function submitCharts(charts) {
       result.schema = schema;
 
       result.preview = `${store.serverUrl}/charts/${result.uuid}.svg`;
-      // result.preview = c.svgDataUrl;
+      // result.preview = source.svgDataUrl;
 
       Events.dispatch(Events.SaveChart, null, {data: result});
     }).catch(err => {
@@ -153,53 +141,21 @@ export function renderSidebar() {
   ReactDOM.render(<Sidebar baseUrl={store.baseUrl} onSubmit={submitCharts}  charts={store.charts} closeSidebar={closeSidebar} />, el);
 }
 
-function detectCharts() {
-  let found = 0;
-  const docs = [document];
+function init() {
+  detectSources(document)
+    .then(sources => {
+      store.sources = sources;
+      const found = sources.length;
+      console.log(`Detect ${found} available charts`);
 
-  $('iframe').each(() => {
-    try {
-      docs.push(this.contentDocument);
-    } catch (ex) {
-      // safe to ignore
-      console.log(ex);
-    }
-  });
-
-  $('svg').each(function() {
-    const el = this;
-    const $el = $(this);
-    let isD3 = false;
-
-    $el.find('*').each(function (i, child) {
-      if (child.__data__) {
-        isD3 = true;
-        return false;
+      // trigger the done event
+      if (found) {
+        Events.dispatch(Events.DetectionReady);
       }
     });
-
-    if (isD3) {
-      el.__d3__ = true;
-
-      // const handle = createDragHandle(el);
-      // $el.data('vddf-handler', handle.attr('id'));
-      // $('body').append(handle);
-      found++;
-    }
-  });
-
-  console.log(`Detect ${found} available charts`);
-
-  // trigger the done event
-  if (found) {
-    Events.dispatch(Events.DetectionReady);
-  }
 }
 
 // it may took a while for the chart to  be draw, so delay a bit before start rendering
 setTimeout(() => {
-  detectCharts();
+  init();
 }, 2000); // TODO: change to 2s later
-
-// for debug
-window.extractD3Data = extractD3Data;
