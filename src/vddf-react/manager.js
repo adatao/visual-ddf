@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import Manager from '../vddf/manager';
 import ReactRenderer from './renderer';
 import DownloadCsvHandler from './handlers/download-csv';

@@ -1,6 +1,5 @@
 import Storage from './storage';
 import vDDF from './vddf';
-import fetch from 'fetch';
 import UrlLoader from './loaders/url';
 import InlineLoader from './loaders/inline';
 import Client from './client';

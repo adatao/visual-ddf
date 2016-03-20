@@ -2,7 +2,7 @@ import React from 'react';
 import SelectField from 'material-ui/lib/select-field';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 import FlatButton from 'material-ui/lib/flat-button';
-import { Types } from 'src/vddf/schemadetector';
+import { Types } from '../../vddf/schemadetector';
 import AdaVizHelper from '../helpers/adaviz';
 
 const style = {

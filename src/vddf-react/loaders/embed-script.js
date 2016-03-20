@@ -1,4 +1,4 @@
-import InlineLoader from 'src/vddf/loaders/inline';
+import InlineLoader from '../../vddf/loaders/inline';
 
 /**
  * Load vDDF from embed script tag

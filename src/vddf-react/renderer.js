@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Chart from './components/chart';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import { loadMaterialFonts } from 'src/browser/utils';
+import { loadMaterialFonts } from '../browser/utils';
 
 /**
  * vDDF renderer with React and AdaViz
