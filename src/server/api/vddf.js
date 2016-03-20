@@ -19,11 +19,12 @@ export async function load(app, request, ctx) {
   let body = request.body;
   let requestedUri = body.uri;
   let bits = url.parse(requestedUri);
+  let pathname = bits.pathname;
   let vddf;
 
   // 1st try our own manager
-  if (/\/vddf\/[a-zA-Z0-9\-]+/.test(bits.pathname)) {
-    const uuid = bits.pathname.split('/').pop();
+  if (/\/vddf\/[a-zA-Z0-9\-]+/.test(pathname) && !/\.csv/.test(pathname)) {
+    const uuid = pathname.split('/').pop();
 
     vddf = await app.manager.get(uuid);
   } else {

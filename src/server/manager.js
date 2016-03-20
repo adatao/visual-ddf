@@ -57,9 +57,9 @@ export default class Manager {
       header: true
     });
 
-    const uuid = await this.create({data: parsed.data, source});
+    const vddf = await this.create({data: parsed.data, source});
 
-    return await this.get(uuid);
+    return await this.get(vddf.uuid);
   }
 
   _validate(vddf) {

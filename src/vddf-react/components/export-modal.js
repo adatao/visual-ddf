@@ -37,19 +37,22 @@ export default class ExportModal extends React.Component {
       code = this.props.embed.embedCode;
     }
 
+    const menuItems = [
+      { text: 'Link', payload: 'link' },
+      { text: 'HTML', payload: 'html' },
+      { text: 'Image', payload: 'image' }
+    ];
+
     return (
       <Modal contentStyle={style.modalContent} open title='Export Chart' onRequestClose={this.props.onRequestClose}>
         <p style={{marginBottom: 0}}>Please use the below code to embed the chart:</p>
         <SelectField
-           value={this.state.mode}
-           onChange={(event, index, value) => this.setState({mode: value})}
-           floatingLabelText="Mode"
-           >
-          <MenuItem key='link' value="link" primaryText="Link"/>
-          <MenuItem key='html' value="html" primaryText="HTML"/>
-          <MenuItem key='image' value="image" primaryText="Image"/>
-        </SelectField>
-        <textarea readOnly value={code} style={style.textarea}></textarea>
+          value={this.state.mode}
+          onChange={(event, index, item) => this.setState({mode: item.payload})}
+          floatingLabelText="Mode"
+          menuItems={menuItems}
+          />
+        <textarea readOnly value={code} style={style.textarea} />
       </Modal>
     );
   }

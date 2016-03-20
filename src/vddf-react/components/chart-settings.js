@@ -49,20 +49,33 @@ export default class ChartSettings extends React.Component {
   getFieldDropdown(field, items) {
     const { key, label } = field;
 
-    const onChange = (event, index, value) => {
-      this.setState({[key]: value !== '--' ? value : ''});
+    const onChange = (event, index, obj) => {
+      const value = typeof(obj) === 'object' ? obj.payload : obj;
 
+      this.setState({[key]: value !== '--' ? value : ''});
       setTimeout(() => this.updateChart(), 300);
     };
 
-    items = (items || this.getFieldList(field.type)).map(c => (
-      <MenuItem key={c} value={c} primaryText={c} />
-    ));
+    if (!items)
+      items = this.getFieldList(field.type);
+
+    items.unshift({ payload: '--', text: '(none)' });
+
+    items = items.map(c => {
+      if (typeof c === 'object') {
+        return c;
+      } else {
+        return {
+          payload: c, text: c
+        };
+      }
+
+      // until material-ui 14.4
+      //<MenuItem key={c} value={c} primaryText={c} />
+    });
 
     return (
-      <SelectField key={key} style={style.fieldDropdown} floatingLabelText={label} value={this.state[key]} onChange={onChange}>
-        <MenuItem value='--' primaryText='(none)' />
-        {items}
+      <SelectField key={key} style={style.fieldDropdown} floatingLabelText={label} value={this.state[key] || undefined} onChange={onChange} menuItems={items}>
       </SelectField>
     );
   }

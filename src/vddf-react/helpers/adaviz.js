@@ -147,7 +147,7 @@ export default class AdaVizHelper {
       viz.color = mapping.category2;
     }
 
-    viz.aggregation = mapping.aggregation;
+    viz.aggregation = mapping.aggregation || undefined;
 
     if (!viz.color) delete viz.color;
     delete viz.xLabel;
