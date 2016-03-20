@@ -11,6 +11,7 @@ import Events from './events';
 import * as Storage from './storage';
 import * as SQL from './sql';
 import Manager from 'src/vddf-react/manager';
+import FileLoader from 'src/vddf-react/loaders/file';
 import { getServerUrl } from './config';
 
 loadMaterialFonts();
@@ -23,6 +24,7 @@ function getManager() {
     return getServerUrl()
       .then(serverUrl => {
         _manager = new Manager({baseUrl: serverUrl});
+        _manager.addLoader(new FileLoader());
 
         return _manager;
       });

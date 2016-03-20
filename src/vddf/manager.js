@@ -83,7 +83,12 @@ export default class Manager {
     delete body.uuid;
     body.source = vddf.uri;
 
-    return this.client.request('POST', 'api/vddf/create', body);
+    return this.client.request('POST', 'api/vddf/create', body)
+      .then(result => {
+        vddf.uuid = result.uuid;
+
+        return result;
+      });
   }
 
   addLoader(loader) {

@@ -3,6 +3,8 @@ import Header from './directory-header';
 import Item from './directory-item';
 import ItemDetail from './item-detail';
 import fuzzysearch from 'fuzzysearch';
+import RaisedButton from 'material-ui/lib/raised-button';
+import FontIcon from 'material-ui/lib/font-icon';
 
 export default class Directory extends React.Component {
   constructor(props) {
@@ -39,9 +41,10 @@ export default class Directory extends React.Component {
   };
 
   handleSqlRequest = (query) => {
+    const storage = this.props.storage;
     let resultVddf;
 
-    return this.props.storage.sql(query)
+    return storage.sql(query)
       .then(result => {
         if (result.rows.length === 0) {
           throw new Error('Your query has empty result.');
@@ -66,21 +69,35 @@ export default class Directory extends React.Component {
         });
       })
       .then(vddf => {
-        resultVddf = vddf;
-        return this.props.manager.export(vddf);
-      })
-      .then(r => {
-        return this.props.storage.create({
-          uuid: r.uuid,
-          name: 'untitled', // need a better name :(
-          title: 'My query',
-          schema: resultVddf.schema,
-          data: resultVddf.fetch()
-        });
+        return storage.createFromVDDF(vddf, { name: 'untitled' });
       })
       .then(() => {
         this.props.reload();
       });
+  };
+
+  selectFile = () => {
+    this.refs.file.value = '';
+    this.refs.file.click();
+  };
+
+  onFileChange = (e) => {
+    e.preventDefault();
+    const file = e.target.files[0];
+
+    if (file) {
+      this.props.manager.load(file)
+        .then(vddf => {
+          return this.props.storage.createFromVDDF(vddf);
+        })
+        .then(() => {
+          this.props.reload();
+        })
+        .catch(err => {
+          alert('Oops, there was an error: ' + err.message);
+          console.log(err);
+        });
+    }
   };
 
   render() {
@@ -107,12 +124,18 @@ export default class Directory extends React.Component {
       charts.splice(Math.ceil((selectedIndex+1) / 4)*4, 0, detailView);
     }
 
+    const uploadIcon = <FontIcon className='mdi mdi-plus' />;
+
     return (
       <div className='directory'>
         <Header onFilter={this.handleKeywordChange}
                 onSql={this.handleSqlRequest}
                 />
         <div className='chart-list'>
+          <div style={{margin: '8px 0 12px'}}>
+            <RaisedButton label='Upload' backgroundColor='#448AFD' labelColor='white' icon={uploadIcon} onClick={this.selectFile} />
+            <input type='file' style={{display: 'none'}} ref='file' onChange={this.onFileChange} />
+          </div>
           {charts}
         </div>
       </div>

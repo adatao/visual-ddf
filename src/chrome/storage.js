@@ -107,6 +107,24 @@ export async function create(data) {
   }
 }
 
+export function createFromVDDF(vddf, props) {
+  return new Promise((resolve, reject) => {
+    if (vddf.uuid) {
+      resolve(vddf);
+    } else {
+      resolve(vddf.manager.export(vddf));
+    }
+  }).then(result => {
+    return Storage.create({
+        ...props,
+      title: vddf.title,
+      uuid: vddf.uuid,
+      schema: vddf.schema,
+      data: vddf.fetch()
+    });
+  });
+}
+
 export function list() {
   return SQL.run('select * from metadata order by createdAt DESC')
     .then(result => {
@@ -133,7 +151,7 @@ export async function remove(name) {
       await SQL.run(`drop table ${row.name}`);
     } catch (ex) {}
 
-    await SQL.run('delete from metadata where uuid = ?', [ row.uuid ]);
+    await SQL.run('delete from metadata where id = ?', [ row.id ]);
 
     return true;
   } else {
