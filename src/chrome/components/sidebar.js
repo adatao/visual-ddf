@@ -1,6 +1,6 @@
 import React from 'react';
 import RaisedButton from 'material-ui/lib/raised-button';
-import ChartPreview from './chart-preview';
+import SidebarItem from './sidebar-item';
 
 const style = {
   container: {
@@ -69,7 +69,7 @@ export default class Sidebar extends React.Component {
     const charts = availableCharts.map((c, key) => {
       const isChecked = this.state.selectedCharts[key];
 
-      return <ChartPreview key={key} chart={c} checked={isChecked} onClick={() => this.toggleChart(key)} />;
+      return <SidebarItem key={key} chart={c} checked={isChecked} onClick={() => this.toggleChart(key)} />;
     });
 
     return (

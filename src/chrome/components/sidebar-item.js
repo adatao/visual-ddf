@@ -1,7 +1,7 @@
 import React from 'react';
 
 // TODO: rename to sidebar-item
-export default class ChartPreview extends React.Component {
+export default class SidebarItem extends React.Component {
 
   static contextTypes = {
     baseUrl: React.PropTypes.string

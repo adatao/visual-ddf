@@ -5,6 +5,7 @@
     "*-test.js",
     "webpack",
     "build/*",
+    "lib/*",
     "assets/*",
     "src/vddf-react",
     "src/browser",

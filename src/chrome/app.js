@@ -2,7 +2,7 @@ import 'babel-polyfill';
 import React from 'react';
 import chrome from 'chrome';
 import ReactDOM from 'react-dom';
-import Directory from './components/directory';
+import Directory from 'src/vddf-react/components/directory';
 import { loadMaterialFonts } from 'src/browser/utils';
 import 'flexboxgrid';
 import './common.css';
