@@ -1,4 +1,4 @@
-import $ from 'jQuery';
+import $ from 'jquery';
 // import _ from 'underscore';
 import D3Deconstruct from 'src/browser/lib/d3-deconstruct';
 import { getSource as getSvgSource } from 'src/browser/lib/svg-crowbar2-es6';

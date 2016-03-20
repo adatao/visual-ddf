@@ -1,4 +1,4 @@
-var $ = require('jQuery');
+var $ = require('jquery');
 var _ = require('underscore');
 var sylvester = require('./sylvester-node.js');
 

@@ -1,4 +1,4 @@
-import $ from 'jQuery';
+import $ from 'jquery';
 import * as magic from './magic';
 import * as d3 from './d3';
 
