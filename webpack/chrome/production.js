@@ -27,4 +27,6 @@ devConfig.plugins.push(new CopyWebpackPlugin([
   {from: 'src/chrome/assets', to: 'assets'}
 ]));
 
+devConfig.plugins.push(new webpack.optimize.UglifyJsPlugin());
+
 module.exports = devConfig;

@@ -11,7 +11,7 @@ import Events from './events';
 import * as Storage from './storage';
 import * as SQL from './sql';
 import Manager from 'src/vddf-react/manager';
-
+import { getServerUrl } from './config';
 
 loadMaterialFonts();
 
@@ -20,13 +20,12 @@ let _manager = null;
 function getManager() {
   if (_manager) return Promise.resolve(_manager);
   else {
-    return new Promise((resolve, reject) => {
-      chrome.storage.sync.get('serverUrl', (item) => {
-        _manager = new Manager({baseUrl: item.serverUrl});
+    return getServerUrl()
+      .then(serverUrl => {
+        _manager = new Manager({baseUrl: serverUrl});
 
-        resolve(_manager);
+        return _manager;
       });
-    });
   }
 }
 

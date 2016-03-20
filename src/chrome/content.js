@@ -1,6 +1,7 @@
 // import 'babel-polyfill';
 import chrome from 'chrome';
 import Events from './events';
+import { getServerUrl } from './config';
 // import ChromeStorageContentProxyStorageServer from './storage/chrome-storage-proxy-server';
 
 // function sql(query) {
@@ -53,12 +54,13 @@ import Events from './events';
   chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     // just proxy the event to document
     if (request.msg == Events.PageActionClicked) {
-      chrome.storage.sync.get(['serverUrl'], (data) => {
-        Events.dispatch(request.msg, null, {
-          baseUrl: chrome.extension.getURL('assets'),
-          serverUrl: data.serverUrl
+      getServerUrl()
+        .then(serverUrl => {
+          Events.dispatch(request.msg, null, {
+            baseUrl: chrome.extension.getURL('assets'),
+            serverUrl
+          });
         });
-      });
     }
   });
 })();
