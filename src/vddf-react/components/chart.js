@@ -103,6 +103,20 @@ export default class Chart extends React.Component {
     this.vddf.on('update', this.handleUpdate);
   }
 
+  shouldComponentUpdate(nextProps) {
+    if (this.vddf !== nextProps.vddf) {
+      this.vddf.off('update', this.handleUpdate);
+      nextProps.vddf.on('update', this.handleUpdate);
+
+      // :( bad
+      setTimeout(() => {
+        this.renderChart();
+      }, 80);
+    }
+
+    return true;
+  }
+
   componentWillUnmount() {
     this.vddf.off('update', this.handleUpdate);
   }
@@ -340,7 +354,7 @@ export default class Chart extends React.Component {
       } else {
         el = (
           <div style={{width: input.width, height: input.height, margin: '0 auto'}}>
-            <AdaVizChart spec={this.state.adaviz} />
+            <AdaVizChart spec={this.state.adaviz} onRendered={this.props.onRendered} />
           </div>
         );
       }

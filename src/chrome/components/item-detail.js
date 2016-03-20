@@ -7,23 +7,51 @@ export default class ItemDetail extends React.Component {
     manager: React.PropTypes.object
   };
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      vddf: null
+    };
+  }
+
   componentDidMount() {
-    this.renderVDDF();
+    this.loadVDDF();
   }
 
   componentDidUpdate() {
-    this.renderVDDF();
+    this.loadVDDF();
   }
 
-  renderVDDF() {
+  loadVDDF() {
     const manager = this.context.manager;
     const chart = this.props.chart;
 
-    this.context.manager.load(manager.config.baseUrl + '/vddf/' + chart.uuid)
-      .then(vddf => {
-        manager.render(vddf, this.refs.chart);
-      });
+    if (!this.state.vddf || this.state.vddf.uuid !== chart.uuid) {
+      this.context.manager.load(manager.config.baseUrl + '/vddf/' + chart.uuid)
+        .then(vddf => {
+          // manager.render(vddf, this.refs.chart);
+          this.setState({vddf: vddf});
+        });
+    }
   }
+
+  renderVDDF(props) {
+    if (this.state.vddf) {
+      props.onRendered = this.onChartRendererd;
+      props.key = this.state.vddf.uuid;
+
+      return this.context.manager.config.renderer.getComponent(
+        this.state.vddf, props
+      );
+    }
+  }
+
+  onChartRendererd = (el) => {
+    if (this.state.vddf.uuid === this.props.chart.uuid) {
+      console.log('chart update!', this.props.chart.uuid, el);
+    }
+  };
 
   render() {
     const chart = this.props.chart;
@@ -42,8 +70,7 @@ export default class ItemDetail extends React.Component {
                                  transitionLeaveTimeout={300}
                                  >
           <div data-key={chart.uuid} className='detail-view'>
-            <div ref='chart' data-width={width} data-height={height} style={{width: width, margin: '0 auto'}}>
-            </div>
+            {this.renderVDDF({width, height})}
           </div>
         </ReactCSSTransitionGroup>
       </div>

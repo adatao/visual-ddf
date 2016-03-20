@@ -11,8 +11,8 @@ export default class AdaVizChart extends React.Component {
   };
 
   shouldComponentUpdate(nextProps) {
-    // console.log(nextProps.spec.toJS());
-    return nextProps.spec !== this.props.spec;
+    return nextProps.spec !== this.props.spec
+      || nextProps.spec.onRendered !== this.props.onRendered;
   }
 
   componentDidUpdate() {
@@ -42,7 +42,11 @@ export default class AdaVizChart extends React.Component {
     // so we need to do this trick
     this.refs.chart.innerHTML = '';
     this.refs.chart.__adaviz__ = spec;
-    AdaViz.render(this.refs.chart, spec);
+    AdaViz.render(this.refs.chart, spec, (view) => {
+      if (this.props.onRendered) {
+        this.props.onRendered(this.refs.chart);
+      }
+    });
   }
 
   render() {

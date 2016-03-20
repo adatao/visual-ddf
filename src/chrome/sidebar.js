@@ -52,6 +52,8 @@ function closeSidebar() {
 function submitCharts(charts) {
   const manager = new Manager({baseUrl: store.serverUrl});
 
+  console.log('submit charts', charts);
+
   const promises = charts.map(c => {
     const detect = extractD3Data(c.node);
     const candidate = detect.candidate;
@@ -108,6 +110,9 @@ function submitCharts(charts) {
 
       result.data = data;
       result.schema = schema;
+
+      result.preview = `${store.serverUrl}/charts/${result.uuid}.svg`;
+      // result.preview = c.svgDataUrl;
 
       Events.dispatch(Events.SaveChart, null, {data: result});
     }).catch(err => {

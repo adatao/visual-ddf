@@ -9,6 +9,12 @@
     display: inline-block;
 }
 
+.vddf-chart-preview .preview {
+    text-align: center;
+    height: 180px;
+    overflow: hidden;
+}
+
 .vddf-chart-preview .img {
     height: 180px;
     overflow: hidden;

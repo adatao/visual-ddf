@@ -1,7 +1,19 @@
 import * as SQL from './sql';
 
-SQL.run('create table if not exists metadata ' +
-        '(id integer primary key, uuid text, name text, title text, createdAt date)');
+function init() {
+  SQL.run(
+    'create table if not exists metadata (' +
+      'id integer primary key,'+
+      'uuid text,' +
+      'name text,' +
+      'title text,' +
+      'preview text,' +
+      'createdAt date' +
+      ')'
+  );
+}
+
+init();
 
 export async function reset() {
   const result = await SQL.run('select * from metadata');
@@ -16,7 +28,8 @@ export async function reset() {
     }
   }
 
-  SQL.run('delete from metadata');
+  SQL.run('drop table metadata');
+  init();
 }
 
 export async function getUniqueName(name) {
@@ -68,7 +81,8 @@ export async function create(data) {
       uuid: data.uuid,
       name: data.name,
       title: data.title,
-      createdAt: new Date()
+      createdAt: new Date(),
+      preview: data.preview
     });
 
     await createDDFTable(data.name, data.schema);
@@ -76,6 +90,8 @@ export async function create(data) {
 
     console.log('Create new chart', data.name, 'sucessfully');
   } catch (ex) {
+    remove(data.name); // do a safe clean
+
     console.log('Create vDDF error', ex);
     throw ex;
   }
@@ -87,7 +103,8 @@ export async function list() {
   return [].slice.call(result.rows).map(r => ({
     name: r.name,
     uuid: r.uuid,
-    title: r.title
+    title: r.title,
+    preview: r.preview
   }));
 }
 

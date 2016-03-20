@@ -1,5 +1,4 @@
 import React from 'react';
-import FontIcon from 'material-ui/lib/font-icon';
 
 export default class ChartPreview extends React.Component {
 

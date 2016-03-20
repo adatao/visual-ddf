@@ -43,6 +43,10 @@ export default class Directory extends React.Component {
 
     return this.props.storage.sql(query)
       .then(result => {
+        if (result.rows.length === 0) {
+          throw new Error('Your query has empty result.');
+        }
+
         const schema = Object.keys(result.rows[0]).map(c => ({name: c}));
         const data = [].slice.call(result.rows).map(r => {
           return schema.map(c => r[c.name]);

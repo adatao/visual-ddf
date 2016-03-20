@@ -18,10 +18,6 @@ const style = {
 };
 
 export default class ChartSettings extends React.Component {
-  static contextTypes = {
-    baseUrl: React.PropTypes.string
-  };
-
   constructor(props) {
     super(props);
     this.state = {};
