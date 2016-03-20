@@ -57,23 +57,27 @@ function submitCharts(charts) {
         schema = vddf.schema;
         return manager.export(vddf);
       }).then(result => {
-        // also submit svg to server
-        if (source.svg) {
-          manager.client.request('POST', `api/vddf/${result.uuid}/svg`, {
-            svg: source.svg
-          });
-
-          result.preview = `${store.serverUrl}/charts/${result.uuid}.svg`;
-        } else {
-          result.preview = source.previewUrl;
-        }
-
         result.title = source.title;
         result.name = source.name;
-
         result.data = data;
         result.schema = schema;
 
+        // submit svg to server and wait until it done
+        if (source.svg) {
+          result.preview = `${store.serverUrl}/charts/${result.uuid}.svg`;
+
+          return manager.client.request('POST', `api/vddf/${result.uuid}/svg`, {
+            svg: source.svg
+          }).then(() => {
+            return result;
+          });
+        } else {
+          result.preview = source.previewUrl;
+
+          return result;
+        }
+      }).then(result => {
+        // finally
         Events.dispatch(Events.SaveChart, null, {data: result});
       }).catch(err => {
         console.log('There was an error submit', {schema, data}, err.stack);
