@@ -3,23 +3,6 @@ import $ from 'jQuery';
 import D3Deconstruct from 'src/browser/lib/d3-deconstruct';
 import { getSource as getSvgSource } from 'src/browser/lib/svg-crowbar2-es6';
 
-export function preview(source) {
-  const node = source.node;
-
-  node.setAttribute('version', '1.1');
-  node.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-
-  const svgSource = getSvgSource(node);
-  const svgRaw = svgSource.source[0];
-
-  return {
-    title: svgSource.title,
-    node,
-    svg: svgRaw,
-    svgDataUrl: 'data:image/svg+xml;base64,' + btoa(svgRaw)
-  };
-}
-
 export function detect() {
   let found = 0, sources = [];
 
@@ -42,15 +25,34 @@ export function detect() {
       // $el.data('vddf-handler', handle.attr('id'));
       // $('body').append(handle);
       sources.push({
-        type: 'd3',
         node: el
       });
     }
   });
 
-  return Promise.resolve(sources);
+  return sources;
 }
 
+export function preview(source) {
+  const node = source.node;
+
+  node.setAttribute('version', '1.1');
+  node.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+
+  const svgSource = getSvgSource(node);
+  const svgRaw = svgSource.source[0];
+
+  return {
+    ...source,
+    title: svgSource.title,
+    svg: svgRaw,
+    previewUrl: 'data:image/svg+xml;base64,' + btoa(svgRaw)
+  };
+}
+
+/**
+ * Implement a heuristic ranking to pick the best schema from deconstruct schemas
+ */
 export function extract(source) {
   const node = source.node;
   const raw = D3Deconstruct.Deconstruct.deconstruct(node);
@@ -137,11 +139,40 @@ export function extract(source) {
     return 1;
   });
 
-  return Promise.resolve({
-    candidate: candidates[0], // pick the top candidate
-    candidates,
-    raw
+  const result = flattenData(candidates[0]);
+  result.candidates = candidates;
+
+  return Promise.resolve(result);
+}
+
+// convert destructing data to vddf compatible format
+function flattenData(candidate) {
+  const count = candidate.data[candidate.schema[0]].length;
+
+  // convert to vddf schema
+  const data = [];
+
+  let candidateSchema = candidate.schema.filter(c => {
+    const sample = candidate.data[c][0];
+
+    return sample !== null && sample !== undefined && typeof sample !== 'object';
   });
+  let schema = candidateSchema.map(name => ({ name }));
+
+  for (let i = 0; i < count; i++) {
+    const row = [];
+
+    candidateSchema.forEach(name => {
+      row.push(candidate.data[name][i] || null);
+    });
+
+    data.push(row);
+  }
+
+  return {
+    data,
+    schema
+  };
 }
 
 // function cartesianProductOf() {

@@ -17,8 +17,6 @@ let store = {
 loadMaterialFonts();
 
 document.addEventListener(Events.PageActionClicked, (e) => {
-  const allSvgs = [].slice.call(document.querySelectorAll('svg'));
-
   store.baseUrl = e.detail.baseUrl;
   store.serverUrl = e.detail.serverUrl;
 
@@ -37,43 +35,6 @@ function closeSidebar() {
   }
 }
 
-function flattenData(candidate) {
-  const count = candidate.data[candidate.schema[0]].length;
-
-  // convert to vddf schema
-  const data = [];
-
-  let candidateSchema = candidate.schema.filter(c => {
-    const sample = candidate.data[c][0];
-
-    return sample !== null && sample !== undefined && typeof sample !== 'object';
-  });
-  let schema = candidateSchema.map((c,i) => {
-    let name = (c || `c${i+1}`).toLowerCase().replace(/[^a-z0-9]/gi, '_');
-
-    if (/\d/.test(name[0])) {
-      name = `c${name}`;
-    }
-
-    return { name };
-  });
-
-  for (let i = 0; i < count; i++) {
-    const row = [];
-
-    candidateSchema.forEach(name => {
-      row.push(candidate.data[name][i] || null);
-    });
-
-    data.push(row);
-  }
-
-  return {
-    data,
-    schema
-  };
-}
-
 function submitCharts(charts) {
   const manager = new Manager({baseUrl: store.serverUrl});
 
@@ -81,10 +42,9 @@ function submitCharts(charts) {
     let schema, data;
 
     return extractSource(source)
-      .then(detect => {
-        const flatten = flattenData(detect.candidate);
-        schema = flatten.schema;
-        data = flatten.data;
+      .then(result => {
+        schema = result.schema;
+        data = result.data;
 
         return manager.load({
           title: source.title,
@@ -97,27 +57,28 @@ function submitCharts(charts) {
         schema = vddf.schema;
         return manager.export(vddf);
       }).then(result => {
-      // also submit svg to server
-      manager.client.request('POST', `api/vddf/${result.uuid}/svg`, {
-        svg: source.svg
+        // also submit svg to server
+        if (source.svg) {
+          manager.client.request('POST', `api/vddf/${result.uuid}/svg`, {
+            svg: source.svg
+          });
+
+          result.preview = `${store.serverUrl}/charts/${result.uuid}.svg`;
+        } else {
+          result.preview = source.previewUrl;
+        }
+
+        result.title = source.title;
+        result.name = source.name;
+
+        result.data = data;
+        result.schema = schema;
+
+        Events.dispatch(Events.SaveChart, null, {data: result});
+      }).catch(err => {
+        console.log('There was an error submit', {schema, data}, err.stack);
+        throw err;
       });
-
-      result.title = source.title;
-      result.name = (source.title ? source.title + '' : 'untitiled').toLowerCase()
-        .replace(/[^a-z0-9]/gi, '_') // special chars
-        .replace(/_+/g, '_'); // this will make the name easier to read
-
-      result.data = data;
-      result.schema = schema;
-
-      result.preview = `${store.serverUrl}/charts/${result.uuid}.svg`;
-      // result.preview = source.svgDataUrl;
-
-      Events.dispatch(Events.SaveChart, null, {data: result});
-    }).catch(err => {
-      console.log('There was an error submit', {schema, data}, err.stack);
-      throw err;
-    });
   });
 
   Promise.all(promises).then(() => {

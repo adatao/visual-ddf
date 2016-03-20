@@ -41,6 +41,10 @@ export function reset() {
 export async function getUniqueName(name) {
   let prefix = name || 'untitle';
 
+  prefix = prefix.toLowerCase()
+    .replace(/[^a-z0-9]/gi, '_') // special chars
+    .replace(/_+/g, '_').trim('_'); // this will make the name easier to read
+
   if (/^\d+/.test(prefix)) {
     prefix = `t${prefix}`;
   }
@@ -80,7 +84,7 @@ async function createDDFTable(name, schema) {
 }
 
 export async function create(data) {
-  data.name = await getUniqueName(data.name);
+  data.name = await getUniqueName(data.name || data.title);
 
   try {
     await SQL.insert('metadata', {
