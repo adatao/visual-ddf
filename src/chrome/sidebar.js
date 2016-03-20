@@ -49,55 +49,66 @@ function closeSidebar() {
   }
 }
 
+function flattenData(candidate) {
+  const count = candidate.data[candidate.schema[0]].length;
+
+  // convert to vddf schema
+  const data = [];
+
+  let candidateSchema = candidate.schema.filter(c => {
+    const sample = candidate.data[c][0];
+
+    return sample !== null && sample !== undefined && typeof sample !== 'object';
+  });
+  let schema = candidateSchema.map((c,i) => {
+    let name = (c || `c${i+1}`).toLowerCase().replace(/[^a-z0-9]/gi, '_');
+
+    if (/\d/.test(name[0])) {
+      name = `c${name}`;
+    }
+
+    return { name };
+  });
+
+  for (let i = 0; i < count; i++) {
+    const row = [];
+
+    candidateSchema.forEach(name => {
+      row.push(candidate.data[name][i] || null);
+    });
+
+    data.push(row);
+  }
+
+  return {
+    data,
+    schema
+  };
+}
+
 function submitCharts(charts) {
   const manager = new Manager({baseUrl: store.serverUrl});
 
-  console.log('submit charts', charts);
-
   const promises = charts.map(c => {
-    const detect = extractD3Data(c.node);
-    const candidate = detect.candidate;
-    const count = candidate.data[candidate.schema[0]].length;
+    let schema, data;
 
-    // convert to vddf schema
-    const data = [];
+    return extractD3Data(c.node)
+      .then(detect => {
+        const flatten = flattenData(detect.candidate);
+        schema = flatten.schema;
+        data = flatten.data;
 
-    let candidateSchema = candidate.schema.filter(c => {
-      const sample = candidate.data[c][0];
-
-      return sample !== null && sample !== undefined && typeof sample !== 'object';
-    });
-    let schema = candidateSchema.map((c,i) => {
-      let name = (c || `c${i+1}`).toLowerCase().replace(/[^a-z0-9]/gi, '_');
-
-      if (/\d/.test(name[0])) {
-        name = `c${name}`;
-      }
-
-      return { name };
-    });
-
-    for (let i = 0; i < count; i++) {
-      const row = [];
-
-      candidateSchema.forEach(name => {
-        row.push(candidate.data[name][i] || null);
-      });
-
-      data.push(row);
-    }
-
-    console.log('Submitting', candidate, {schema, data});
-
-    return manager.load({
-      title: c.title,
-      schema,
-      data,
-      source: window.location + ''
-    }).then(vddf => {
-      schema = vddf.schema;
-      return manager.export(vddf);
-    }).then(result => {
+        return manager.load({
+          title: c.title,
+          schema,
+          data,
+          source: window.location + ''
+        });
+      })
+      .then(vddf => {
+        schema = vddf.schema;
+        return manager.export(vddf);
+      }).then(result => {
       // also submit svg to server
       manager.client.request('POST', `api/vddf/${result.uuid}/svg`, {
         svg: c.svg
@@ -126,7 +137,7 @@ function submitCharts(charts) {
     Events.dispatch(Events.SubmissionDone);
   }).catch(err => {
     // TODO: error handling
-    console.log('Fail to submit all charts');
+    console.log('Fail to submit all charts', err);
   });
 }
 
@@ -189,3 +200,6 @@ function detectCharts() {
 setTimeout(() => {
   detectCharts();
 }, 2000); // TODO: change to 2s later
+
+// for debug
+window.extractD3Data = extractD3Data;

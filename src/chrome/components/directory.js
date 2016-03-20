@@ -52,11 +52,12 @@ export default class Directory extends React.Component {
           return schema.map(c => r[c.name]);
         });
 
-        // TODO: sanitize column name
+        // TODO: sanitize column name here
 
         return this.props.manager.load({
           schema,
           data,
+          title: 'My query',
           source: 'sql',
           visualization: {
             type: 'datatable',
@@ -100,7 +101,7 @@ export default class Directory extends React.Component {
       const chart = this.props.charts[this.state.selected];
       const selectedIndex = this.state.selected;
       const detailView = (
-        <ItemDetail screenWidth={this.props.screenWidth} arrowOffset={selectedIndex % 4} key='detail' chart={chart} />
+        <ItemDetail preview={charts[this.state.selected]} screenWidth={this.props.screenWidth} arrowOffset={selectedIndex % 4} key='detail' chart={chart} />
       );
 
       charts.splice(Math.ceil((selectedIndex+1) / 4)*4, 0, detailView);

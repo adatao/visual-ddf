@@ -49,7 +49,11 @@ export default class ItemDetail extends React.Component {
 
   onChartRendererd = (el) => {
     if (this.state.vddf.uuid === this.props.chart.uuid) {
-      console.log('chart update!', this.props.chart.uuid, el);
+      const preview = this.props.updatePreview;
+
+      if (preview) {
+        console.log('chart update!', this.props.chart.uuid, el, preview);
+      }
     }
   };
 

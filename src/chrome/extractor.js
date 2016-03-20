@@ -1,4 +1,15 @@
 import D3Deconstruct from 'src/browser/lib/d3-deconstruct';
+import _ from 'underscore';
+
+function cartesianProductOf() {
+  return _.reduce(arguments, function(a, b) {
+    return _.flatten(_.map(a, function(x) {
+      return _.map(b, function(y) {
+        return x.concat([y]);
+      });
+    }), true);
+  }, [ [] ]);
+};
 
 /**
  * Implement a heuristic ranking to pick the best schema from deconstruct schemas
@@ -14,7 +25,7 @@ export function extractD3Data(node) {
     return true;
   }).map(s => {
     // reshape the array, we want to drop something on the way out
-    let data = {}, schema = [], expandedSchema = {};
+    let data = {}, schema = [], expandedSchema = {}, arrayFields = [], count = 0;
 
     // XXX: the schema itself is an array of objects
     // http://bl.ocks.org/mbostock/raw/3883245/
@@ -52,14 +63,22 @@ export function extractD3Data(node) {
         });
 
         continue;
+      } else if (sample && Array.isArray(sample)) {
+        arrayFields.push(field);
       }
 
       schema.push(field);
       data[field] = values;
+      count = Math.max(values.length, count);
     }
 
     // TODO: handle array of array field
     // we can do cartesian product to flatten out the array
+    if (arrayFields) {
+      const keyFields = schema.filter(f => arrayFields.indexOf(f) === -1);
+
+      // TODO: flatten it :D
+    }
 
     return {
       data,
@@ -80,9 +99,9 @@ export function extractD3Data(node) {
     return 1;
   });
 
-  return {
+  return Promise.resolve({
     candidate: candidates[0], // pick the top candidate
     candidates,
     raw
-  };
+  });
 }
