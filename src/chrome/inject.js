@@ -3,4 +3,3 @@ if (!window._babelPolyfill) {
 }
 
 require('./sidebar');
-

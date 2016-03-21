@@ -2,23 +2,7 @@
 import chrome from 'chrome';
 import Events from './events';
 import { getServerUrl } from './config';
-// import ChromeStorageContentProxyStorageServer from './storage/chrome-storage-proxy-server';
-
-// function sql(query) {
-//   return new Promise((resolve, reject) => {
-//     chrome.runtime.sendMessage({sql: query}, function(response) {
-//       if (response === undefined) {
-//         reject('Database is not responding');
-//       } else if (response.error) {
-//         reject(response.error);
-//       } else {
-//         resolve(response.result.rows ? response.result.rows : response.result.rowsAffected);
-//       }
-//     });
-//   });
-// }
-
-// let storageProxyServer = new ChromeStorageContentProxyStorageServer(window, chrome.storage.local, sql);
+import fetch from 'fetch';
 
 (function () {
   var head = document.getElementsByTagName('head')[0];

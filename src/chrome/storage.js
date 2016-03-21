@@ -1,4 +1,7 @@
 import * as SQL from './sql';
+import * as config from './config';
+import Manager from 'src/vddf/manager';
+import _ from 'lodash';
 
 function init() {
   SQL.run(
@@ -83,7 +86,53 @@ async function createDDFTable(name, schema) {
   return SQL.run(createTableString);
 }
 
-export async function create(data) {
+export function create(data) {
+  let manager, vddf;
+
+  return config.getServerUrl()
+    .then(baseUrl => {
+      manager = new Manager({ baseUrl });
+
+      return manager.load(_.pick(data, ['title', 'schema', 'source', 'data', 'visualization']));
+    })
+    .then(result => {
+      vddf = result;
+
+      return manager.export(vddf);
+    })
+    .then(() => {
+      // upload svg here if necessary
+      if (data.svg) {
+        data.preview = `${manager.config.baseUrl}/charts/${vddf.uuid}.svg`;
+        return manager.client.request('POST', `api/vddf/${vddf.uuid}/svg`, { svg: data.svg }).then(() => vddf);
+      }
+
+      return vddf;
+    })
+    .then(() => {
+      return createFromVDDF(vddf, _.pick(data, ['preview', 'svg', 'title', 'name']));
+    });
+}
+
+export function createFromVDDF(vddf, props) {
+  return new Promise((resolve, reject) => {
+    if (vddf.uuid) {
+      resolve(vddf);
+    } else {
+      resolve(vddf.manager.export(vddf));
+    }
+  }).then(result => {
+    return _create({
+        ...props,
+      title: vddf.title,
+      uuid: vddf.uuid,
+      schema: vddf.schema,
+      data: vddf.fetch()
+    });
+  });
+}
+
+async function _create(data) {
   data.name = await getUniqueName(data.name || data.title);
 
   try {
@@ -105,24 +154,8 @@ export async function create(data) {
     console.log('Create vDDF error', ex);
     throw ex;
   }
-}
 
-export function createFromVDDF(vddf, props) {
-  return new Promise((resolve, reject) => {
-    if (vddf.uuid) {
-      resolve(vddf);
-    } else {
-      resolve(vddf.manager.export(vddf));
-    }
-  }).then(result => {
-    return Storage.create({
-        ...props,
-      title: vddf.title,
-      uuid: vddf.uuid,
-      schema: vddf.schema,
-      data: vddf.fetch()
-    });
-  });
+  return data;
 }
 
 export function list() {

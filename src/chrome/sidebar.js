@@ -1,4 +1,3 @@
-import $ from 'jquery';
 // import { createDragHandle } from './dragHandler';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -6,7 +5,6 @@ import Sidebar from './components/sidebar';
 import Events from './events';
 import { loadMaterialFonts } from 'src/browser/utils';
 import { detectSources, extractSource, previewSource } from './extractor';
-import Manager from 'src/vddf/manager';
 import '../vddf-react/common.css';
 import './sidebar.css';
 
@@ -36,8 +34,6 @@ function closeSidebar() {
 }
 
 function submitCharts(charts) {
-  const manager = new Manager({baseUrl: store.serverUrl});
-
   const promises = charts.map(source => {
     let schema, data;
 
@@ -46,40 +42,21 @@ function submitCharts(charts) {
         schema = result.schema;
         data = result.data;
 
-        return manager.load({
+        const payload = {
           title: source.title,
-          schema,
+          name: source.name,
+          source: window.location + '',
+          preview: source.previewUrl,
+          svg: source.svg,
           data,
-          source: window.location + ''
-        });
+          schema
+        };
+
+        Events.dispatch(Events.SaveChart, null, {data: payload});
+
+        return payload;
       })
-      .then(vddf => {
-        schema = vddf.schema;
-        return manager.export(vddf);
-      }).then(result => {
-        result.title = source.title;
-        result.name = source.name;
-        result.data = data;
-        result.schema = schema;
-
-        // submit svg to server and wait until it done
-        if (source.svg) {
-          result.preview = `${store.serverUrl}/charts/${result.uuid}.svg`;
-
-          return manager.client.request('POST', `api/vddf/${result.uuid}/svg`, {
-            svg: source.svg
-          }).then(() => {
-            return result;
-          });
-        } else {
-          result.preview = source.previewUrl;
-
-          return result;
-        }
-      }).then(result => {
-        // finally
-        Events.dispatch(Events.SaveChart, null, {data: result});
-      }).catch(err => {
+      .catch(err => {
         console.log('There was an error submit', {schema, data}, err.stack);
         throw err;
       });

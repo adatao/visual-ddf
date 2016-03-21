@@ -9,6 +9,13 @@ const charts = {
     previewUrl: 'https://s3.amazonaws.com/vddf/women-coding.svg',
     dataUrl: 'https://s3.amazonaws.com/vddf/women-coding.csv',
     type: 'magic'
+  },
+
+  police_shooting: {
+    title: 'Police Shootings',
+    name: 'police_shootings',
+    previewUrl: '',
+    type: 'magic'
   }
 };
 
@@ -18,6 +25,8 @@ export function detect(document) {
 
   if (/npr.org.*when-women-stopped-coding/.test(location)) {
     sources.push(charts.women_coding);
+  } else if (/washingtonpost.com.*police-shootings/.test(location)) {
+    console.log('police shooting');
   }
 
   return sources;
@@ -29,6 +38,7 @@ export function preview(source) {
 }
 
 export function extract(source) {
+  // TODO: backend should accept data url and extract it
   return fetch(source.dataUrl, {})
     .then(res => res.text())
     .then(text => {
