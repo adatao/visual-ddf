@@ -2,8 +2,8 @@
  * Export a vDDF to static html file
  */
 export default function exportHtml(vddf, options = {}) {
-  const width = options.width || 700;
-  const height = options.height || 500;
+  const width = options.width || 800;
+  const height = options.height || 600;
   const scriptUrl = options.scriptUrl || (vddf.manager.config.baseUrl + '/embed.js');
   let embedJson = '';
   let uri = vddf.uri;

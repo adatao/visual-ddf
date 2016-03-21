@@ -30,7 +30,6 @@ export default class ItemDetail extends React.Component {
     if (!this.state.vddf || this.state.vddf.uuid !== chart.uuid) {
       this.context.manager.load(manager.config.baseUrl + '/vddf/' + chart.uuid)
         .then(vddf => {
-          // manager.render(vddf, this.refs.chart);
           this.setState({vddf: vddf});
         });
     }
@@ -60,12 +59,13 @@ export default class ItemDetail extends React.Component {
   render() {
     const chart = this.props.chart;
     const width = 1216;
-    const height = 500;
+    const height = 600;
     const offset = (this.props.screenWidth - 1240) / 2;
     const arrowMargin = 140 + 316 * this.props.arrowOffset ;
+    const detailStyle = {left: -offset, width: this.props.screenWidth};
 
     return (
-      <div style={{left: -offset, width: this.props.screenWidth}} className='detail-view-container'>
+      <div style={detailStyle} className='detail-view-container'>
         <div className='detail-arrow' style={{marginLeft: arrowMargin}}></div>
         <ReactCSSTransitionGroup transitionName='slidedown'
                                  transitionAppear={true}
@@ -73,7 +73,7 @@ export default class ItemDetail extends React.Component {
                                  transitionEnterTimeout={300}
                                  transitionLeaveTimeout={300}
                                  >
-          <div data-key={chart.uuid} className='detail-view'>
+          <div style={{height: height+32}} data-key={chart.uuid} className='detail-view'>
             {this.renderVDDF({width, height})}
           </div>
         </ReactCSSTransitionGroup>
@@ -81,4 +81,3 @@ export default class ItemDetail extends React.Component {
     );
   }
 }
-

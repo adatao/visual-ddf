@@ -6,34 +6,34 @@ import { Types } from './schemadetector';
 export const ChartTypes = {
   bar: {
     Number: 1,
-    String: 1
+    Category: 1
   },
   'bar.grouped': {
     Number: 1,
-    String: 2
+    Category: 2
   },
   'bar.stacked': {
     Number: 1,
-    String: 2
+    Category: 2
   },
   pie: {
     Number: 1,
-    String: 1
+    Category: 1
   },
   donut: {
     Number: 1,
-    String: 1
+    Category: 1
   },
   scatterplot: {
     Number: 2
   },
   heatmap: {
     Number: 1,
-    String: 2
+    Category: 2
   },
   treemap: {
     Number: 1,
-    String: 1
+    Category: 1
   },
   datatable: {
     // nothing
@@ -44,7 +44,8 @@ export const ChartTypes = {
 
 export default function suggest(schema) {
   let summary = {
-    Number: 0
+    Number: 0,
+    Category: 0
   };
 
   let result = [];
@@ -56,6 +57,7 @@ export default function suggest(schema) {
     summary[c.type]++;
 
     if (Types.isNumber(c.type)) summary.Number++;
+    if (c.type === Types.String || c.type === Types.Integer) summary.Category++;
   });
 
   // Loop through all chart types and check for required dimensions

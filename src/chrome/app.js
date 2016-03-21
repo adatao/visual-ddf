@@ -4,15 +4,17 @@ import chrome from 'chrome';
 import ReactDOM from 'react-dom';
 import Directory from 'src/vddf-react/components/directory';
 import { loadMaterialFonts } from 'src/browser/utils';
-import 'flexboxgrid';
-import './common.css';
-import './app.css';
 import Events from './events';
 import * as Storage from './storage';
 import * as SQL from './sql';
 import Manager from 'src/vddf-react/manager';
 import FileLoader from 'src/vddf-react/loaders/file';
 import { getServerUrl } from './config';
+
+// styles
+import 'flexboxgrid';
+import '../vddf-react/common.css';
+import '../vddf-react/directory.css';
 
 loadMaterialFonts();
 
@@ -51,7 +53,9 @@ function gogoVDDF() {
 chrome.extension.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.msg === Events.SubmissionDone) {
     // TODO: we want to wait a bit longer before new charts are available
-    gogoVDDF();
+    setTimeout(() => {
+      gogoVDDF();
+    }, 1000);
   }
 });
 

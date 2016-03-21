@@ -39,7 +39,7 @@ export function reset() {
 }
 
 export async function getUniqueName(name) {
-  let prefix = name || 'untitle';
+  let prefix = name || 'untitled';
 
   prefix = prefix.toLowerCase()
     .replace(/[^a-z0-9]/gi, '_') // special chars

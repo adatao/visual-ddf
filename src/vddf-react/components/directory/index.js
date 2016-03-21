@@ -5,14 +5,12 @@ import ItemDetail from './item-detail';
 import fuzzysearch from 'fuzzysearch';
 import RaisedButton from 'material-ui/lib/raised-button';
 import FontIcon from 'material-ui/lib/font-icon';
+import Content from './content';
 
 export default class Directory extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      selected: -1
-    };
+    this.state = {};
   }
 
   static childContextTypes = {
@@ -26,12 +24,6 @@ export default class Directory extends React.Component {
       storage: this.props.storage
     };
   }
-
-  clickChart(c, i) {
-    this.setState({
-      selected: this.state.selected !== i ? i : -1
-    });
-  };
 
   handleKeywordChange = (value) => {
     this.setState({
@@ -72,7 +64,7 @@ export default class Directory extends React.Component {
         return storage.createFromVDDF(vddf, { name: 'untitled' });
       })
       .then(() => {
-        this.props.reload();
+        this.reload();
       });
   };
 
@@ -91,7 +83,7 @@ export default class Directory extends React.Component {
           return this.props.storage.createFromVDDF(vddf);
         })
         .then(() => {
-          this.props.reload();
+          this.reload();
         })
         .catch(err => {
           alert('Oops, there was an error: ' + err.message);
@@ -99,6 +91,10 @@ export default class Directory extends React.Component {
         });
     }
   };
+
+  reload() {
+    this.props.reload();
+  }
 
   render() {
     let charts = this.props.charts;
@@ -109,25 +105,10 @@ export default class Directory extends React.Component {
       });
     }
 
-    charts = charts.map((c,i) => {
-      return <Item key={i} chart={c} name={c.name} onClick={() => this.clickChart(c, i)} />;
-    });
-
-    // we hardcode only 4 items per grid now
-    if (this.state.selected !== -1) {
-      const chart = this.props.charts[this.state.selected];
-      const selectedIndex = this.state.selected;
-      const detailView = (
-        <ItemDetail preview={charts[this.state.selected]} screenWidth={this.props.screenWidth} arrowOffset={selectedIndex % 4} key='detail' chart={chart} />
-      );
-
-      charts.splice(Math.ceil((selectedIndex+1) / 4)*4, 0, detailView);
-    }
-
     const uploadIcon = <FontIcon className='mdi mdi-plus' />;
 
     return (
-      <div className='directory'>
+      <div className='vddf-directory'>
         <Header onFilter={this.handleKeywordChange}
                 onSql={this.handleSqlRequest}
                 />
@@ -136,7 +117,7 @@ export default class Directory extends React.Component {
             <RaisedButton label='Upload' backgroundColor='#448AFD' labelColor='white' icon={uploadIcon} onClick={this.selectFile} />
             <input type='file' style={{display: 'none'}} ref='file' onChange={this.onFileChange} />
           </div>
-          {charts}
+          <Content charts={charts} screenWidth={this.props.screenWidth} />
         </div>
       </div>
     );

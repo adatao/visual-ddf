@@ -5,7 +5,7 @@ import exportCsv from '../../vddf/helpers/csv-exporter';
 
 export default class DownloadCsvHandler {
   register(manager) {
-    // manager.addHandle(Handles.UI_TOOLBAR_MENUS, this.addMenu.bind(this));
+    manager.addHandle(Handles.UI_TOOLBAR_MENUS, this.addMenu.bind(this));
     manager.addHandle(Handles.UI_TOOLBAR_BUTTONS, this.addToolbarButtons.bind(this));
   }
 
@@ -18,10 +18,10 @@ export default class DownloadCsvHandler {
   addMenu(menus, view) {
     const vddf = view.vddf;
 
-    menus.push({
-      title: 'Download as CSV',
-      action: () => this.downloadChart(vddf)
-    });
+    // menus.push({
+    //   title: 'Download as CSV',
+    //   action: () => this.downloadChart(vddf)
+    // });
 
     menus.push({
       title: 'Download as HTML',

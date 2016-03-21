@@ -5,10 +5,10 @@ import ReactDOM from 'react-dom';
 import Sidebar from './components/sidebar';
 import Events from './events';
 import { loadMaterialFonts } from 'src/browser/utils';
-import './common.css';
-import './sidebar.css';
 import { detectSources, extractSource, previewSource } from './extractor';
 import Manager from 'src/vddf/manager';
+import '../vddf-react/common.css';
+import './sidebar.css';
 
 let store = {
   sources: []

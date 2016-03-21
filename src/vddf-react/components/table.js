@@ -9,6 +9,7 @@ const style = {
 
   table: {
     borderCollapse: 'collapse',
+    border: 0,
     width: '100%'
   },
 
@@ -17,6 +18,9 @@ const style = {
 
   th: {
     margin: 0,
+    borderTop: 0,
+    borderLeft: 0,
+    borderRight: 0,
     borderBottom: '1px solid #DDDDDD',
     textAlign: 'left',
     fontSize: '14px',
@@ -30,7 +34,8 @@ const style = {
     margin: 0,
     whiteSpace: 'nowrap',
     textAlign: 'left',
-    fontSize: '14px'
+    fontSize: '14px',
+    border: '0'
   },
 
   even: {
