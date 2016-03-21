@@ -14,7 +14,8 @@ const charts = {
   police_shooting: {
     title: 'Police Shootings',
     name: 'police_shootings',
-    previewUrl: '',
+    previewUrl: 'https://s3.amazonaws.com/vddf/police-shootings.svg',
+    dataUrl: 'https://s3.amazonaws.com/vddf/police-shootings.csv',
     type: 'magic'
   }
 };
@@ -26,7 +27,7 @@ export function detect(document) {
   if (/npr.org.*when-women-stopped-coding/.test(location)) {
     sources.push(charts.women_coding);
   } else if (/washingtonpost.com.*police-shootings/.test(location)) {
-    console.log('police shooting');
+    sources.push(charts.police_shooting);
   }
 
   return sources;
@@ -45,6 +46,15 @@ export function extract(source) {
       const raw = PapaParse.parse(text);
       const schema = raw.data[0].map(name => ({name}));
       const data = raw.data.slice(1);
+
+      // remove the last empty row
+      if (data) {
+        const lastRow = data[data.length - 1];
+
+        if (lastRow.length == 1 && lastRow[0] === '') {
+          data.pop();
+        }
+      }
 
       return {
         data, schema

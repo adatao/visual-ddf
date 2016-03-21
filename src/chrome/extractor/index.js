@@ -15,6 +15,11 @@ export function detectSources(document) {
         .detect(document)
         .map(s => ({...s, type}))
     );
+
+    // let the magic take it all ...
+    if (sources.length && type == 'magic') {
+      continue;
+    }
   }
 
   return Promise.resolve(sources);
