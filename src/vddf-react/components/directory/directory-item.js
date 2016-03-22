@@ -43,11 +43,13 @@ export default class Item extends React.Component {
   }
 
   render() {
+    const chart = this.props.chart;
+
     return (
       <div onClick={this.props.onClick} className='vddf-chart-preview'>
         {this.getPreview()}
         <div className='title'>
-          {this.props.name}
+          {chart.name || chart.title}
         </div>
       </div>
     );

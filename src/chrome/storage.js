@@ -42,14 +42,14 @@ export function reset() {
 }
 
 function cleanString(str) {
-  return str.toLowerCase()
+  return str
     .replace(/[^a-z0-9]/gi, '_') // special chars
     .replace(/_+/g, '_')
     .replace(/_+$/g, ''); // this will make the name easier to read
 }
 
 export async function getUniqueName(name) {
-  let prefix = cleanString(name || 'untitled');
+  let prefix = cleanString((name || 'untitled').toLowerCase());
 
   if (/^\d+/.test(prefix)) {
     prefix = `t${prefix}`;

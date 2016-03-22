@@ -110,6 +110,10 @@ export default class AdaVizHelper {
   }
 
   static updateType(type, viz) {
+    if (!viz.mapping || Object.keys(viz.mapping).length === 0) {
+      viz.mapping = this.extractMapping(viz);
+    }
+
     return this.updateMapping(type, viz.mapping, viz);
   }
 
@@ -164,12 +168,20 @@ export default class AdaVizHelper {
    * Extract mapping from existing visualization specification
    */
   static extractMapping(viz) {
+    if (!viz.mapping && viz.type === 'heatmap') {
+      viz.mapping = {
+        category: viz.x,
+        category2: viz.y,
+        measurement: viz.color
+      };
+    }
+
     let mapping = viz.mapping || viz;
 
-    const category = mapping.category || (viz.orientation === 'horizontal' ? viz.y : viz.x);
-    const measurement = mapping.measurement || (viz.orientation === 'horizontal' ? viz.x : viz.y);
-    const category2 = mapping.category2 || viz.color || viz.detail;
-    const aggregation = mapping.aggregation;
+    let category = mapping.category || (viz.orientation === 'horizontal' ? viz.y : viz.x);
+    let measurement = mapping.measurement || (viz.orientation === 'horizontal' ? viz.x : viz.y);
+    let category2 = mapping.category2 || viz.color || viz.detail;
+    let aggregation = mapping.aggregation;
 
     return { category, measurement, category2, aggregation };
   }

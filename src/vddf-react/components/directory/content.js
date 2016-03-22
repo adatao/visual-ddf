@@ -59,7 +59,7 @@ export default class DirectoryContent extends React.Component {
     let charts = this.props.charts;
 
     charts = charts.map((c,i) => {
-      return <Item key={i} preview={this.state.preview[c.uuid]} chart={c} name={c.name} onClick={() => this.clickChart(c, i)} />;
+      return <Item key={i} preview={this.state.preview[c.uuid]} chart={c} onClick={() => this.clickChart(c, i)} />;
     });
 
     // we hardcode only 4 items per grid now
