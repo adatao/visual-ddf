@@ -7,8 +7,30 @@ export default class DirectoryContent extends React.Component {
     super(props);
 
     this.state = {
-      selected: -1
+      selected: -1,
+      preview: {}
     };
+  }
+
+  static contextTypes = {
+    storage: React.PropTypes.object
+  };
+
+  updatePreview = (chart, preview) => {
+    const current = this.state.preview;
+
+    if (current[chart.uuid] !== preview) {
+      if (this.context.storage) {
+        this.context.storage.updatePreview(chart.uuid, preview);
+      }
+
+      this.setState({
+        preview: {
+          ...current,
+          [chart.uuid]: preview
+        }
+      });
+    }
   }
 
   clickChart(c, i) {
@@ -21,16 +43,15 @@ export default class DirectoryContent extends React.Component {
     let charts = this.props.charts;
 
     charts = charts.map((c,i) => {
-      return <Item key={i} chart={c} name={c.name} onClick={() => this.clickChart(c, i)} />;
+      return <Item key={i} preview={this.state.preview[c.uuid]} chart={c} name={c.name} onClick={() => this.clickChart(c, i)} />;
     });
-
 
     // we hardcode only 4 items per grid now
     if (this.state.selected !== -1) {
       const chart = this.props.charts[this.state.selected];
       const selectedIndex = this.state.selected;
       const detailView = (
-        <ItemDetail preview={charts[this.state.selected]} screenWidth={this.props.screenWidth} screenHeight={this.props.screenHeight} arrowOffset={selectedIndex % 4} key='detail' chart={chart} />
+        <ItemDetail updatePreview={this.updatePreview} screenWidth={this.props.screenWidth} screenHeight={this.props.screenHeight} arrowOffset={selectedIndex % 4} key='detail' chart={chart} />
       );
 
       charts.splice(Math.ceil((selectedIndex+1) / 4)*4, 0, detailView);

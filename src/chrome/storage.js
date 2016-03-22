@@ -133,6 +133,10 @@ export function createFromVDDF(vddf, props) {
   });
 }
 
+export function updatePreview(uuid, preview) {
+  return SQL.run('update metadata set preview = ? where uuid = ?', [preview, uuid]);
+}
+
 async function _create(data) {
   data.name = await getUniqueName(data.name || data.title);
 

@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import _ from 'lodash';
+import { getSource as getSvgSource } from '../../../browser/lib/svg-crowbar2-es6';
 
 export default class ItemDetail extends React.Component {
 
@@ -32,6 +34,12 @@ export default class ItemDetail extends React.Component {
     this.loadVDDF();
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return !this.state.vddf ||
+      this.props.chart.uuid !== nextProps.chart.uuid ||
+      this.state.vddf.uuid !== nextState.vddf.uuid;
+  }
+
   loadVDDF() {
     const manager = this.context.manager;
     const chart = this.props.chart;
@@ -55,15 +63,20 @@ export default class ItemDetail extends React.Component {
     }
   }
 
-  onChartRendererd = (el) => {
-    if (this.state.vddf.uuid === this.props.chart.uuid) {
+  onChartRendererd = _.debounce((el) => {
+    if (this.state.vddf.uuid === this.props.chart.uuid && this.state.vddf.chartType !== 'datatable') {
+      const svg = el.querySelector('.adaviz-chart svg');
       const preview = this.props.updatePreview;
 
-      if (preview) {
-        console.log('chart update!', this.props.chart.uuid, el, preview);
-      }
+      svg.setAttribute('version', '1.1');
+      svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+
+      const svgSource = getSvgSource(svg);
+      const svgRaw = 'data:image/svg+xml;base64,' + btoa(svgSource.source[0]);
+
+      preview && preview(this.props.chart, svgRaw);
     }
-  };
+  }, 300);
 
   calculateHeight() {
     return Math.max(this.props.screenHeight ? this.props.screenHeight * 0.8 : 400, 400);

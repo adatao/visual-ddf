@@ -19,17 +19,17 @@ export default class Item extends React.Component {
     const oldChart = this.props.chart;
     const newChart = nextProps.chart;
 
-    return oldChart.uuid !== newChart.uuid;
+    return oldChart.uuid !== newChart.uuid || this.props.preview !== nextProps.preview;
   }
 
   getPreview() {
     const chart = this.props.chart;
 
-    if (chart.preview) {
+    if (this.props.preview || chart.preview) {
       return (
         <div className='preview'>
           <div className='img'>
-            <img width='100%' src={chart.preview} />
+            <img width='100%' src={this.props.preview || chart.preview} />
           </div>
         </div>
       );
@@ -39,7 +39,8 @@ export default class Item extends React.Component {
       <div className='preview'>
         <FontIcon style={style.tableIcon} className='mdi mdi-database' />
       </div>
-    );  }
+    );
+  }
 
   render() {
     return (
