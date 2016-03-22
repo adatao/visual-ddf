@@ -32,21 +32,7 @@ export function previewSource(source) {
 }
 
 export function extractSource(source) {
-  return detectors[source.type].extract(source)
-    .then(result => {
-      // sanitize the name
-      result.schema.forEach((c,i) => {
-        let name = (c.name || `c${i+1}`).toLowerCase().replace(/[^a-z0-9]/gi, '_');
-
-        if (/\d/.test(name[0])) {
-          name = `c${name}`;
-        }
-
-        c.name = name;
-      });
-
-      return result;
-    });
+  return detectors[source.type].extract(source);
 }
 
 // for debugging

@@ -41,13 +41,15 @@ export function reset() {
     });
 }
 
-export async function getUniqueName(name) {
-  let prefix = name || 'untitled';
-
-  prefix = prefix.toLowerCase()
+function cleanString(str) {
+  return str.toLowerCase()
     .replace(/[^a-z0-9]/gi, '_') // special chars
     .replace(/_+/g, '_')
     .replace(/_+$/g, ''); // this will make the name easier to read
+}
+
+export async function getUniqueName(name) {
+  let prefix = cleanString(name || 'untitled');
 
   if (/^\d+/.test(prefix)) {
     prefix = `t${prefix}`;
@@ -89,6 +91,13 @@ async function createDDFTable(name, schema) {
 
 export function create(data) {
   let manager, vddf;
+
+  // sanitize column names before creating vddf
+  data.schema.forEach((c,i) => {
+    c.name = cleanString(c.name);
+
+    if (!c.name) c.name = `c${i}`;
+  });
 
   return config.getServerUrl()
     .then(baseUrl => {

@@ -85,10 +85,6 @@ function parseBody(tableBody, schema) {
   return rows;
 }
 
-function parseRow() {
-  
-}
-
 export function parseDom(dom) {
   if (dom.children.length) {
     let clone = dom.cloneNode(true);

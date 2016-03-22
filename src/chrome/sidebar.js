@@ -46,10 +46,6 @@ document.addEventListener(Events.PageActionClicked, (e) => {
   renderSidebar();
 });
 
-document.addEventListener(Events.SaveChartDone, (e) => {
-  console.log('save-chart-done', e.detail);
-});
-
 function closeSidebar() {
   let el = document.getElementById('vddf-sidebar');
 
