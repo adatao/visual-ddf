@@ -125,6 +125,9 @@ export default class AdaVizHelper {
 
     // clean some unuse variables
     delete viz.size;
+    delete viz.x;
+    delete viz.y;
+    delete viz.color;
 
     if (viz.type == 'pie' || viz.type == 'donut') {
       viz.size = mapping.measurement;
