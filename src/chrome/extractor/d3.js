@@ -11,12 +11,14 @@ export function detect() {
     const $el = $(this);
     let isD3 = false;
 
-    $el.find('*').each(function (i, child) {
-      if (child.__data__) {
-        isD3 = true;
-        return false;
-      }
-    });
+    if (el.parentNode.className.indexOf('adaviz-chart') === -1) {
+      $el.find('*').each(function (i, child) {
+        if (child.__data__) {
+          isD3 = true;
+          return false;
+        }
+      });
+    }
 
     if (isD3) {
       el.__d3__ = true;

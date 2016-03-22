@@ -75,7 +75,7 @@ export default class Table extends React.Component {
     return (
       <div>
         <div style={{paddingRight: 16}}>
-        <table style={style.table}>
+        <table className='vddf-table' style={style.table}>
           <thead><tr style={style.thead}>{head}</tr></thead>
           <tbody>{body}</tbody>
         </table>

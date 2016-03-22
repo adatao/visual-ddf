@@ -71,8 +71,9 @@ function submitCharts(charts) {
           sourceId: UUID.v4(),
           title: source.title,
           name: source.name,
-          source: window.location + '',
           preview: source.previewUrl,
+          visualization: result.visualization,
+          source: window.location + '',
           svg: source.svg,
           data,
           schema

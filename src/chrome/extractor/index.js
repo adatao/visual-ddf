@@ -2,9 +2,10 @@ import $ from 'jquery';
 import * as magic from './magic';
 import * as d3 from './d3';
 import * as table from './table';
+import * as vddf from './vddf';
 
 const detectors = {
-  magic, d3, table
+  magic, d3, table, vddf
 };
 
 export function detectSources(document) {

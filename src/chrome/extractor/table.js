@@ -4,6 +4,7 @@ export function detect(document) {
 
   // only choose visible tables with data and with a thead
   return tables.filter(t => t.offsetHeight > 0
+                       && (t.className !== '' && t.className.indexOf('vddf-table') === -1)
                        && t.querySelectorAll('tr').length > 0
                        && t.querySelectorAll('thead').length > 0
                       )
