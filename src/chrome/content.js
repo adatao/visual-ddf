@@ -45,6 +45,8 @@ import fetch from 'fetch';
             serverUrl
           });
         });
+    } else if (request.msg === Events.SaveChartDone) {
+      Events.dispatch(request.msg, null, request.data);
     }
   });
 })();

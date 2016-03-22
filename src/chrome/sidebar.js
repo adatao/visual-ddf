@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import Sidebar from './components/sidebar';
 import Events from './events';
 import { loadMaterialFonts } from 'src/browser/utils';
+import UUID from 'uuid';
 import { detectSources, extractSource, previewSource } from './extractor';
 import '../vddf-react/common.css';
 import './sidebar.css';
@@ -14,6 +15,26 @@ let store = {
 
 loadMaterialFonts();
 
+function submit(payload) {
+  let done, listener;
+
+  listener = (e) => {
+    if (e.detail.sourceId === payload.sourceId) {
+      done(payload);
+      document.removeEventListener(Events.SaveChartDone, listener);
+      listener = null;
+    }
+  };
+
+  return new Promise((resolve, reject) => {
+    done = resolve; // no reject yet ...
+    document.addEventListener(Events.SaveChartDone, listener);
+
+    // forward to content page, and wait for the done event
+    Events.dispatch(Events.SaveChart, null, {data: payload});
+  });
+}
+
 document.addEventListener(Events.PageActionClicked, (e) => {
   store.baseUrl = e.detail.baseUrl;
   store.serverUrl = e.detail.serverUrl;
@@ -23,6 +44,10 @@ document.addEventListener(Events.PageActionClicked, (e) => {
     .map(previewSource);
 
   renderSidebar();
+});
+
+document.addEventListener(Events.SaveChartDone, (e) => {
+  console.log('save-chart-done', e.detail);
 });
 
 function closeSidebar() {
@@ -43,6 +68,7 @@ function submitCharts(charts) {
         data = result.data;
 
         const payload = {
+          sourceId: UUID.v4(),
           title: source.title,
           name: source.name,
           source: window.location + '',
@@ -52,9 +78,7 @@ function submitCharts(charts) {
           schema
         };
 
-        Events.dispatch(Events.SaveChart, null, {data: payload});
-
-        return payload;
+        return submit(payload);
       })
       .catch(err => {
         console.log('There was an error submit', {schema, data}, err.stack);
@@ -62,7 +86,7 @@ function submitCharts(charts) {
       });
   });
 
-  Promise.all(promises).then(() => {
+  return Promise.all(promises).then(() => {
     closeSidebar();
     Events.dispatch(Events.SubmissionDone);
   }).catch(err => {

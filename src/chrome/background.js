@@ -22,19 +22,21 @@ chrome.extension.onMessage.addListener(function (request, sender, sendResponse) 
   console.log(request, sender);
 
   if (request.msg === Events.DetectionReady && sender.tab) {
-    // chrome.pageAction.setTitle({
-    //   tabId: sender.tab.id,
-    //   title: 'Ready'
-    // });
-
     chrome.pageAction.show(sender.tab.id);
   } else if (request.msg === Events.SubmissionDone) {
     openAppTab();
   } else if (request.msg === Events.SaveChart) {
-    // save to metadata table
     const data = request.data;
 
-    Storage.create(data);
+    Storage.create(data)
+      .then(() => {
+        chrome.tabs.sendMessage(sender.tab.id, {
+          msg: Events.SaveChartDone,
+          data: {
+            sourceId: data.sourceId
+          }
+        });
+      });
   }
 });
 

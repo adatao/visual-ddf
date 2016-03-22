@@ -1,9 +1,10 @@
 import $ from 'jquery';
 import * as magic from './magic';
 import * as d3 from './d3';
+import * as table from './table';
 
 const detectors = {
-  magic, d3
+  magic, d3, table
 };
 
 export function detectSources(document) {
@@ -46,3 +47,6 @@ export function extractSource(source) {
       return result;
     });
 }
+
+// for debugging
+window.__detectors = detectors;

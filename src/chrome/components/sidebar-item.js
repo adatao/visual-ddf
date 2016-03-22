@@ -1,6 +1,5 @@
 import React from 'react';
 
-// TODO: rename to sidebar-item
 export default class SidebarItem extends React.Component {
 
   static contextTypes = {
@@ -11,7 +10,7 @@ export default class SidebarItem extends React.Component {
     const isChecked = this.props.checked;
     const baseUrl = this.context.baseUrl;
     const chart = this.props.chart;
-    const imgUrl = chart.previewUrl;
+    let preview;
 
     let overlay;
 
@@ -25,11 +24,23 @@ export default class SidebarItem extends React.Component {
       );
     }
 
+    if (chart.type === 'table') {
+      preview = (
+        <div style={{margin: '24px 16px 16px 16px', textAlign: 'center'}}>
+          <img style={{width: 64, margin: '0 auto', display: 'inline-block'}} src={baseUrl + '/table.png'}/>
+          <p style={{marginTop: 16, height: 32, overflow: 'hidden', textOverflow: 'ellipsis'}}>{chart.title}</p>
+        </div>
+      );
+    } else {
+      const imgUrl = chart.previewUrl;
+      preview = <img width='100%' src={imgUrl} />;
+    }
+
     return (
       <div onClick={this.props.onClick} className='vddf-chart-preview'>
         {overlay}
         <div className='img'>
-          <img width='100%' src={imgUrl} />
+          {preview}
         </div>
       </div>
     );

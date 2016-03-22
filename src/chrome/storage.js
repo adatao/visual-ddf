@@ -46,7 +46,8 @@ export async function getUniqueName(name) {
 
   prefix = prefix.toLowerCase()
     .replace(/[^a-z0-9]/gi, '_') // special chars
-    .replace(/_+/g, '_').trim('_'); // this will make the name easier to read
+    .replace(/_+/g, '_')
+    .replace(/_+$/g, ''); // this will make the name easier to read
 
   if (/^\d+/.test(prefix)) {
     prefix = `t${prefix}`;
