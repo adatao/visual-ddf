@@ -1,4 +1,3 @@
-// import 'babel-polyfill';
 import chrome from 'chrome';
 import Events from './events';
 import { getServerUrl } from './config';

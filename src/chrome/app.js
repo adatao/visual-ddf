@@ -44,7 +44,7 @@ function gogoVDDF() {
     })
     .then(charts => {
       ReactDOM.render(
-        <Directory screenWidth={window.innerWidth} storage={Storage} manager={manager} charts={charts} reload={gogoVDDF} />,
+        <Directory screenHeight={window.innerHeight} screenWidth={window.innerWidth} screenHeight={window.innerHeight} storage={Storage} manager={manager} charts={charts} reload={gogoVDDF} />,
         document.getElementById('app')
       );
     });

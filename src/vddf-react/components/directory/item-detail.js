@@ -17,6 +17,15 @@ export default class ItemDetail extends React.Component {
 
   componentDidMount() {
     this.loadVDDF();
+
+    // TODO: scroll it here
+    const container = this.refs.detailContainer;
+
+    setTimeout(() => {
+      const scroll = container.offsetTop - Math.max(window.innerHeight - this.calculateHeight() + 32, 0) + 100;
+
+      window.scrollTo(0, scroll);
+    }, 350);
   }
 
   componentDidUpdate() {
@@ -56,16 +65,20 @@ export default class ItemDetail extends React.Component {
     }
   };
 
+  calculateHeight() {
+    return Math.max(this.props.screenHeight ? this.props.screenHeight * 0.8 : 400, 400);
+  }
+
   render() {
     const chart = this.props.chart;
     const width = 1216;
-    const height = 600;
-    const offset = (this.props.screenWidth - 1240) / 2;
-    const arrowMargin = 140 + 316 * this.props.arrowOffset ;
-    const detailStyle = {left: -offset, width: this.props.screenWidth};
+    const height = this.calculateHeight();
+    const offset = Math.max(0, (this.props.screenWidth - 1240) / 2);
+    const arrowMargin = offset + 132 + 316 * this.props.arrowOffset ;
+    const detailStyle = {left: -offset, width: Math.max(this.props.screenWidth, width)};
 
     return (
-      <div style={detailStyle} className='detail-view-container'>
+      <div ref='detailContainer' style={detailStyle} className='detail-view-container'>
         <div className='detail-arrow' style={{marginLeft: arrowMargin}}></div>
         <ReactCSSTransitionGroup transitionName='slidedown'
                                  transitionAppear={true}

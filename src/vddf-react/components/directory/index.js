@@ -117,7 +117,7 @@ export default class Directory extends React.Component {
             <RaisedButton label='Upload' backgroundColor='#448AFD' labelColor='white' icon={uploadIcon} onClick={this.selectFile} />
             <input type='file' style={{display: 'none'}} ref='file' onChange={this.onFileChange} />
           </div>
-          <Content charts={charts} screenWidth={this.props.screenWidth} />
+          <Content charts={charts} screenWidth={this.props.screenWidth} screenHeight={this.props.screenHeight} />
         </div>
       </div>
     );

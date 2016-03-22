@@ -30,7 +30,7 @@ export default class DirectoryContent extends React.Component {
       const chart = this.props.charts[this.state.selected];
       const selectedIndex = this.state.selected;
       const detailView = (
-        <ItemDetail preview={charts[this.state.selected]} screenWidth={this.props.screenWidth} arrowOffset={selectedIndex % 4} key='detail' chart={chart} />
+        <ItemDetail preview={charts[this.state.selected]} screenWidth={this.props.screenWidth} screenHeight={this.props.screenHeight} arrowOffset={selectedIndex % 4} key='detail' chart={chart} />
       );
 
       charts.splice(Math.ceil((selectedIndex+1) / 4)*4, 0, detailView);
