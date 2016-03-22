@@ -13,7 +13,8 @@ export default class DirectoryContent extends React.Component {
   }
 
   static contextTypes = {
-    storage: React.PropTypes.object
+    storage: React.PropTypes.object,
+    manager: React.PropTypes.object
   };
 
   updatePreview = (chart, preview) => {
@@ -34,9 +35,24 @@ export default class DirectoryContent extends React.Component {
   }
 
   clickChart(c, i) {
-    this.setState({
-      selected: this.state.selected !== i ? i : -1
-    });
+    const selected = this.state.selected !== i ? i : -1;
+
+    if (selected !== -1) {
+      const manager = this.context.manager;
+      const chart = this.props.charts[selected];
+
+      // TODO: we may want to cache the vddf so we don't have to reload every time it click
+      // and we need to use this list to use as preview in Item
+      this.context.manager.load(manager.config.baseUrl + '/vddf/' + chart.uuid)
+        .then(vddf => {
+          this.setState({vddf, selected});
+        });
+    } else {
+      this.setState({
+        selected,
+        vddf: null
+      });
+    }
   };
 
   render() {
@@ -51,7 +67,7 @@ export default class DirectoryContent extends React.Component {
       const chart = this.props.charts[this.state.selected];
       const selectedIndex = this.state.selected;
       const detailView = (
-        <ItemDetail updatePreview={this.updatePreview} screenWidth={this.props.screenWidth} screenHeight={this.props.screenHeight} arrowOffset={selectedIndex % 4} key='detail' chart={chart} />
+        <ItemDetail updatePreview={this.updatePreview} screenWidth={this.props.screenWidth} screenHeight={this.props.screenHeight} arrowOffset={selectedIndex % 4} key='detail' chart={chart} vddf={this.state.vddf}/>
       );
 
       charts.splice(Math.ceil((selectedIndex+1) / 4)*4, 0, detailView);

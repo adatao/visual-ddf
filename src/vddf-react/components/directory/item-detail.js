@@ -4,22 +4,11 @@ import _ from 'lodash';
 import { getSource as getSvgSource } from '../../../browser/lib/svg-crowbar2-es6';
 
 export default class ItemDetail extends React.Component {
-
-  static contextTypes = {
-    manager: React.PropTypes.object
-  };
-
   constructor(props) {
     super(props);
-
-    this.state = {
-      vddf: null
-    };
   }
 
   componentDidMount() {
-    this.loadVDDF();
-
     // TODO: scroll it here
     const container = this.refs.detailContainer;
 
@@ -30,41 +19,26 @@ export default class ItemDetail extends React.Component {
     }, 350);
   }
 
-  componentDidUpdate() {
-    this.loadVDDF();
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return !this.state.vddf ||
-      this.props.chart.uuid !== nextProps.chart.uuid ||
-      this.state.vddf.uuid !== nextState.vddf.uuid;
-  }
-
-  loadVDDF() {
-    const manager = this.context.manager;
-    const chart = this.props.chart;
-
-    if (!this.state.vddf || this.state.vddf.uuid !== chart.uuid) {
-      this.context.manager.load(manager.config.baseUrl + '/vddf/' + chart.uuid)
-        .then(vddf => {
-          this.setState({vddf: vddf});
-        });
-    }
+  shouldComponentUpdate(nextProps) {
+    return this.props.chart.uuid !== nextProps.chart.uuid;
   }
 
   renderVDDF(props) {
-    if (this.state.vddf) {
-      props.onRendered = this.onChartRendererd;
-      props.key = this.state.vddf.uuid;
+    const vddf = this.props.vddf;
 
-      return this.context.manager.config.renderer.getComponent(
-        this.state.vddf, props
-      );
-    }
+    props.onRendered = this.onChartRendererd;
+    props.key = vddf.uuid;
+
+    // XXX: don't refer to manager here directly ...
+    return vddf.manager.config.renderer.getComponent(
+      vddf, props
+    );
   }
 
   onChartRendererd = _.debounce((el) => {
-    if (this.state.vddf.uuid === this.props.chart.uuid && this.state.vddf.chartType !== 'datatable') {
+    const vddf = this.props.vddf;
+
+    if (vddf.uuid === this.props.chart.uuid && vddf.chartType !== 'datatable') {
       const svg = el.querySelector('.adaviz-chart svg');
       const preview = this.props.updatePreview;
 
