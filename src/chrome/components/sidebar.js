@@ -75,7 +75,9 @@ export default class Sidebar extends React.Component {
     return (
       <div className='vddf-sidebar' style={style.container}>
         <div>
-          <h4>Visual DDF</h4>
+          <h4>
+            <img src={this.props.baseUrl + '/logo_black.svg'} />
+          </h4>
           <h6>Choose the charts you want:</h6>
         </div>
         <div className='charts-container'>

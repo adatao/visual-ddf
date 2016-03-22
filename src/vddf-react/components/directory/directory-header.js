@@ -69,7 +69,7 @@ export default class DirectoryHeader extends React.Component {
         <span className='icon'>
           <FontIcon color='#9B9B9B' className='mdi mdi-magnify' />
         </span>
-        <input ref='search' placeholder='Search for your Visual DDF' onChange={this.onFilterChange} />
+        <input ref='search' placeholder='Search or Use SQL on your Visual DDF' onChange={this.onFilterChange} />
       </div>
     );
   }
@@ -86,12 +86,12 @@ export default class DirectoryHeader extends React.Component {
         <div className='row'>
           <div className='col-xs-11'>
             <div className='title'>
-              <h1>Visual DDF</h1>
+              <img src='logo.svg' height={30} />
             </div>
             {this.state.mode === 'txt' ? this.renderInput() : this.renderSqlBox()}
           </div>
           <div className='col-xs-1 profile'>
-            <img src='avatar.png' width={40} />
+            <img src='avatar.png' width={36} />
           </div>
         </div>
       </header>
