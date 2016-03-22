@@ -26,8 +26,25 @@ export default class ItemDetail extends React.Component {
   renderVDDF(props) {
     const vddf = this.props.vddf;
 
-    props.onRendered = this.onChartRendererd;
+    // props.onRendered = this.onChartRendererd;
     props.key = vddf.uuid;
+
+    // XXX: don't refer to manager here directly ...
+    return vddf.manager.config.renderer.getComponent(
+      vddf, props
+    );
+  }
+
+  renderPreview() {
+    const vddf = this.props.vddf;
+    const props = {
+      width: 600,
+      height: 360
+    };
+
+    props.onRendered = this.onChartRendererd;
+    props.key = `preview-${vddf.uuid}`;
+    props.mode = 'chartonly';
 
     // XXX: don't refer to manager here directly ...
     return vddf.manager.config.renderer.getComponent(
@@ -38,7 +55,7 @@ export default class ItemDetail extends React.Component {
   onChartRendererd = _.debounce((el) => {
     const vddf = this.props.vddf;
 
-    if (vddf.uuid === this.props.chart.uuid && vddf.chartType !== 'datatable') {
+    if (vddf.chartType !== 'datatable') {
       const svg = el.querySelector('.adaviz-chart svg');
       const preview = this.props.updatePreview;
 
@@ -75,6 +92,9 @@ export default class ItemDetail extends React.Component {
                                  >
           <div style={{height: height+32}} data-key={chart.uuid} className='detail-view'>
             {this.renderVDDF({width, height})}
+            <div style={{position: 'absolute', left: '-10000px', top: '-100000px'}}>
+              {this.renderPreview()}
+            </div>
           </div>
         </ReactCSSTransitionGroup>
       </div>

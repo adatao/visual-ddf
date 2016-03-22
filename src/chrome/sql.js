@@ -1,6 +1,6 @@
 // knex does not work :(, so i build the sql alone here
 
-let db = openDatabase('vddf', '1.0', 'DDF Storage', 20*1024*1024);
+let db = openDatabase('vddf', '1.0', 'DDF Storage', 100*1024*1024);
 
 function isNumeric(n) {
   return !isNaN(parseFloat(n)) && isFinite(n);

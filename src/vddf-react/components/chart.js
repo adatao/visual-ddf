@@ -122,10 +122,14 @@ export default class Chart extends React.Component {
   }
 
   getCanvasHeight() {
-    let height = this.props.height - 32 - 50; // header + title
+    let height = this.props.height;
 
-    if (this.vddf.isModified()) {
-      height -= 22; // footer modification notice
+    if (this.props.mode !== 'chartonly') {
+      height = height - 32 - 50; // header + title
+
+      if (this.vddf.isModified()) {
+        height -= 22; // footer modification notice
+      }
     }
 
     return height;
@@ -392,7 +396,7 @@ export default class Chart extends React.Component {
   render() {
     if (this.props.mode === 'chartonly') {
       return (
-        <div>
+        <div style={{overflow: 'hidden', height: this.getCanvasHeight()}}>
           {this.state.adaviz && this.getChart()}
         </div>
       );
