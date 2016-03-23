@@ -16,6 +16,10 @@ export const ChartTypes = {
     Number: 1,
     Category: 2
   },
+  line: {
+    Number: 1,
+    Category: 1
+  },
   pie: {
     Number: 1,
     Category: 1

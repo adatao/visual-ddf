@@ -29,6 +29,7 @@ const chartTitles = {
   'bar': 'Bar Chart',
   'bar.grouped': 'Group Bar',
   'bar.stacked': 'Stack Bar',
+  'line': 'Line Chart',
   'pie': 'Pie Chart',
   'donut': 'Donut Chart',
   'heatmap': 'Heat Map',

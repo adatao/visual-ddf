@@ -127,7 +127,7 @@ export default class AdaVizHelper {
 
     viz.previousType = viz.type;
 
-    // clean some unuse variables
+    // reset variables
     delete viz.size;
     delete viz.x;
     delete viz.y;
@@ -143,13 +143,8 @@ export default class AdaVizHelper {
       viz.x = mapping.category2;
       viz.color = mapping.measurement;
     } else {
-      if (viz.orientation === 'horizontal') {
-        viz.y = mapping.category;
-        viz.x = mapping.measurement;
-      } else {
-        viz.x = mapping.category;
-        viz.y = mapping.measurement;
-      }
+      viz.x = mapping.category;
+      viz.y = mapping.measurement;
 
       viz.color = mapping.category2;
     }
@@ -160,6 +155,7 @@ export default class AdaVizHelper {
     delete viz.xLabel;
     delete viz.yLabel;
     delete viz.measurementColumns;
+    delete viz.orientation;
 
     return viz;
   }
