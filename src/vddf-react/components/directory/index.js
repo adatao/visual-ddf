@@ -27,9 +27,10 @@ export default class Directory extends React.Component {
 
   handleKeywordChange = (value) => {
     this.setState({
-      keyword: value,
-      selected: -1
+      keyword: value
     });
+
+    this.refs.content.deselect();
   };
 
   handleSqlRequest = (query) => {
@@ -94,6 +95,7 @@ export default class Directory extends React.Component {
 
   reload() {
     this.props.reload();
+    this.refs.content.deselect();
   }
 
   render() {
@@ -117,7 +119,10 @@ export default class Directory extends React.Component {
             <RaisedButton label='Upload' backgroundColor='#448AFD' labelColor='white' icon={uploadIcon} onClick={this.selectFile} />
             <input type='file' style={{display: 'none'}} ref='file' onChange={this.onFileChange} />
           </div>
-          <Content charts={charts} screenWidth={this.props.screenWidth} screenHeight={this.props.screenHeight} />
+          <Content ref='content' charts={charts}
+                   initialSelect={this.props.initialSelect}
+                   screenWidth={this.props.screenWidth}
+                   screenHeight={this.props.screenHeight} />
         </div>
       </div>
     );

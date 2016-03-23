@@ -33,7 +33,7 @@ function getManager() {
   }
 }
 
-function gogoVDDF() {
+function gogoVDDF(active) {
   let manager;
 
   getManager()
@@ -43,24 +43,32 @@ function gogoVDDF() {
       return Storage.list();
     })
     .then(charts => {
-      ReactDOM.render(
-        <Directory screenHeight={window.innerHeight} screenWidth={window.innerWidth} screenHeight={window.innerHeight} storage={Storage} manager={manager} charts={charts} reload={gogoVDDF} />,
+      const directory = ReactDOM.render(
+        <Directory screenWidth={window.innerWidth}
+                   screenHeight={window.innerHeight}
+                   storage={Storage}
+                   manager={manager}
+                   charts={charts}
+                   reload={gogoVDDF} />,
+
         document.getElementById('app')
       );
+
+      if (active) {
+        directory.refs.content.select(0);
+      }
     });
 }
 
 chrome.extension.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.msg === Events.SubmissionDone) {
-    // TODO: we want to wait a bit longer before new charts are available
-    setTimeout(() => {
-      gogoVDDF();
-    }, 1000);
+    gogoVDDF(true);
   }
 });
 
 window.addEventListener('load', () => {
-  gogoVDDF();
+  gogoVDDF(window.location.hash === '#active');
+  window.location.hash = '';
 });
 
 window.SQL = SQL;

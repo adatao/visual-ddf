@@ -34,8 +34,21 @@ export default class DirectoryContent extends React.Component {
     }
   }
 
-  clickChart(c, i) {
-    const selected = this.state.selected !== i ? i : -1;
+  componentDidMount() {
+    if (this.props.initialSelect) {
+      let index = -1;
+      this.props.charts.forEach((c,i) => {
+        if (c.uuid === this.props.initialSelect) {
+          index = i;
+        }
+      });
+
+      this.select(index);
+    }
+  }
+
+  select(index) {
+    const selected = this.state.selected !== index ? index : -1;
 
     if (selected !== -1) {
       const manager = this.context.manager;
@@ -55,19 +68,24 @@ export default class DirectoryContent extends React.Component {
     }
   };
 
+  deselect() {
+    if (this.state.selected !== -1)
+      this.select(-1);
+  }
+
   render() {
     let charts = this.props.charts;
 
     charts = charts.map((c,i) => {
-      return <Item key={i} preview={this.state.preview[c.uuid]} chart={c} onClick={() => this.clickChart(c, i)} />;
+      return <Item key={c.uuid} preview={this.state.preview[c.uuid]} chart={c} onClick={() => this.select(i)} />;
     });
 
     // we hardcode only 4 items per grid now
     if (this.state.selected !== -1) {
-      const chart = this.props.charts[this.state.selected];
+      const selectedChart = this.props.charts[this.state.selected];
       const selectedIndex = this.state.selected;
       const detailView = (
-        <ItemDetail updatePreview={this.updatePreview} screenWidth={this.props.screenWidth} screenHeight={this.props.screenHeight} arrowOffset={selectedIndex % 4} key='detail' chart={chart} vddf={this.state.vddf}/>
+        <ItemDetail updatePreview={this.updatePreview} screenWidth={this.props.screenWidth} screenHeight={this.props.screenHeight} arrowOffset={selectedIndex % 4} key='detail' chart={selectedChart} vddf={this.state.vddf}/>
       );
 
       charts.splice(Math.ceil((selectedIndex+1) / 4)*4, 0, detailView);

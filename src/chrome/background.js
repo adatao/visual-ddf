@@ -4,16 +4,17 @@ import Events from './events';
 import * as SQL from './sql';
 import * as Storage from './storage';
 
-function openAppTab() {
-  const params = {
-    url: chrome.extension.getURL('assets/app.html')
-  };
+function openAppTab(active) {
+  const url = chrome.extension.getURL('assets/app.html');
 
-  chrome.tabs.query(params, (tabs) => {
+  chrome.tabs.query({ url }, (tabs) => {
     if (tabs.length) {
       chrome.tabs.update(tabs[0].id, {active: true});
     } else {
-      chrome.tabs.create({...params, active: true});
+      chrome.tabs.create({
+        url: url + (active ? '#active' : ''),
+        active: true
+      });
     }
   });
 }
@@ -24,7 +25,7 @@ chrome.extension.onMessage.addListener(function (request, sender, sendResponse) 
   if (request.msg === Events.DetectionReady && sender.tab) {
     chrome.pageAction.show(sender.tab.id);
   } else if (request.msg === Events.SubmissionDone) {
-    openAppTab();
+    openAppTab(true);
   } else if (request.msg === Events.SaveChart) {
     const data = request.data;
 

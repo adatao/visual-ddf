@@ -9,14 +9,13 @@ export default class ItemDetail extends React.Component {
   }
 
   componentDidMount() {
-    // TODO: scroll it here
-    const container = this.refs.detailContainer;
+    // const container = this.refs.detailContainer;
 
-    setTimeout(() => {
-      const scroll = container.offsetTop - Math.max(window.innerHeight - this.calculateHeight() + 32, 0) + 100;
+    // setTimeout(() => {
+    //   const scroll = container.offsetTop - Math.max(window.innerHeight - this.calculateHeight() + 32, 0) + 100;
 
-      window.scrollTo(0, scroll);
-    }, 350);
+    //   window.scrollTo(0, scroll);
+    // }, 350);
   }
 
   shouldComponentUpdate(nextProps) {
