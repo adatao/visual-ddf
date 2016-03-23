@@ -55,7 +55,7 @@ function gogoVDDF(active) {
       );
 
       if (active) {
-        directory.refs.content.select(0);
+        directory.refs.content.select(0, true);
       }
     });
 }

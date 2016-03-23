@@ -47,8 +47,8 @@ export default class DirectoryContent extends React.Component {
     }
   }
 
-  select(index) {
-    const selected = this.state.selected !== index ? index : -1;
+  select(index, force = false) {
+    const selected = this.state.selected !== index || force ? index : -1;
 
     if (selected !== -1) {
       const manager = this.context.manager;
@@ -68,6 +68,18 @@ export default class DirectoryContent extends React.Component {
     }
   };
 
+  _selectChart(chart) {
+    let index = -1;
+
+    this.props.charts.forEach((c, i) => {
+      if (c.uuid === chart.uuid) {
+        index = i;
+      }
+    });
+
+    this.select(index);
+  }
+
   deselect() {
     if (this.state.selected !== -1)
       this.select(-1);
@@ -76,8 +88,8 @@ export default class DirectoryContent extends React.Component {
   render() {
     let charts = this.props.charts;
 
-    charts = charts.map((c,i) => {
-      return <Item key={c.uuid} preview={this.state.preview[c.uuid]} chart={c} onClick={() => this.select(i)} />;
+    charts = charts.map(c => {
+      return <Item key={c.uuid} preview={this.state.preview[c.uuid]} chart={c} onClick={() => this._selectChart(c)} />;
     });
 
     // we hardcode only 4 items per grid now
