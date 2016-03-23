@@ -20,7 +20,7 @@ export function detectSources(document) {
 
     // let the magic take it all ...
     if (sources.length && type == 'magic') {
-      continue;
+      break;
     }
   }
 

@@ -13,7 +13,7 @@ export default class DirectoryHeader extends React.Component {
   }
 
   onFilterChange = () => {
-    const value = this.refs.search.value;
+    const value = this.refs.search.value || '';
 
     if (/^\s*select/i.test(value)) {
       this.setState({
@@ -24,7 +24,9 @@ export default class DirectoryHeader extends React.Component {
 
       this.props.onFilter('');
     } else {
-      this.props.onFilter(value);
+      if (!value || "select".indexOf(value.toLowerCase()) !== 0) {
+        this.props.onFilter(value);
+      }
     }
   };
 
