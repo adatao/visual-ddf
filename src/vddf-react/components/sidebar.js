@@ -4,9 +4,9 @@ import AdaVizHelper from '../helpers/adaviz';
 
 const style = {
   container: {
-    width: '185px',
-    background: '#F7F7F7',
-    position: 'absolute'
+    width: '184px',
+    position: 'absolute',
+    borderRight: '1px solid #D9D9D9'
   },
   chartIcon: {
     padding: 0,

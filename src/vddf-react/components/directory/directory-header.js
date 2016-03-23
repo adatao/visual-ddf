@@ -88,7 +88,7 @@ export default class DirectoryHeader extends React.Component {
         <div className='row'>
           <div className='col-xs-11'>
             <div className='title'>
-              <img src='logo.svg' height={30} />
+              <img src='logo.svg' height={30} style={{marginTop: -10}} />
             </div>
             {this.state.mode === 'txt' ? this.renderInput() : this.renderSqlBox()}
           </div>

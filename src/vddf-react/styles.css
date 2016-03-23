@@ -9,3 +9,7 @@
 .react-grid-Container, .react-grid-Container * {
     box-sizing: border-box;
 }
+
+.vddf-tip {
+    padding: 8px 12px;
+}

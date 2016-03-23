@@ -5,14 +5,14 @@ import exportCsv from '../../vddf/helpers/csv-exporter';
 
 export default class DownloadCsvHandler {
   register(manager) {
-    manager.addHandle(Handles.UI_TOOLBAR_MENUS, this.addMenu.bind(this));
+    // manager.addHandle(Handles.UI_TOOLBAR_MENUS, this.addMenu.bind(this));
     manager.addHandle(Handles.UI_TOOLBAR_BUTTONS, this.addToolbarButtons.bind(this));
   }
 
   addToolbarButtons(buttons, view) {
     const vddf = view.vddf;
 
-    buttons.push({icon: 'mdi-download', action: () => this.downloadChart(vddf)});
+    buttons.push({icon: 'mdi-download', title: 'Download as CSV', action: () => this.downloadChart(vddf)});
   }
 
   addMenu(menus, view) {

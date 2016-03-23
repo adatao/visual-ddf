@@ -7,6 +7,7 @@ import EditTitleModal from './edit-title-modal';
 import ChartSettings from './chart-settings';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 import FontIcon from 'material-ui/lib/font-icon';
+import ReactTooltip from 'react-tooltip';
 import Immutable from 'immutable';
 import AdaVizHelper from '../helpers/adaviz';
 import Table from './table';
@@ -21,7 +22,7 @@ const style = {
   },
   toolbar: {
     background: '#F1F1F1',
-    color: '#448afd',
+    color: '#4A4A4A',
     padding: '8px 10px',
     position: 'relative',
     borderRadius: '4px 4px 0 0',
@@ -30,21 +31,26 @@ const style = {
   title: {
     fontSize: '16px',
     color: '#4A4A4A',
-    height: 50,
-    borderBottom: '1px solid #DDDDDD',
-    textAlign: 'center',
-    paddingTop: '16px'
+    textAlign: 'center'
+  },
+  toolbarLeft: {
+    position: 'absolute',
+    left: 16,
+    top: 4
+  },
+  toolbarRight: {
+    position: 'absolute',
+    right: 18,
+    top: 4
   },
   titleIcon: {
     color: '#9B9B9B',
-    marginRight: '26px',
     cursor: 'pointer'
   },
   menuIcon: {
     color: '#9B9B9B',
     fontSize: 20,
-    cursor: 'pointer',
-    marginLeft: '16px'
+    cursor: 'pointer'
   },
   menuItem: {
     paddingLeft: '16px',
@@ -125,7 +131,7 @@ export default class Chart extends React.Component {
     let height = this.props.height;
 
     if (this.props.mode !== 'chartonly') {
-      height = height - 32 - 50; // header + title
+      height = height - 32; // header
 
       if (this.vddf.isModified()) {
         height -= 22; // footer modification notice
@@ -251,6 +257,8 @@ export default class Chart extends React.Component {
   };
 
   getToolbar() {
+    // TODO: move to a separate component
+
     // TODO: cache menus
     const menus = [
       {title: 'Edit title ...', action: () => this.toggleModal('title')},
@@ -266,7 +274,7 @@ export default class Chart extends React.Component {
 
     // TODO: google spreadsheet ?
     const toolbarButtons = [
-      {icon: 'mdi-table-edit', action: () => this.toggleModal('data')}
+      {icon: 'mdi-table-edit', action: () => this.toggleModal('data'), title: 'Edit data ...'}
     ];
 
     // extension point
@@ -278,38 +286,41 @@ export default class Chart extends React.Component {
     ));
 
     const buttonElements = toolbarButtons.map((b,i) => {
-      return <FontIcon key={i} style={style.menuIcon} onClick={b.action} className={'mdi ' + b.icon} />;
+      return (
+        <span data-class='vddf-tip' data-tip={b.title} key={i} style={{ marginRight: '12px', display: 'inline-block' }}>
+          <FontIcon style={style.menuIcon}
+                    onClick={b.action}
+                    className={'mdi ' + b.icon} />
+        </span>
+      );
+    });
+
+    const chartType = this.vddf.chartType;
+    const leftIcons = [
+      { icon: 'mdi-table', action: this.switchToTable, active: chartType === 'datatable', title: 'View data' },
+      { icon: 'mdi-chart-bar', action: this.switchToChart, active: chartType !== 'datatable', title: 'View chart' }
+    ].map((i,k) => {
+      return (
+        <span key={k} data-tip={i.title} data-class='vddf-tip' style={{display: 'inline-block', marginRight: '18'}}>
+          <FontIcon color={i.active ? '#F99400' : null} style={style.titleIcon} className={`mdi ${i.icon}`} onClick={i.action} />
+        </span>
+      );
     });
 
     return (
       <div className='viz-toolbar' style={style.toolbar}>
-        <div style={{float: 'right'}}>
+        <div style={style.toolbarLeft}>
+          {leftIcons}
+        </div>
+        <div style={style.title}>
+          {this.vddf.title}
+        </div>
+        <div style={style.toolbarRight}>
           {buttonElements}
           <DropdownMenu iconStyle={style.menuIcon} icon='mdi-share-variant'>
             {menuElements}
           </DropdownMenu>
         </div>
-      </div>
-    );
-  }
-
-  getTitle() {
-    const chartType = this.vddf.chartType;
-    const icons = [
-      { icon: 'mdi-table', action: this.switchToTable, active: chartType === 'datatable' },
-      { icon: 'mdi-chart-bar', action: this.switchToChart, active: chartType !== 'datatable' }
-    ];
-
-    const titleIcons = icons.map((i,k) => {
-      return <FontIcon key={k} color={i.active ? '#F99400' : null} style={style.titleIcon} className={`mdi ${i.icon}`} onClick={i.action} />;
-    });
-
-    return (
-      <div className='vddf-chart-title' style={style.title}>
-        <div style={{position: 'absolute', marginLeft: 18}}>
-          {titleIcons}
-        </div>
-        {this.vddf.title}
       </div>
     );
   }
@@ -405,13 +416,13 @@ export default class Chart extends React.Component {
     const view = (
       <div style={{...style.container, width: this.props.width}}>
         {this.getToolbar()}
-        {this.getTitle()}
         <div style={{overflow: 'hidden', height: this.getCanvasHeight()}}>
           {this.state.showChartSettings && this.getChartSettings()}
           {this.state.adaviz && this.getChart()}
         </div>
         {this.getNotificationNotice()}
         {this.getActiveModals()}
+        <ReactTooltip place="bottom" type="dark" effect="solid"/>
       </div>
     );
 
