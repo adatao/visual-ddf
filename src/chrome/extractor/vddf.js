@@ -12,18 +12,25 @@ export function preview(source) {
   const vddf = source.vddf;
   const node = source.node.querySelector('.adaviz-chart svg');
 
-  node.setAttribute('version', '1.1');
-  node.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+  if (node) {
+    node.setAttribute('version', '1.1');
+    node.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
 
-  const svgSource = getSvgSource(node);
-  const svgRaw = svgSource.source[0];
+    const svgSource = getSvgSource(node);
+    const svgRaw = svgSource.source[0];
 
-  return {
-    ...source,
-    title: vddf.title,
-    svg: svgRaw,
-    previewUrl: 'data:image/svg+xml;base64,' + btoa(svgRaw)
-  };
+    return {
+        ...source,
+      title: vddf.title,
+      svg: svgRaw,
+      previewUrl: 'data:image/svg+xml;base64,' + btoa(svgRaw)
+    };
+  } else {
+    return {
+      ...source,
+      title: vddf.title
+    };
+  }
 }
 
 export function extract(source) {

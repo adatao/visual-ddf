@@ -24,7 +24,7 @@ export default class SidebarItem extends React.Component {
       );
     }
 
-    if (chart.type === 'table') {
+    if (!chart.previewUrl) {
       preview = (
         <div style={{margin: '24px 16px 16px 16px', textAlign: 'center'}}>
           <img style={{width: 64, margin: '0 auto', display: 'inline-block'}} src={baseUrl + '/table.png'}/>

@@ -52,12 +52,12 @@ export default class Manager {
     return this.loadFromCsv(response.body, requestUri);
   }
 
-  async loadFromCsv(csv, source) {
+  async loadFromCsv(csv, source, extra = {}) {
     const parsed = Baby.parse(csv, {
       header: true
     });
 
-    const vddf = await this.create({data: parsed.data, source});
+    const vddf = await this.create({data: parsed.data, source, ...extra});
 
     return await this.get(vddf.uuid);
   }
