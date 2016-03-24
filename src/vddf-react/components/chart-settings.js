@@ -103,7 +103,7 @@ export default class ChartSettings extends React.Component {
     case 'donut':
       fields = [
         {label: 'Category', key: 'category', type: 'category'},
-        {label: 'Measurement', key: 'measurement', type: 'number'}
+        {label: 'Value', key: 'measurement', type: 'number'}
       ];
       break;
     case 'heatmap':
@@ -118,8 +118,8 @@ export default class ChartSettings extends React.Component {
       break;
     default:
       fields = [
-        {label: 'Category', key: 'category', type: 'category'},
-        {label: 'Measurement', key: 'measurement', type: 'number'},
+        {label: 'X', key: 'category', type: 'category'},
+        {label: 'Y', key: 'measurement', type: 'number'},
         {label: 'Group By', key: 'category2', type: 'category'}
       ];
     }

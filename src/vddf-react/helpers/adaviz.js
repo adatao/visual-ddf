@@ -59,7 +59,7 @@ export default class AdaVizHelper {
         }
       }
 
-      if (!measurement) measurement = '_value';
+      if (!measurement) measurement = 'value';
 
       // this is like d3.nest
       data.forEach(d => {
@@ -137,7 +137,7 @@ export default class AdaVizHelper {
       viz.size = mapping.measurement;
       viz.color = mapping.category;
 
-      if (!viz.size) viz.size = '_value';
+      if (!viz.size) viz.size = 'value';
     } else if (viz.type == 'heatmap') {
       viz.y = mapping.category;
       viz.x = mapping.category2;

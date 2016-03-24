@@ -6,6 +6,42 @@ import fuzzysearch from 'fuzzysearch';
 import RaisedButton from 'material-ui/lib/raised-button';
 import FontIcon from 'material-ui/lib/font-icon';
 import Content from './content';
+import DropZone from './dropzone';
+
+const style = {
+  dropzone: {
+    position: 'fixed',
+    left: 0,
+    top: 0,
+    right: 0,
+    bottom: 0,
+    display: 'none',
+    background: 'rgba(0,0,0,0.3)',
+    zIndex: 10000
+  },
+
+  dropzoneActive: {
+    display: 'block'
+  },
+
+  dropzoneBox: {
+    background: 'white',
+    position: 'absolute',
+    left: '50%',
+    top: '50%',
+    border: '2px dashed silver',
+    borderRadius: '8px',
+    border: '2px dashed silver',
+    width: 500,
+    height: 300,
+    paddingTop: 140,
+    marginLeft: -250,
+    marginTop: -150,
+    color: 'gray',
+    fontSize: '28',
+    textAlign: 'center'
+  }
+};
 
 export default class Directory extends React.Component {
   constructor(props) {
@@ -69,14 +105,8 @@ export default class Directory extends React.Component {
       });
   };
 
-  selectFile = () => {
-    this.refs.file.value = '';
-    this.refs.file.click();
-  };
-
-  onFileChange = (e) => {
-    e.preventDefault();
-    const file = e.target.files[0];
+  dropFile = (files) => {
+    const file = files[0];
 
     if (file) {
       this.props.manager.load(file)
@@ -107,18 +137,22 @@ export default class Directory extends React.Component {
       });
     }
 
-    const uploadIcon = <FontIcon className='mdi mdi-plus' />;
-
     return (
       <div className='vddf-directory'>
         <Header onFilter={this.handleKeywordChange}
                 onSql={this.handleSqlRequest}
                 />
         <div className='chart-list'>
-          <div style={{margin: '8px 0 12px'}}>
-            <RaisedButton label='Upload' backgroundColor='#448AFD' labelColor='white' icon={uploadIcon} onClick={this.selectFile} />
-            <input type='file' style={{display: 'none'}} ref='file' onChange={this.onFileChange} />
-          </div>
+          <DropZone global onDrop={this.dropFile}
+                    onDragEnter={() => this.setState({fileActive: true})}
+                    onDragLeave={() => this.setState({fileActive: false})}
+                    style={style.dropzone}
+                    activeStyle={style.dropzoneActive}
+            >
+            <div style={style.dropzoneBox}>
+              Drop files here to upload.
+            </div>
+          </DropZone>
           <Content ref='content' charts={charts}
                    initialSelect={this.props.initialSelect}
                    screenWidth={this.props.screenWidth}
