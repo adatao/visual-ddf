@@ -31,9 +31,9 @@ export default class FileLoader {
     const title = file.name ? file.name.replace(/\.[^\.]+$/, '') : '';
 
     return manager.create(null, 'local://' + file.name, {
-      title: title,
-      schema: schema,
-      data: data
+      title,
+      schema,
+      data
     });
   }
 

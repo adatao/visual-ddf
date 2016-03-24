@@ -8,7 +8,7 @@ export const Types = {
   }
 };
 
-const NumberTest = /^-?\d+(\.\d+)?$/;
+const NumberTest = /^-?\d+(\.\d+)?(e[+-]?\d+)?$/;
 
 export default class SchemaDetector {
   detect(data, schema) {

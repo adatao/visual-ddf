@@ -70,6 +70,9 @@ describe('SchemaDetector', () => {
 
       type = detector.detectValue(-5);
       assert.equal(Types.Integer, type);
+
+      type = detector.detectValue("1e+05");
+      assert.equal(Types.Integer, type);
     });
 
     it('should detect string type correctly', () => {
