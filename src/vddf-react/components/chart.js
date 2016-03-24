@@ -16,17 +16,23 @@ import Sidebar from './sidebar';
 const style = {
   container: {
     margin: '0 auto',
+    background: 'white'
+  },
+  containerActive: {
+    margin: '0 auto',
     boxShadow: '0 0 4px 2px rgba(0,0,0,0.1)',
     borderRadius: '4px 4px 0 0',
     background: 'white'
   },
   toolbar: {
-    background: '#F1F1F1',
     color: '#4A4A4A',
     padding: '8px 10px',
     position: 'relative',
-    borderRadius: '4px 4px 0 0',
     height: 32
+  },
+  toolbarActive: {
+    borderRadius: '4px 4px 0 0',
+    background: '#F1F1F1'
   },
   title: {
     fontSize: '16px',
@@ -41,7 +47,7 @@ const style = {
   toolbarRight: {
     position: 'absolute',
     right: 18,
-    top: 4
+    top: 8
   },
   titleIcon: {
     color: '#9B9B9B',
@@ -107,6 +113,8 @@ export default class Chart extends React.Component {
   componentDidMount() {
     this.renderChart();
     this.vddf.on('update', this.handleUpdate);
+
+    window.addEventListener('mousedown', this.pageMouseDown);
   }
 
   shouldComponentUpdate(nextProps) {
@@ -125,6 +133,8 @@ export default class Chart extends React.Component {
 
   componentWillUnmount() {
     this.vddf.off('update', this.handleUpdate);
+
+    window.removeEventListener('mousedown', this.pageMouseDown);
   }
 
   getCanvasHeight() {
@@ -256,8 +266,13 @@ export default class Chart extends React.Component {
     this.vddf.revert();
   };
 
-  getToolbar() {
+  getToolbar(active) {
     // TODO: move to a separate component
+    let toolbarStyle = Object.assign({}, style.toolbar);
+
+    if (active) {
+      toolbarStyle = Object.assign(toolbarStyle, style.toolbarActive);
+    }
 
     // TODO: cache menus
     const menus = [
@@ -307,22 +322,33 @@ export default class Chart extends React.Component {
       );
     });
 
-    return (
-      <div className='viz-toolbar' style={style.toolbar}>
-        <div style={style.toolbarLeft}>
-          {leftIcons}
+
+    if (!active) {
+      return (
+        <div className='viz-toolbar' style={toolbarStyle}>
+          <div style={style.title}>
+            {this.vddf.title}
+          </div>
         </div>
-        <div style={style.title}>
-          {this.vddf.title}
+      );
+    } else {
+      return (
+        <div className='viz-toolbar' style={toolbarStyle}>
+          <div style={style.toolbarLeft}>
+            {leftIcons}
+          </div>
+          <div style={style.title}>
+            {this.vddf.title}
+          </div>
+          <div style={style.toolbarRight}>
+            {buttonElements}
+            <DropdownMenu iconStyle={style.menuIcon} icon='mdi-share-variant'>
+              {menuElements}
+            </DropdownMenu>
+          </div>
         </div>
-        <div style={style.toolbarRight}>
-          {buttonElements}
-          <DropdownMenu iconStyle={style.menuIcon} icon='mdi-share-variant'>
-            {menuElements}
-          </DropdownMenu>
-        </div>
-      </div>
-    );
+      );
+    }
   }
 
   switchToChart = () => {
@@ -395,7 +421,8 @@ export default class Chart extends React.Component {
   }
 
   getNotificationNotice() {
-    if (this.vddf.isModified()) {
+    // TODO: need a better notification when not in active mode
+    if (this.vddf.isModified() && this.isActive()) {
       return (
         <div style={style.modificationNotice}>
           You have customized this visualization. <span style={style.noticeLink} onClick={this.revertChange}>Revert</span> or <span onClick={this.exportChart} style={style.noticeLink}>Export</span>.
@@ -404,7 +431,41 @@ export default class Chart extends React.Component {
     }
   }
 
+  activate() {
+    if (!this.state.active && !this.props.active) {
+      this.setState({
+        active: 1
+      });
+    }
+  }
+
+  mouseDown = () => {
+    this.isMouseDown = true;
+  };
+
+  mouseUp = () => {
+    this.isMouseDown = false;
+  };
+
+  pageMouseDown = () => {
+    if (!this.isMouseDown && this.state.active && !this.props.active) {
+      this.setState({active: 0});
+
+      if (this.state.showChartSettings)
+        this.toggleChartSettings();
+    }
+  };
+
+  isActive() {
+    return this.props.active || this.state.active
+  }
+
   render() {
+    const active = this.isActive();
+    const containerStyle = Object.assign({
+      width: this.props.width
+    }, active ? style.containerActive : style.container);
+
     if (this.props.mode === 'chartonly') {
       return (
         <div style={{overflow: 'hidden', height: this.getCanvasHeight()}}>
@@ -413,9 +474,16 @@ export default class Chart extends React.Component {
       );
     }
 
+    if (!active) {
+      containerStyle.cursor = 'pointer';
+    }
+
     const view = (
-      <div style={{...style.container, width: this.props.width}}>
-        {this.getToolbar()}
+      <div style={containerStyle} onClick={() => this.activate()}
+        onMouseDown={this.mouseDown}
+        onMouseUp={this.mouseUp}
+>
+        {this.getToolbar(active)}
         <div style={{overflow: 'hidden', height: this.getCanvasHeight()}}>
           {this.state.showChartSettings && this.getChartSettings()}
           {this.state.adaviz && this.getChart()}

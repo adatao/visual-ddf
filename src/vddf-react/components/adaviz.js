@@ -38,6 +38,8 @@ export default class AdaVizChart extends React.Component {
       }
     };
 
+    // spec.input.theme = 'arimoSunlight';
+
     // AdaViz does not clean up data table properly
     // so we need to do this trick
     this.refs.chart.innerHTML = '';

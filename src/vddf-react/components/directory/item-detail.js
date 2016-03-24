@@ -25,8 +25,8 @@ export default class ItemDetail extends React.Component {
   renderVDDF(props) {
     const vddf = this.props.vddf;
 
-    // props.onRendered = this.onChartRendererd;
     props.key = vddf.uuid;
+    props.active = true;
 
     // XXX: don't refer to manager here directly ...
     return vddf.manager.config.renderer.getComponent(

@@ -30,6 +30,7 @@ export default class ReactRenderer {
       let width = el.getAttribute('data-width');
       let height = el.getAttribute('data-height');
       const mode = el.getAttribute('data-mode');
+      const active = el.getAttribute('data-active');
 
       // if not specify width, try to get element outer width
       if (!width) {
@@ -51,7 +52,7 @@ export default class ReactRenderer {
       }
 
       ReactDOM.render(this.getComponent(vddf, {
-        width, height, mode
+        width, height, mode, active
       }), el);
     } catch (ex) {
       el.innerHTML = `Error: ${ex.message}`;

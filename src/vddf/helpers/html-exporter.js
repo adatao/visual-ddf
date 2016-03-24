@@ -19,7 +19,7 @@ export default function exportHtml(vddf, options = {}) {
   let html = `<html>\n` +
         `<head><meta http-equiv="content-type" content="text/html; charset=UTF8"></head>\n` +
         `<body>\n` +
-        `<div data-width="${width}" data-height="${height}" data-vddf="${uri}"></div>\n` +
+        `<div data-width="${width}" data-height="${height}" data-vddf="${uri}" data-active=\"1\"></div>\n` +
         embedJson +
         `<script type="text/javascript" src="${scriptUrl}"></script>\n` +
         `</body></html>`;
