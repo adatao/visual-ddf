@@ -10,9 +10,15 @@ body {
 }
 
 .vddf-directory header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 41px;
     border-bottom: 1px solid #D9D9D9;
-    padding: 6px 28px;
+    padding: 2px 28px;
     background: #07AE88;
+    z-index: 10;
 }
 
 .vddf-directory header .title {
@@ -26,19 +32,23 @@ body {
     color: #07AE88;
     font-weight: normal;
     font-size: 24px;
-    line-height: 34px;
+    line-height: 30px;
     margin: 0;
     display: inline-block;
+}
+
+.vddf-directory header + .chart-list {
+    margin-top: 41px;
 }
 
 .vddf-directory .search-input {
     background: #FFFFFF;
     border-radius: 4px;
-    height: 34px;
+    height: 30px;
     display: inline-block;
     width: calc(100% - 136px);
     vertical-align: middle;
-    line-height: 34px;
+    line-height: 30px;
 }
 
 .vddf-directory .search-input .icon {
@@ -55,7 +65,7 @@ body {
     font-size: 14px;
     border: 0;
     color: #9B9B9B;
-    height: 34px;
+    height: 30px;
     width: calc(100% - 60px);
     outline: none;
     padding: 0;
@@ -64,7 +74,7 @@ body {
 .vddf-directory .sql-input-container {
     background: #FFFFFF;
     border-radius: 4px;
-    height: 34px;
+    height: 30px;
     display: inline-block;
     width: calc(100% - 136px);
     vertical-align: middle;

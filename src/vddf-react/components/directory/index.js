@@ -12,11 +12,12 @@ const style = {
   dropzone: {
     position: 'fixed',
     left: 0,
-    top: 0,
+    top: 40,
     right: 0,
     bottom: 0,
     display: 'none',
-    background: 'rgba(0,0,0,0.3)',
+    background: 'rgba(68, 138, 253, 0.3)',
+    border: '4px solid #448AFD',
     zIndex: 10000
   },
 
@@ -25,20 +26,18 @@ const style = {
   },
 
   dropzoneBox: {
-    background: 'white',
+    background: '#448AFD',
+    color: 'white',
     position: 'absolute',
     left: '50%',
-    top: '50%',
-    border: '2px dashed silver',
-    borderRadius: '8px',
-    border: '2px dashed silver',
-    width: 500,
-    height: 300,
-    paddingTop: 140,
-    marginLeft: -250,
-    marginTop: -150,
-    color: 'gray',
-    fontSize: '28',
+    top: '10px',
+    borderRadius: '2px',
+    boxShadow: '0px 1px 2px 0px rgba(0,0,0,0.50)',
+    width: 230,
+    height: 40,
+    lineHeight: '40px',
+    marginLeft: -115,
+    fontSize: '14',
     textAlign: 'center'
   }
 };
@@ -150,7 +149,7 @@ export default class Directory extends React.Component {
                     activeStyle={style.dropzoneActive}
             >
             <div style={style.dropzoneBox}>
-              Drop files here to upload.
+              Drag your dataset to upload <span className='mdi mdi-upload'/>
             </div>
           </DropZone>
           <Content ref='content' charts={charts}
