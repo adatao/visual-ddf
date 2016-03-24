@@ -10,7 +10,7 @@ import FontIcon from 'material-ui/lib/font-icon';
 import ReactTooltip from 'react-tooltip';
 import Immutable from 'immutable';
 import AdaVizHelper from '../helpers/adaviz';
-import Table from './table';
+import DataTable from './table';
 import Sidebar from './sidebar';
 
 const style = {
@@ -386,10 +386,12 @@ export default class Chart extends React.Component {
         // use directly vddf payload to speed up the renderer
         const data = this.vddf.payload.get('data');
         const schema = this.vddf.payload.get('schema');
+        const tableWidth = this.props.width;
+        const tableHeight = this.getCanvasHeight();
 
         el = (
-          <div style={{overflow: 'auto', margin: '0 auto', paddingRight: '8px', width: input.width - 16, height: input.height}}>
-            <Table data={data} schema={schema} width={input.width} height={input.height} />
+          <div style={{margin: '0 auto', width: tableWidth, height: tableHeight}}>
+            <DataTable data={data} schema={schema} width={tableWidth} height={tableHeight} />
           </div>
         );
       } else {

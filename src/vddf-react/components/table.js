@@ -13,6 +13,16 @@ const style = {
     width: '100%'
   },
 
+  fixedHeaderTable: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    zIndex: 2,
+    borderCollapse: 'collapse',
+    border: 0,
+    background: 'white'
+  },
+
   thead: {
   },
 
@@ -43,17 +53,64 @@ const style = {
   }
 };
 
-export default class Table extends React.Component {
+export default class DataTable extends React.Component {
 
   shouldComponentUpdate(nextProps) {
-    const toUpdate = nextProps.data !== this.props.data && this.props.schema !== this.props.schema;
+    const toUpdate = nextProps.data !== this.props.data
+            && this.props.schema !== this.props.schema;
 
     return toUpdate;
   }
 
+  componentDidMount() {
+    this.updateColumnWidth();
+  }
+
+  componentDidUpdate() {
+    setTimeout(() => {
+      this.updateColumnWidth();
+    }, 100);
+  }
+
+  updateColumnWidth() {
+    const header = this.refs.theadRow;
+    const fixedHeadRow = this.refs.fixedHeadRow;
+    const container = this.refs.container;
+    const tableContainer = this.refs.tableContainer;
+
+    let totalWidth = 0;
+    //let scrollbarWidth = tableContainer.offsetWidth - tableContainer.clientWidth;
+
+    // set all the width
+    for (let i = 0; i < header.children.length; i++) {
+      const cellWidth = header.children[i].offsetWidth;
+
+      fixedHeadRow.children[i].style.width = cellWidth;
+      header.children[i].style.width = cellWidth;
+
+      totalWidth += cellWidth;
+    }
+
+    // now show the new header
+    this.refs.fixedHeader.style.display = 'block';
+
+    // set width
+    this.refs.fixedHeader.style.width = totalWidth;
+    // this.refs.tableContainer.style.width = totalWidth;
+    // this.refs.tableContainer.style.height = this.props.height - (container.offsetHeight - container.clientHeight);
+  }
+
+  onScroll = (e) => {
+    const target = e.target;
+    this.refs.fixedHeader.style.left = -target.scrollLeft;
+  };
+
   render() {
     const data = this.props.data.toJS();
     const schema = this.props.schema.toJS();
+    const width = this.props.width;
+    const height = this.props.height;
+
     const head = schema.map((c,i) => {
       return <th key={i} style={style.th}>{c.name}</th>;
     });
@@ -74,11 +131,16 @@ export default class Table extends React.Component {
 
     return (
       <div>
-        <div style={{paddingRight: 16}}>
-        <table className='vddf-table' style={style.table}>
-          <thead><tr style={style.thead}>{head}</tr></thead>
-          <tbody>{body}</tbody>
-        </table>
+        <div ref='container' style={{position: 'relative', overflow: 'hidden', width, height}}>
+          <table ref='fixedHeader' className='vddf-table' style={{...style.fixedHeaderTable, display: 'none'}}>
+            <thead><tr ref='fixedHeadRow' style={style.thead}>{head}</tr></thead>
+          </table>
+          <div onScroll={this.onScroll} ref='tableContainer' style={{height: this.props.height, overflow: 'auto'}}>
+          <table className='vddf-table' style={style.table}>
+            <thead><tr ref='theadRow' style={style.thead}>{head}</tr></thead>
+            <tbody>{body}</tbody>
+          </table>
+          </div>
         </div>
       </div>
     );
