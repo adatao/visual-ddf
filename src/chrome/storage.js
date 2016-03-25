@@ -89,6 +89,39 @@ async function createDDFTable(name, schema) {
   return SQL.run(createTableString);
 }
 
+function prepareViz(vddf, props = {}) {
+  const name = props.name || vddf.name || vddf.title;
+
+  if (vddf.chartType === 'datatable' || vddf.chartType === undefined) {
+    console.log('Try to detect default mapping');
+
+    const viz = vddf.visualization || {};
+    viz.mapping = viz.mapping || {};
+
+    if (/women-majors-pct/.test(name) || /when_women_stopped_coding/.test(name)) {
+      viz.mapping = Object.assign(viz.mapping, {
+        category: 'Year',
+        measurement: 'Percentage',
+        category2: 'Field'
+      });
+    } else if (/cs-degrees/.test(name)) {
+      viz.mapping = Object.assign(viz.mapping, {
+        category: 'Year',
+        measurement: 'Number of Recipients',
+        category2: 'Degree Type'
+      });
+    }
+
+    // +___+
+    viz.x = viz.mapping.category;
+    viz.y = viz.mapping.measurement;
+    viz.color = viz.mapping.category2;
+    viz.type = 'datatable';
+
+    vddf.visualization = viz;
+  }
+}
+
 export function create(data) {
   let manager, vddf;
 
@@ -98,6 +131,8 @@ export function create(data) {
 
     if (!c.name) c.name = `c${i}`;
   });
+
+  prepareViz(data);
 
   return config.getServerUrl()
     .then(baseUrl => {
@@ -125,34 +160,8 @@ export function create(data) {
 }
 
 export function createFromVDDF(vddf, props = {}) {
-  const name = props.name || vddf.title;
-
-  if (vddf.chartType === 'datatable') {
-    console.log('Try to detect default mapping');
-
-    const viz = vddf.visualization;
-    viz.mapping = viz.mapping || {};
-
-    if (/women-majors-pct/.test(name)) {
-      viz.mapping = Object.assign(viz.mapping, {
-        category: 'Year',
-        measurement: 'Percentage',
-        category2: 'Field'
-      });
-    } else if (/cs-degrees/.test(name)) {
-      viz.mapping = Object.assign(viz.mapping, {
-        category: 'Year',
-        measurement: 'Number of Recipients',
-        category2: 'Degree Type'
-      });
-    }
-
-    // +___+
-    viz.x = viz.mapping.category;
-    viz.y = viz.mapping.measurement;
-    viz.color = viz.mapping.category2;
-
-    vddf.visualization = viz;
+  if (!vddf.uuid) {
+    prepareViz(vddf, props);
   }
 
   return new Promise((resolve, reject) => {
