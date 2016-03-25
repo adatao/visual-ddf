@@ -22,7 +22,7 @@ export default class DirectoryHeader extends React.Component {
         error: ''
       });
 
-      this.props.onFilter('');
+      // this.props.onFilter('');
     } else {
       if (!value || "select".indexOf(value.toLowerCase()) !== 0) {
         this.props.onFilter(value);

@@ -104,12 +104,14 @@ function prepareViz(vddf, props = {}) {
         measurement: 'Percentage',
         category2: 'Field'
       });
-    } else if (/cs-degrees/.test(name)) {
+    } else if (/cs-degrees|cs-bachelor-total-by-gender/.test(name)) {
       viz.mapping = Object.assign(viz.mapping, {
         category: 'Year',
         measurement: 'Number of Recipients',
         category2: 'Degree Type'
       });
+    } else {
+      // TODO: detect by column
     }
 
     // +___+
