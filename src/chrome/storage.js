@@ -124,7 +124,37 @@ export function create(data) {
     });
 }
 
-export function createFromVDDF(vddf, props) {
+export function createFromVDDF(vddf, props = {}) {
+  const name = props.name || vddf.title;
+
+  if (vddf.chartType === 'datatable') {
+    console.log('Try to detect default mapping');
+
+    const viz = vddf.visualization;
+    viz.mapping = viz.mapping || {};
+
+    if (/women-majors-pct/.test(name)) {
+      viz.mapping = Object.assign(viz.mapping, {
+        category: 'Year',
+        measurement: 'Percentage',
+        category2: 'Field'
+      });
+    } else if (/cs-degrees/.test(name)) {
+      viz.mapping = Object.assign(viz.mapping, {
+        category: 'Year',
+        measurement: 'Number of Recipients',
+        category2: 'Degree Type'
+      });
+    }
+
+    // +___+
+    viz.x = viz.mapping.category;
+    viz.y = viz.mapping.measurement;
+    viz.color = viz.mapping.category2;
+
+    vddf.visualization = viz;
+  }
+
   return new Promise((resolve, reject) => {
     if (vddf.uuid) {
       resolve(vddf);
