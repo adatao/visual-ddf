@@ -43,6 +43,28 @@ export default class AdaVizChart extends React.Component {
       spec.input.type = 'bar.stacked';
     }
 
+    // TODO: we can bring the whole schema to adaviz
+    if (spec.input.mapping) {
+      spec.input.variables = spec.input.variables || [];
+
+      spec.input.variables.push({
+        type: 'string',
+        name: spec.input.mapping.category
+      });
+
+      spec.input.variables.push({
+        type: 'float',
+        name: spec.input.mapping.measurement
+      });
+
+      if (spec.input.mapping.category2) {
+        spec.input.variables.push({
+          type: 'string',
+          name: spec.input.mapping.category2
+        });
+      }
+    }
+
     // spec.input.theme = 'arimoSunlight';
 
     // AdaViz does not clean up data table properly

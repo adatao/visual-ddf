@@ -1,3 +1,698 @@
-const CHART = {"uuid":"74886e45-8a8b-4985-9263-aff6c6f324d9","title":"My query","source":"http://vddf.arimo.com/vddf/b913d228-e99e-42f8-8c26-0200b6cc3326","data":[[1966,"Number of Women Recipients",12.994],[1967,"Number of Women Recipients",23.976],[1968,"Number of Women Recipients",55.08],[1969,"Number of Women Recipients",121.29],[1970,"Number of Women Recipients",199.17600000000002],[1971,"Number of Women Recipients",324.76800000000003],[1972,"Number of Women Recipients",462.672],[1973,"Number of Women Recipients",641.4449999999999],[1974,"Number of Women Recipients",780.148],[1975,"Number of Women Recipients",957.41],[1976,"Number of Women Recipients",1121.472],[1977,"Number of Women Recipients",1535.8139999999999],[1978,"Number of Women Recipients",1863.7920000000001],[1979,"Number of Women Recipients",2464.0890000000004],[1980,"Number of Women Recipients",3397.5389999999998],[1981,"Number of Women Recipients",4950.725],[1982,"Number of Women Recipients",7109.987999999999],[1983,"Number of Women Recipients",8984.248],[1984,"Number of Women Recipients",12065.82],[1985,"Number of Women Recipients",14435.649],[1986,"Number of Women Recipients",15105.81],[1987,"Number of Women Recipients",13894.596],[1988,"Number of Women Recipients",11341.2],[1989,"Number of Women Recipients",9536.604],[1990,"Number of Women Recipients",8363.89],[1991,"Number of Women Recipients",7521.36],[1992,"Number of Women Recipients",7212.861999999999],[1993,"Number of Women Recipients",6956.139999999999],[1994,"Number of Women Recipients",7022.157999999999],[1995,"Number of Women Recipients",7059.164999999999],[1996,"Number of Women Recipients",6774.420000000001],[1997,"Number of Women Recipients",6906.896000000001],[1998,"Number of Women Recipients",7444.3060000000005],[2000,"Number of Women Recipients",10505.320000000002],[2001,"Number of Women Recipients",12032.772],[2002,"Number of Women Recipients",13669.150000000001],[2003,"Number of Women Recipients",15640.02],[2004,"Number of Women Recipients",15051.968],[2005,"Number of Women Recipients",12173.124],[2006,"Number of Women Recipients",9936],[2007,"Number of Women Recipients",7922.856],[2008,"Number of Women Recipients",6889.1939999999995],[2009,"Number of Women Recipients",6890.784],[2010,"Number of Women Recipients",7299.474],[1966,"Number of Men Recipients",76.006],[1967,"Number of Men Recipients",198.024],[1968,"Number of Men Recipients",403.92],[1969,"Number of Men Recipients",811.71],[1970,"Number of Men Recipients",1344.824],[1971,"Number of Men Recipients",2063.232],[1972,"Number of Men Recipients",2939.328],[1973,"Number of Men Recipients",3663.555],[1974,"Number of Men Recipients",3976.852],[1975,"Number of Men Recipients",4081.59],[1976,"Number of Men Recipients",4542.528],[1977,"Number of Men Recipients",4890.186],[1978,"Number of Men Recipients",5360.208],[1979,"Number of Men Recipients",6304.911],[1980,"Number of Men Recipients",7815.461000000001],[1981,"Number of Men Recipients",10282.275000000001],[1982,"Number of Men Recipients",13321.012],[1983,"Number of Men Recipients",15697.752],[1984,"Number of Men Recipients",20369.18],[1985,"Number of Men Recipients",24685.351],[1986,"Number of Men Recipients",27089.190000000002],[1987,"Number of Men Recipients",26032.404000000002],[1988,"Number of Men Recipients",23554.800000000003],[1989,"Number of Men Recipients",21426.395999999997],[1990,"Number of Men Recipients",19331.109999999997],[1991,"Number of Men Recipients",17888.64],[1992,"Number of Men Recipients",17745.138000000003],[1993,"Number of Men Recipients",17623.86],[1994,"Number of Men Recipients",17530.842],[1995,"Number of Men Recipients",17709.835000000003],[1996,"Number of Men Recipients",17770.579999999998],[1997,"Number of Men Recipients",18486.104],[1998,"Number of Men Recipients",20229.694],[2000,"Number of Men Recipients",27013.68],[2001,"Number of Men Recipients",31564.228],[2002,"Number of Men Recipients",36036.85],[2003,"Number of Men Recipients",42285.979999999996],[2004,"Number of Men Recipients",44916.032],[2005,"Number of Men Recipients",42414.876000000004],[2006,"Number of Men Recipients",38064],[2007,"Number of Men Recipients",34673.144],[2008,"Number of Men Recipients",32032.805999999997],[2009,"Number of Men Recipients",31605.215999999997],[2010,"Number of Men Recipients",32807.526000000005],[1966,"Percentage of Women Recipients",0.146],[1966,"Percentage of Women Recipients",0.146],[1966,"Percentage of Women Recipients",0.146],[1966,"Percentage of Women Recipients",0.146],[1966,"Percentage of Women Recipients",0.146],[1966,"Percentage of Women Recipients",0.146],[1966,"Percentage of Women Recipients",0.146],[1966,"Percentage of Women Recipients",0.146],[1966,"Percentage of Women Recipients",0.146],[1967,"Percentage of Women Recipients",0.108],[1967,"Percentage of Women Recipients",0.108],[1967,"Percentage of Women Recipients",0.108],[1967,"Percentage of Women Recipients",0.108],[1967,"Percentage of Women Recipients",0.108],[1967,"Percentage of Women Recipients",0.108],[1967,"Percentage of Women Recipients",0.108],[1967,"Percentage of Women Recipients",0.108],[1967,"Percentage of Women Recipients",0.108],[1968,"Percentage of Women Recipients",0.12],[1968,"Percentage of Women Recipients",0.12],[1968,"Percentage of Women Recipients",0.12],[1968,"Percentage of Women Recipients",0.12],[1968,"Percentage of Women Recipients",0.12],[1968,"Percentage of Women Recipients",0.12],[1968,"Percentage of Women Recipients",0.12],[1968,"Percentage of Women Recipients",0.12],[1968,"Percentage of Women Recipients",0.12],[1969,"Percentage of Women Recipients",0.13],[1969,"Percentage of Women Recipients",0.13],[1969,"Percentage of Women Recipients",0.13],[1969,"Percentage of Women Recipients",0.13],[1969,"Percentage of Women Recipients",0.13],[1969,"Percentage of Women Recipients",0.13],[1969,"Percentage of Women Recipients",0.13],[1969,"Percentage of Women Recipients",0.13],[1969,"Percentage of Women Recipients",0.13],[1970,"Percentage of Women Recipients",0.129],[1970,"Percentage of Women Recipients",0.129],[1970,"Percentage of Women Recipients",0.129],[1970,"Percentage of Women Recipients",0.129],[1970,"Percentage of Women Recipients",0.129],[1970,"Percentage of Women Recipients",0.129],[1970,"Percentage of Women Recipients",0.129],[1970,"Percentage of Women Recipients",0.129],[1970,"Percentage of Women Recipients",0.129],[1971,"Percentage of Women Recipients",0.136],[1971,"Percentage of Women Recipients",0.136],[1971,"Percentage of Women Recipients",0.136],[1971,"Percentage of Women Recipients",0.136],[1971,"Percentage of Women Recipients",0.136],[1971,"Percentage of Women Recipients",0.136],[1971,"Percentage of Women Recipients",0.136],[1971,"Percentage of Women Recipients",0.136],[1971,"Percentage of Women Recipients",0.136],[1972,"Percentage of Women Recipients",0.136],[1972,"Percentage of Women Recipients",0.136],[1972,"Percentage of Women Recipients",0.136],[1972,"Percentage of Women Recipients",0.136],[1972,"Percentage of Women Recipients",0.136],[1972,"Percentage of Women Recipients",0.136],[1972,"Percentage of Women Recipients",0.136],[1972,"Percentage of Women Recipients",0.136],[1972,"Percentage of Women Recipients",0.136],[1973,"Percentage of Women Recipients",0.149],[1973,"Percentage of Women Recipients",0.149],[1973,"Percentage of Women Recipients",0.149],[1973,"Percentage of Women Recipients",0.149],[1973,"Percentage of Women Recipients",0.149],[1973,"Percentage of Women Recipients",0.149],[1973,"Percentage of Women Recipients",0.149],[1973,"Percentage of Women Recipients",0.149],[1973,"Percentage of Women Recipients",0.149],[1974,"Percentage of Women Recipients",0.164],[1974,"Percentage of Women Recipients",0.164],[1974,"Percentage of Women Recipients",0.164],[1974,"Percentage of Women Recipients",0.164],[1974,"Percentage of Women Recipients",0.164],[1974,"Percentage of Women Recipients",0.164],[1974,"Percentage of Women Recipients",0.164],[1974,"Percentage of Women Recipients",0.164],[1974,"Percentage of Women Recipients",0.164],[1975,"Percentage of Women Recipients",0.19],[1975,"Percentage of Women Recipients",0.19],[1975,"Percentage of Women Recipients",0.19],[1975,"Percentage of Women Recipients",0.19],[1975,"Percentage of Women Recipients",0.19],[1975,"Percentage of Women Recipients",0.19],[1975,"Percentage of Women Recipients",0.19],[1975,"Percentage of Women Recipients",0.19],[1975,"Percentage of Women Recipients",0.19],[1976,"Percentage of Women Recipients",0.198],[1976,"Percentage of Women Recipients",0.198],[1976,"Percentage of Women Recipients",0.198],[1976,"Percentage of Women Recipients",0.198],[1976,"Percentage of Women Recipients",0.198],[1976,"Percentage of Women Recipients",0.198],[1976,"Percentage of Women Recipients",0.198],[1976,"Percentage of Women Recipients",0.198],[1976,"Percentage of Women Recipients",0.198],[1977,"Percentage of Women Recipients",0.239],[1977,"Percentage of Women Recipients",0.239],[1977,"Percentage of Women Recipients",0.239],[1977,"Percentage of Women Recipients",0.239],[1977,"Percentage of Women Recipients",0.239],[1977,"Percentage of Women Recipients",0.239],[1977,"Percentage of Women Recipients",0.239],[1977,"Percentage of Women Recipients",0.239],[1977,"Percentage of Women Recipients",0.239],[1978,"Percentage of Women Recipients",0.258],[1978,"Percentage of Women Recipients",0.258],[1978,"Percentage of Women Recipients",0.258],[1978,"Percentage of Women Recipients",0.258],[1978,"Percentage of Women Recipients",0.258],[1978,"Percentage of Women Recipients",0.258],[1978,"Percentage of Women Recipients",0.258],[1978,"Percentage of Women Recipients",0.258],[1978,"Percentage of Women Recipients",0.258],[1979,"Percentage of Women Recipients",0.281],[1979,"Percentage of Women Recipients",0.281],[1979,"Percentage of Women Recipients",0.281],[1979,"Percentage of Women Recipients",0.281],[1979,"Percentage of Women Recipients",0.281],[1979,"Percentage of Women Recipients",0.281],[1979,"Percentage of Women Recipients",0.281],[1979,"Percentage of Women Recipients",0.281],[1979,"Percentage of Women Recipients",0.281],[1980,"Percentage of Women Recipients",0.303],[1980,"Percentage of Women Recipients",0.303],[1980,"Percentage of Women Recipients",0.303],[1980,"Percentage of Women Recipients",0.303],[1980,"Percentage of Women Recipients",0.303],[1980,"Percentage of Women Recipients",0.303],[1980,"Percentage of Women Recipients",0.303],[1980,"Percentage of Women Recipients",0.303],[1980,"Percentage of Women Recipients",0.303],[1981,"Percentage of Women Recipients",0.325],[1981,"Percentage of Women Recipients",0.325],[1981,"Percentage of Women Recipients",0.325],[1981,"Percentage of Women Recipients",0.325],[1981,"Percentage of Women Recipients",0.325],[1981,"Percentage of Women Recipients",0.325],[1981,"Percentage of Women Recipients",0.325],[1981,"Percentage of Women Recipients",0.325],[1981,"Percentage of Women Recipients",0.325],[1982,"Percentage of Women Recipients",0.348],[1982,"Percentage of Women Recipients",0.348],[1982,"Percentage of Women Recipients",0.348],[1982,"Percentage of Women Recipients",0.348],[1982,"Percentage of Women Recipients",0.348],[1982,"Percentage of Women Recipients",0.348],[1982,"Percentage of Women Recipients",0.348],[1982,"Percentage of Women Recipients",0.348],[1982,"Percentage of Women Recipients",0.348],[1983,"Percentage of Women Recipients",0.364],[1983,"Percentage of Women Recipients",0.364],[1983,"Percentage of Women Recipients",0.364],[1983,"Percentage of Women Recipients",0.364],[1983,"Percentage of Women Recipients",0.364],[1983,"Percentage of Women Recipients",0.364],[1983,"Percentage of Women Recipients",0.364],[1983,"Percentage of Women Recipients",0.364],[1983,"Percentage of Women Recipients",0.364],[1984,"Percentage of Women Recipients",0.372],[1984,"Percentage of Women Recipients",0.372],[1984,"Percentage of Women Recipients",0.372],[1984,"Percentage of Women Recipients",0.372],[1984,"Percentage of Women Recipients",0.372],[1984,"Percentage of Women Recipients",0.372],[1984,"Percentage of Women Recipients",0.372],[1984,"Percentage of Women Recipients",0.372],[1984,"Percentage of Women Recipients",0.372],[1985,"Percentage of Women Recipients",0.369],[1985,"Percentage of Women Recipients",0.369],[1985,"Percentage of Women Recipients",0.369],[1985,"Percentage of Women Recipients",0.369],[1985,"Percentage of Women Recipients",0.369],[1985,"Percentage of Women Recipients",0.369],[1985,"Percentage of Women Recipients",0.369],[1985,"Percentage of Women Recipients",0.369],[1985,"Percentage of Women Recipients",0.369],[1986,"Percentage of Women Recipients",0.358],[1986,"Percentage of Women Recipients",0.358],[1986,"Percentage of Women Recipients",0.358],[1986,"Percentage of Women Recipients",0.358],[1986,"Percentage of Women Recipients",0.358],[1986,"Percentage of Women Recipients",0.358],[1986,"Percentage of Women Recipients",0.358],[1986,"Percentage of Women Recipients",0.358],[1986,"Percentage of Women Recipients",0.358],[1987,"Percentage of Women Recipients",0.348],[1987,"Percentage of Women Recipients",0.348],[1987,"Percentage of Women Recipients",0.348],[1987,"Percentage of Women Recipients",0.348],[1987,"Percentage of Women Recipients",0.348],[1987,"Percentage of Women Recipients",0.348],[1987,"Percentage of Women Recipients",0.348],[1987,"Percentage of Women Recipients",0.348],[1987,"Percentage of Women Recipients",0.348],[1988,"Percentage of Women Recipients",0.325],[1988,"Percentage of Women Recipients",0.325],[1988,"Percentage of Women Recipients",0.325],[1988,"Percentage of Women Recipients",0.325],[1988,"Percentage of Women Recipients",0.325],[1988,"Percentage of Women Recipients",0.325],[1988,"Percentage of Women Recipients",0.325],[1988,"Percentage of Women Recipients",0.325],[1988,"Percentage of Women Recipients",0.325],[1989,"Percentage of Women Recipients",0.308],[1989,"Percentage of Women Recipients",0.308],[1989,"Percentage of Women Recipients",0.308],[1989,"Percentage of Women Recipients",0.308],[1989,"Percentage of Women Recipients",0.308],[1989,"Percentage of Women Recipients",0.308],[1989,"Percentage of Women Recipients",0.308],[1989,"Percentage of Women Recipients",0.308],[1989,"Percentage of Women Recipients",0.308],[1990,"Percentage of Women Recipients",0.302],[1990,"Percentage of Women Recipients",0.302],[1990,"Percentage of Women Recipients",0.302],[1990,"Percentage of Women Recipients",0.302],[1990,"Percentage of Women Recipients",0.302],[1990,"Percentage of Women Recipients",0.302],[1990,"Percentage of Women Recipients",0.302],[1990,"Percentage of Women Recipients",0.302],[1990,"Percentage of Women Recipients",0.302],[1991,"Percentage of Women Recipients",0.296],[1991,"Percentage of Women Recipients",0.296],[1991,"Percentage of Women Recipients",0.296],[1991,"Percentage of Women Recipients",0.296],[1991,"Percentage of Women Recipients",0.296],[1991,"Percentage of Women Recipients",0.296],[1991,"Percentage of Women Recipients",0.296],[1991,"Percentage of Women Recipients",0.296],[1991,"Percentage of Women Recipients",0.296],[1992,"Percentage of Women Recipients",0.289],[1992,"Percentage of Women Recipients",0.289],[1992,"Percentage of Women Recipients",0.289],[1992,"Percentage of Women Recipients",0.289],[1992,"Percentage of Women Recipients",0.289],[1992,"Percentage of Women Recipients",0.289],[1992,"Percentage of Women Recipients",0.289],[1992,"Percentage of Women Recipients",0.289],[1992,"Percentage of Women Recipients",0.289],[1993,"Percentage of Women Recipients",0.283],[1993,"Percentage of Women Recipients",0.283],[1993,"Percentage of Women Recipients",0.283],[1993,"Percentage of Women Recipients",0.283],[1993,"Percentage of Women Recipients",0.283],[1993,"Percentage of Women Recipients",0.283],[1993,"Percentage of Women Recipients",0.283],[1993,"Percentage of Women Recipients",0.283],[1993,"Percentage of Women Recipients",0.283],[1994,"Percentage of Women Recipients",0.286],[1994,"Percentage of Women Recipients",0.286],[1994,"Percentage of Women Recipients",0.286],[1994,"Percentage of Women Recipients",0.286],[1994,"Percentage of Women Recipients",0.286],[1994,"Percentage of Women Recipients",0.286],[1994,"Percentage of Women Recipients",0.286],[1994,"Percentage of Women Recipients",0.286],[1994,"Percentage of Women Recipients",0.286],[1995,"Percentage of Women Recipients",0.285],[1995,"Percentage of Women Recipients",0.285],[1995,"Percentage of Women Recipients",0.285],[1995,"Percentage of Women Recipients",0.285],[1995,"Percentage of Women Recipients",0.285],[1995,"Percentage of Women Recipients",0.285],[1995,"Percentage of Women Recipients",0.285],[1995,"Percentage of Women Recipients",0.285],[1995,"Percentage of Women Recipients",0.285],[1996,"Percentage of Women Recipients",0.276],[1996,"Percentage of Women Recipients",0.276],[1996,"Percentage of Women Recipients",0.276],[1996,"Percentage of Women Recipients",0.276],[1996,"Percentage of Women Recipients",0.276],[1996,"Percentage of Women Recipients",0.276],[1996,"Percentage of Women Recipients",0.276],[1996,"Percentage of Women Recipients",0.276],[1996,"Percentage of Women Recipients",0.276],[1997,"Percentage of Women Recipients",0.272],[1997,"Percentage of Women Recipients",0.272],[1997,"Percentage of Women Recipients",0.272],[1997,"Percentage of Women Recipients",0.272],[1997,"Percentage of Women Recipients",0.272],[1997,"Percentage of Women Recipients",0.272],[1997,"Percentage of Women Recipients",0.272],[1997,"Percentage of Women Recipients",0.272],[1997,"Percentage of Women Recipients",0.272],[1998,"Percentage of Women Recipients",0.269],[1998,"Percentage of Women Recipients",0.269],[1998,"Percentage of Women Recipients",0.269],[1998,"Percentage of Women Recipients",0.269],[1998,"Percentage of Women Recipients",0.269],[1998,"Percentage of Women Recipients",0.269],[1998,"Percentage of Women Recipients",0.269],[1998,"Percentage of Women Recipients",0.269],[1998,"Percentage of Women Recipients",0.269],[1999,"Percentage of Women Recipients",0.281],[1999,"Percentage of Women Recipients",0.281],[1999,"Percentage of Women Recipients",0.281],[2000,"Percentage of Women Recipients",0.28],[2000,"Percentage of Women Recipients",0.28],[2000,"Percentage of Women Recipients",0.28],[2000,"Percentage of Women Recipients",0.28],[2000,"Percentage of Women Recipients",0.28],[2000,"Percentage of Women Recipients",0.28],[2000,"Percentage of Women Recipients",0.28],[2000,"Percentage of Women Recipients",0.28],[2000,"Percentage of Women Recipients",0.28],[2001,"Percentage of Women Recipients",0.276],[2001,"Percentage of Women Recipients",0.276],[2001,"Percentage of Women Recipients",0.276],[2001,"Percentage of Women Recipients",0.276],[2001,"Percentage of Women Recipients",0.276],[2001,"Percentage of Women Recipients",0.276],[2001,"Percentage of Women Recipients",0.276],[2001,"Percentage of Women Recipients",0.276],[2001,"Percentage of Women Recipients",0.276],[2002,"Percentage of Women Recipients",0.275],[2002,"Percentage of Women Recipients",0.275],[2002,"Percentage of Women Recipients",0.275],[2002,"Percentage of Women Recipients",0.275],[2002,"Percentage of Women Recipients",0.275],[2002,"Percentage of Women Recipients",0.275],[2002,"Percentage of Women Recipients",0.275],[2002,"Percentage of Women Recipients",0.275],[2002,"Percentage of Women Recipients",0.275],[2003,"Percentage of Women Recipients",0.27],[2003,"Percentage of Women Recipients",0.27],[2003,"Percentage of Women Recipients",0.27],[2003,"Percentage of Women Recipients",0.27],[2003,"Percentage of Women Recipients",0.27],[2003,"Percentage of Women Recipients",0.27],[2003,"Percentage of Women Recipients",0.27],[2003,"Percentage of Women Recipients",0.27],[2003,"Percentage of Women Recipients",0.27],[2004,"Percentage of Women Recipients",0.251],[2004,"Percentage of Women Recipients",0.251],[2004,"Percentage of Women Recipients",0.251],[2004,"Percentage of Women Recipients",0.251],[2004,"Percentage of Women Recipients",0.251],[2004,"Percentage of Women Recipients",0.251],[2004,"Percentage of Women Recipients",0.251],[2004,"Percentage of Women Recipients",0.251],[2004,"Percentage of Women Recipients",0.251],[2005,"Percentage of Women Recipients",0.223],[2005,"Percentage of Women Recipients",0.223],[2005,"Percentage of Women Recipients",0.223],[2005,"Percentage of Women Recipients",0.223],[2005,"Percentage of Women Recipients",0.223],[2005,"Percentage of Women Recipients",0.223],[2005,"Percentage of Women Recipients",0.223],[2005,"Percentage of Women Recipients",0.223],[2005,"Percentage of Women Recipients",0.223],[2006,"Percentage of Women Recipients",0.207],[2006,"Percentage of Women Recipients",0.207],[2006,"Percentage of Women Recipients",0.207],[2006,"Percentage of Women Recipients",0.207],[2006,"Percentage of Women Recipients",0.207],[2006,"Percentage of Women Recipients",0.207],[2006,"Percentage of Women Recipients",0.207],[2006,"Percentage of Women Recipients",0.207],[2006,"Percentage of Women Recipients",0.207],[2007,"Percentage of Women Recipients",0.186],[2007,"Percentage of Women Recipients",0.186],[2007,"Percentage of Women Recipients",0.186],[2007,"Percentage of Women Recipients",0.186],[2007,"Percentage of Women Recipients",0.186],[2007,"Percentage of Women Recipients",0.186],[2007,"Percentage of Women Recipients",0.186],[2007,"Percentage of Women Recipients",0.186],[2007,"Percentage of Women Recipients",0.186],[2008,"Percentage of Women Recipients",0.177],[2008,"Percentage of Women Recipients",0.177],[2008,"Percentage of Women Recipients",0.177],[2008,"Percentage of Women Recipients",0.177],[2008,"Percentage of Women Recipients",0.177],[2008,"Percentage of Women Recipients",0.177],[2008,"Percentage of Women Recipients",0.177],[2008,"Percentage of Women Recipients",0.177],[2008,"Percentage of Women Recipients",0.177],[2009,"Percentage of Women Recipients",0.179],[2009,"Percentage of Women Recipients",0.179],[2009,"Percentage of Women Recipients",0.179],[2009,"Percentage of Women Recipients",0.179],[2009,"Percentage of Women Recipients",0.179],[2009,"Percentage of Women Recipients",0.179],[2009,"Percentage of Women Recipients",0.179],[2009,"Percentage of Women Recipients",0.179],[2009,"Percentage of Women Recipients",0.179],[2010,"Percentage of Women Recipients",0.182],[2010,"Percentage of Women Recipients",0.182],[2010,"Percentage of Women Recipients",0.182],[2010,"Percentage of Women Recipients",0.182],[2010,"Percentage of Women Recipients",0.182],[2010,"Percentage of Women Recipients",0.182],[2010,"Percentage of Women Recipients",0.182],[2010,"Percentage of Women Recipients",0.182],[2010,"Percentage of Women Recipients",0.182]],"schema":[{"name":"Year","type":"Integer"},{"name":"variable","type":"String"},{"name":"value","type":"Float"}],"visualization":{"type":"datatable","sql":"select w.Year,        'Number of Women Recipients' as variable,        w.value*cs.value as value from women_majors_pct_2 w join cs_degrees_melted_4 cs on (w.Year=cs.Year) WHERE w.variable = 'Computer Science' AND cs.variable = 'Bachelor''s All Recipients' union all select w.Year,        'Number of Men Recipients' as variable,        (1-w.value)*cs.value as value from women_majors_pct_2 w join cs_degrees_melted_4 cs on (w.Year=cs.Year) WHERE w.variable = 'Computer Science' AND cs.variable = 'Bachelor''s All Recipients' union all select w.Year,        'Percentage of Women Recipients' as variable,        w.value as value from women_majors_pct_2 w join cs_degrees_melted_4 cs on (w.Year=cs.Year) WHERE w.variable = 'Computer Science'","mapping":{"category":"Year","measurement":"value","category2":"variable"},"previousType":"line","x":"Year","y":"value","color":"variable"}};
+const CHART = {
+   "title":"What Happened To Women In Computer Science?",
+   "source":"http://vddf.arimo.com/vddf/157a4a30-4a39-47ea-a108-c645d80bd23c",
+   "data":[
+      [
+         "Percentage of Women Recipients",
+         "1966",
+         "0.146"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "1967",
+         "0.108"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "1968",
+         "0.12"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "1969",
+         "0.13"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "1970",
+         "0.129"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "1971",
+         "0.136"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "1972",
+         "0.136"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "1973",
+         "0.149"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "1974",
+         "0.164"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "1975",
+         "0.19"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "1976",
+         "0.198"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "1977",
+         "0.239"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "1978",
+         "0.258"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "1979",
+         "0.281"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "1980",
+         "0.303"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "1981",
+         "0.325"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "1982",
+         "0.348"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "1983",
+         "0.364"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "1984",
+         "0.372"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "1985",
+         "0.369"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "1986",
+         "0.358"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "1987",
+         "0.348"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "1988",
+         "0.325"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "1989",
+         "0.308"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "1990",
+         "0.302"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "1991",
+         "0.296"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "1992",
+         "0.289"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "1993",
+         "0.283"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "1994",
+         "0.286"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "1995",
+         "0.285"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "1996",
+         "0.276"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "1997",
+         "0.272"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "1998",
+         "0.269"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "1999",
+         "0.281"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "2000",
+         "0.28"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "2001",
+         "0.276"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "2002",
+         "0.275"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "2003",
+         "0.27"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "2004",
+         "0.251"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "2005",
+         "0.223"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "2006",
+         "0.207"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "2007",
+         "0.186"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "2008",
+         "0.177"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "2009",
+         "0.179"
+      ],
+      [
+         "Percentage of Women Recipients",
+         "2010",
+         "0.182"
+      ],
+      [
+         "Number of Men Recipients",
+         "1966",
+         "76.006"
+      ],
+      [
+         "Number of Men Recipients",
+         "1967",
+         "198.024"
+      ],
+      [
+         "Number of Men Recipients",
+         "1968",
+         "403.92"
+      ],
+      [
+         "Number of Men Recipients",
+         "1969",
+         "811.71"
+      ],
+      [
+         "Number of Men Recipients",
+         "1970",
+         "1344.824"
+      ],
+      [
+         "Number of Men Recipients",
+         "1971",
+         "2063.232"
+      ],
+      [
+         "Number of Men Recipients",
+         "1972",
+         "2939.328"
+      ],
+      [
+         "Number of Men Recipients",
+         "1973",
+         "3663.555"
+      ],
+      [
+         "Number of Men Recipients",
+         "1974",
+         "3976.852"
+      ],
+      [
+         "Number of Men Recipients",
+         "1975",
+         "4081.59"
+      ],
+      [
+         "Number of Men Recipients",
+         "1976",
+         "4542.528"
+      ],
+      [
+         "Number of Men Recipients",
+         "1977",
+         "4890.186"
+      ],
+      [
+         "Number of Men Recipients",
+         "1978",
+         "5360.208"
+      ],
+      [
+         "Number of Men Recipients",
+         "1979",
+         "6304.911"
+      ],
+      [
+         "Number of Men Recipients",
+         "1980",
+         "7815.461000000001"
+      ],
+      [
+         "Number of Men Recipients",
+         "1981",
+         "10282.275000000001"
+      ],
+      [
+         "Number of Men Recipients",
+         "1982",
+         "13321.012"
+      ],
+      [
+         "Number of Men Recipients",
+         "1983",
+         "15697.752"
+      ],
+      [
+         "Number of Men Recipients",
+         "1984",
+         "20369.18"
+      ],
+      [
+         "Number of Men Recipients",
+         "1985",
+         "24685.351"
+      ],
+      [
+         "Number of Men Recipients",
+         "1986",
+         "27089.190000000002"
+      ],
+      [
+         "Number of Men Recipients",
+         "1987",
+         "26032.404000000002"
+      ],
+      [
+         "Number of Men Recipients",
+         "1988",
+         "23554.800000000003"
+      ],
+      [
+         "Number of Men Recipients",
+         "1989",
+         "21426.395999999997"
+      ],
+      [
+         "Number of Men Recipients",
+         "1990",
+         "19331.109999999997"
+      ],
+      [
+         "Number of Men Recipients",
+         "1991",
+         "17888.64"
+      ],
+      [
+         "Number of Men Recipients",
+         "1992",
+         "17745.138000000003"
+      ],
+      [
+         "Number of Men Recipients",
+         "1993",
+         "17623.86"
+      ],
+      [
+         "Number of Men Recipients",
+         "1994",
+         "17530.842"
+      ],
+      [
+         "Number of Men Recipients",
+         "1995",
+         "17709.835000000003"
+      ],
+      [
+         "Number of Men Recipients",
+         "1996",
+         "17770.579999999998"
+      ],
+      [
+         "Number of Men Recipients",
+         "1997",
+         "18486.104"
+      ],
+      [
+         "Number of Men Recipients",
+         "1998",
+         "20229.694"
+      ],
+      [
+         "Number of Men Recipients",
+         "2000",
+         "27013.68"
+      ],
+      [
+         "Number of Men Recipients",
+         "2001",
+         "31564.228"
+      ],
+      [
+         "Number of Men Recipients",
+         "2002",
+         "36036.85"
+      ],
+      [
+         "Number of Men Recipients",
+         "2003",
+         "42285.979999999996"
+      ],
+      [
+         "Number of Men Recipients",
+         "2004",
+         "44916.032"
+      ],
+      [
+         "Number of Men Recipients",
+         "2005",
+         "42414.876000000004"
+      ],
+      [
+         "Number of Men Recipients",
+         "2006",
+         "38064"
+      ],
+      [
+         "Number of Men Recipients",
+         "2007",
+         "34673.144"
+      ],
+      [
+         "Number of Men Recipients",
+         "2008",
+         "32032.805999999997"
+      ],
+      [
+         "Number of Men Recipients",
+         "2009",
+         "31605.215999999997"
+      ],
+      [
+         "Number of Men Recipients",
+         "2010",
+         "32807.526000000005"
+      ],
+      [
+         "Number of Women Recipients",
+         "1966",
+         "12.994"
+      ],
+      [
+         "Number of Women Recipients",
+         "1967",
+         "23.976"
+      ],
+      [
+         "Number of Women Recipients",
+         "1968",
+         "55.08"
+      ],
+      [
+         "Number of Women Recipients",
+         "1969",
+         "121.29"
+      ],
+      [
+         "Number of Women Recipients",
+         "1970",
+         "199.17600000000002"
+      ],
+      [
+         "Number of Women Recipients",
+         "1971",
+         "324.76800000000003"
+      ],
+      [
+         "Number of Women Recipients",
+         "1972",
+         "462.672"
+      ],
+      [
+         "Number of Women Recipients",
+         "1973",
+         "641.4449999999999"
+      ],
+      [
+         "Number of Women Recipients",
+         "1974",
+         "780.148"
+      ],
+      [
+         "Number of Women Recipients",
+         "1975",
+         "957.41"
+      ],
+      [
+         "Number of Women Recipients",
+         "1976",
+         "1121.472"
+      ],
+      [
+         "Number of Women Recipients",
+         "1977",
+         "1535.8139999999999"
+      ],
+      [
+         "Number of Women Recipients",
+         "1978",
+         "1863.7920000000001"
+      ],
+      [
+         "Number of Women Recipients",
+         "1979",
+         "2464.0890000000004"
+      ],
+      [
+         "Number of Women Recipients",
+         "1980",
+         "3397.5389999999998"
+      ],
+      [
+         "Number of Women Recipients",
+         "1981",
+         "4950.725"
+      ],
+      [
+         "Number of Women Recipients",
+         "1982",
+         "7109.987999999999"
+      ],
+      [
+         "Number of Women Recipients",
+         "1983",
+         "8984.248"
+      ],
+      [
+         "Number of Women Recipients",
+         "1984",
+         "12065.82"
+      ],
+      [
+         "Number of Women Recipients",
+         "1985",
+         "14435.649"
+      ],
+      [
+         "Number of Women Recipients",
+         "1986",
+         "15105.81"
+      ],
+      [
+         "Number of Women Recipients",
+         "1987",
+         "13894.596"
+      ],
+      [
+         "Number of Women Recipients",
+         "1988",
+         "11341.2"
+      ],
+      [
+         "Number of Women Recipients",
+         "1989",
+         "9536.604"
+      ],
+      [
+         "Number of Women Recipients",
+         "1990",
+         "8363.89"
+      ],
+      [
+         "Number of Women Recipients",
+         "1991",
+         "7521.36"
+      ],
+      [
+         "Number of Women Recipients",
+         "1992",
+         "7212.861999999999"
+      ],
+      [
+         "Number of Women Recipients",
+         "1993",
+         "6956.139999999999"
+      ],
+      [
+         "Number of Women Recipients",
+         "1994",
+         "7022.157999999999"
+      ],
+      [
+         "Number of Women Recipients",
+         "1995",
+         "7059.164999999999"
+      ],
+      [
+         "Number of Women Recipients",
+         "1996",
+         "6774.420000000001"
+      ],
+      [
+         "Number of Women Recipients",
+         "1997",
+         "6906.896000000001"
+      ],
+      [
+         "Number of Women Recipients",
+         "1998",
+         "7444.3060000000005"
+      ],
+      [
+         "Number of Women Recipients",
+         "2000",
+         "10505.320000000002"
+      ],
+      [
+         "Number of Women Recipients",
+         "2001",
+         "12032.772"
+      ],
+      [
+         "Number of Women Recipients",
+         "2002",
+         "13669.150000000001"
+      ],
+      [
+         "Number of Women Recipients",
+         "2003",
+         "15640.02"
+      ],
+      [
+         "Number of Women Recipients",
+         "2004",
+         "15051.968"
+      ],
+      [
+         "Number of Women Recipients",
+         "2005",
+         "12173.124"
+      ],
+      [
+         "Number of Women Recipients",
+         "2006",
+         "9936"
+      ],
+      [
+         "Number of Women Recipients",
+         "2007",
+         "7922.856"
+      ],
+      [
+         "Number of Women Recipients",
+         "2008",
+         "6889.1939999999995"
+      ],
+      [
+         "Number of Women Recipients",
+         "2009",
+         "6890.784"
+      ],
+      [
+         "Number of Women Recipients",
+         "2010",
+         "7299.474"
+      ]
+   ],
+   "schema":[
+      {
+         "name":"Category",
+         "type":"String"
+      },
+      {
+         "name":"Year",
+         "type":"Integer"
+      },
+      {
+         "name":"Value",
+         "type":"Float"
+      }
+   ],
+   "visualization":{
+      "mapping":{
+         "category":"Year",
+         "measurement":"Value",
+         "category2":"Category"
+      },
+      "previousType":"line",
+      "x":"Year",
+      "y":"Value",
+      "color":"Category"
+   }
+};
 
 export default CHART;

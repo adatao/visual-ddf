@@ -77,7 +77,7 @@ export default class ItemDetail extends React.Component {
     const width = 1216;
     const height = this.calculateHeight();
     const offset = Math.max(0, (this.props.screenWidth - 1240) / 2);
-    const arrowMargin = offset + 85 + 202 * this.props.arrowOffset ;
+    const arrowMargin = offset + 75 + 206 * this.props.arrowOffset ;
     const detailStyle = {left: -offset, width: Math.max(this.props.screenWidth, width)};
 
     return (

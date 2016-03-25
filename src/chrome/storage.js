@@ -89,6 +89,7 @@ async function createDDFTable(name, schema) {
   return SQL.run(createTableString);
 }
 
+// XXX: Magic
 function prepareViz(vddf, props = {}) {
   const name = props.name || vddf.name || vddf.title;
 
@@ -127,6 +128,24 @@ function prepareViz(vddf, props = {}) {
     viz.y = viz.mapping.measurement;
     viz.color = viz.mapping.category2;
     viz.type = 'datatable';
+
+    if (viz.seriesMagic) {
+      viz.type = 'bar';
+
+      viz.series = [
+        {
+          name: 'Percentage of Women Recipients',
+          axis: 'secondary',
+          type: 'line'
+        }
+      ];
+
+      viz.yLabel = 'Number of Recipients';
+      viz.yLabel2 = 'Percentage';
+
+      // no more magic here...
+      delete viz.seriesMagic;
+    }
 
     vddf.visualization = viz;
   }

@@ -58,26 +58,6 @@ export default class DirectoryContent extends React.Component {
       // and we need to use this list to use as preview in Item
       this.context.manager.load(manager.config.baseUrl + '/vddf/' + chart.uuid)
         .then(vddf => {
-          const viz = vddf.visualization;
-
-          // XXX: magic
-          if (viz && viz.seriesMagic) {
-            viz.type = 'bar';
-
-            viz.series = [
-              {
-                name: 'Percentage of Women Recipients',
-                axis: 'secondary',
-                type: 'line'
-              }
-            ];
-
-            // no more magic here...
-            delete viz.seriesMagic;
-
-            vddf.visualization = viz;
-          }
-
           this.setState({vddf, selected});
         });
     } else {

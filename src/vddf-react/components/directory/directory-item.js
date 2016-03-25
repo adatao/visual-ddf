@@ -62,7 +62,7 @@ export default class Item extends React.Component {
             }
           });
         })
-        .then(() => this.props.reload());
+        .then(() => this.props.reload(true));
     }
   };
 
