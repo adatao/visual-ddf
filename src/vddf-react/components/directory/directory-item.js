@@ -3,8 +3,8 @@ import FontIcon from 'material-ui/lib/font-icon';
 
 const style = {
   tableIcon: {
-    fontSize: '128px',
-    lineHeight: '180px',
+    fontSize: '80px',
+    lineHeight: '120px',
     verticalAlign: 'middle',
     opacity: 0.5
   }
@@ -29,7 +29,7 @@ export default class Item extends React.Component {
       return (
         <div className='preview'>
           <div className='img'>
-            <img width='100%' src={this.props.preview || chart.preview} />
+            <img width='95%' style={{marginTop: '4px'}} src={this.props.preview || chart.preview} />
           </div>
         </div>
       );
@@ -37,7 +37,7 @@ export default class Item extends React.Component {
 
     return (
       <div className='preview'>
-        <FontIcon style={style.tableIcon} className='mdi mdi-database' />
+        <FontIcon style={style.tableIcon} className='mdi mdi-table' />
       </div>
     );
   }

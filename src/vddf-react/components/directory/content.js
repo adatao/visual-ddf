@@ -94,13 +94,14 @@ export default class DirectoryContent extends React.Component {
 
     // we hardcode only 4 items per grid now
     if (this.state.selected !== -1) {
+      const numPerRows = 6;
       const selectedChart = this.props.charts[this.state.selected];
       const selectedIndex = this.state.selected;
       const detailView = (
-        <ItemDetail updatePreview={this.updatePreview} screenWidth={this.props.screenWidth} screenHeight={this.props.screenHeight} arrowOffset={selectedIndex % 4} key='detail' chart={selectedChart} vddf={this.state.vddf}/>
+        <ItemDetail updatePreview={this.updatePreview} screenWidth={this.props.screenWidth} screenHeight={this.props.screenHeight} arrowOffset={selectedIndex % numPerRows} key='detail' chart={selectedChart} vddf={this.state.vddf}/>
       );
 
-      charts.splice(Math.ceil((selectedIndex+1) / 4)*4, 0, detailView);
+      charts.splice(Math.ceil((selectedIndex+1) / numPerRows)*numPerRows, 0, detailView);
     }
 
     return (
