@@ -111,7 +111,15 @@ function prepareViz(vddf, props = {}) {
         category2: 'Degree Type'
       });
     } else {
-      // TODO: detect by column
+      vddf.schema.forEach((c) => {
+        if (!viz.mapping.category && (c.name === 'Year' || c.type === 'String')) {
+          viz.mapping.category = c.name;
+        } else if (!viz.mapping.category2 && c.type === 'String') {
+          viz.mapping.category2 = c.name;
+        } else if (!viz.mapping.measurement && (c.type === 'Float' || c.type === 'Integer')) {
+          viz.mapping.measurement = c.name;
+        }
+      });
     }
 
     // +___+
@@ -134,8 +142,6 @@ export function create(data) {
     if (!c.name) c.name = `c${i}`;
   });
 
-  prepareViz(data);
-
   return config.getServerUrl()
     .then(baseUrl => {
       manager = new Manager({ baseUrl });
@@ -144,6 +150,8 @@ export function create(data) {
     })
     .then(result => {
       vddf = result;
+
+      prepareViz(vddf, data);
 
       return manager.export(vddf);
     })
