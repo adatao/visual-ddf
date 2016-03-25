@@ -10,9 +10,12 @@ const style = {
   }
 };
 
+import chart1 from '../../../chrome/assets/chart1.js';
+
 export default class Item extends React.Component {
   static contextTypes = {
-    manager: React.PropTypes.object
+    manager: React.PropTypes.object,
+    storage: React.PropTypes.object
   };
 
   shouldComponentUpdate(nextProps) {
@@ -42,11 +45,40 @@ export default class Item extends React.Component {
     );
   }
 
+  onDrop = (e) => {
+    const uuid = e.dataTransfer.getData('application/vddf-uuid');
+
+    // XXX: magic
+    if (uuid && uuid !== this.props.chart.uuid) {
+      this.context.manager.load(chart1)
+        .then(vddf => {
+          return this.context.storage.create({
+            title: vddf.title,
+            data: vddf.fetch(),
+            schema: vddf.schema,
+            visualization: {
+              ...vddf.visualization,
+              seriesMagic: 1
+            }
+          });
+        })
+        .then(() => this.props.reload());
+    }
+  };
+
+  onDrag = (e) => {
+    const dataTransfer = e.dataTransfer;
+    const chart = this.props.chart;
+
+    dataTransfer.clearData();
+    dataTransfer.setData('application/vddf-uuid', chart.uuid);
+  };
+
   render() {
     const chart = this.props.chart;
 
     return (
-      <div onClick={this.props.onClick} className='vddf-chart-preview'>
+      <div draggable onClick={this.props.onClick} className='vddf-chart-preview' onDrop={this.onDrop} onDragStart={this.onDrag}>
         {this.getPreview()}
         <div className='title'>
           {chart.name || chart.title}

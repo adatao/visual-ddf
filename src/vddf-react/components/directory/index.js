@@ -152,7 +152,7 @@ export default class Directory extends React.Component {
               Drag your dataset to upload <span className='mdi mdi-upload'/>
             </div>
           </DropZone>
-          <Content ref='content' charts={charts}
+          <Content ref='content' charts={charts} reload={this.props.reload}
                    initialSelect={this.props.initialSelect}
                    screenWidth={this.props.screenWidth}
                    screenHeight={this.props.screenHeight} />

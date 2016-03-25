@@ -58,6 +58,25 @@ export default class DirectoryContent extends React.Component {
       // and we need to use this list to use as preview in Item
       this.context.manager.load(manager.config.baseUrl + '/vddf/' + chart.uuid)
         .then(vddf => {
+          const viz = vddf.visualization;
+
+          // XXX: magic
+          if (viz && viz.seriesMagic) {
+            viz.previousType = 'bar';
+
+            viz.series = [
+              {
+                name: 'Percentage of Women Recipients',
+                axis: 'secondary',
+                type: 'line'
+              }
+            ];
+
+            delete viz.seriesMagic;
+
+            vddf.visualization = viz;
+          }
+
           this.setState({vddf, selected});
         });
     } else {
@@ -89,7 +108,7 @@ export default class DirectoryContent extends React.Component {
     let charts = this.props.charts;
 
     charts = charts.map(c => {
-      return <Item key={c.uuid} preview={this.state.preview[c.uuid]} chart={c} onClick={() => this._selectChart(c)} />;
+      return <Item key={c.uuid} reload={this.props.reload} preview={this.state.preview[c.uuid]} chart={c} onClick={() => this._selectChart(c)} />;
     });
 
     // we hardcode only 4 items per grid now
