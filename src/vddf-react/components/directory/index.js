@@ -130,16 +130,19 @@ export default class Directory extends React.Component {
   render() {
     let charts = this.props.charts;
 
-    if (this.state.keyword) {
-      charts = charts.filter(c => {
-        return fuzzysearch(this.state.keyword, c.name);
-      });
-    }
+    // search is so annoying and it so easy to make mistake
+    // so i disable it for now
+    // if (this.state.keyword) {
+    //   charts = charts.filter(c => {
+    //     return fuzzysearch(this.state.keyword, c.name);
+    //   });
+    // }
 
     return (
       <div className='vddf-directory'>
         <Header onFilter={this.handleKeywordChange}
                 onSql={this.handleSqlRequest}
+                avatarUrl={this.props.avatarUrl}
                 />
         <div className='chart-list'>
           <DropZone global onDrop={this.dropFile}

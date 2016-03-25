@@ -1,6 +1,7 @@
 import chrome from 'chrome';
 const defaultServerUrl = 'http://vddf.arimo.com';
 const defaultBigAppsUrl = '';
+const defaultAvatarUrl = 'avatar.png';
 
 function readChromeConfig(obj) {
   return new Promise((resolve, reject) => {
@@ -18,6 +19,12 @@ export function getServerUrl() {
       resolve(item.serverUrl);
     });
   });
+}
+
+export function getAvatarUrl() {
+  return readChromeConfig({
+    avatarUrl: ''
+  }).then(i => i.avatarUrl || defaultAvatarUrl);
 }
 
 export function getBigAppsUrl() {

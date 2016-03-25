@@ -32,7 +32,7 @@ export default class Item extends React.Component {
       return (
         <div className='preview'>
           <div className='img'>
-            <img width='95%' style={{marginTop: '4px'}} src={this.props.preview || chart.preview} />
+            <img draggable='false' width='95%' style={{marginTop: '4px'}} src={this.props.preview || chart.preview} />
           </div>
         </div>
       );

@@ -43,12 +43,13 @@ export function preview(source) {
 
   const svgSource = getSvgSource(node);
   const svgRaw = svgSource.source[0];
+  const base64svg = btoa(unescape(encodeURIComponent(svgRaw)));
 
   return {
     ...source,
     title: svgSource.title,
     svg: svgRaw,
-    previewUrl: 'data:image/svg+xml;base64,' + btoa(svgRaw)
+    previewUrl: 'data:image/svg+xml;base64,' + base64svg
   };
 }
 

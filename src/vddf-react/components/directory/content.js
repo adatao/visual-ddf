@@ -62,7 +62,7 @@ export default class DirectoryContent extends React.Component {
 
           // XXX: magic
           if (viz && viz.seriesMagic) {
-            viz.previousType = 'bar';
+            viz.type = 'bar';
 
             viz.series = [
               {
@@ -72,6 +72,7 @@ export default class DirectoryContent extends React.Component {
               }
             ];
 
+            // no more magic here...
             delete viz.seriesMagic;
 
             vddf.visualization = viz;

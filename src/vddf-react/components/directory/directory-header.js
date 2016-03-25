@@ -93,7 +93,7 @@ export default class DirectoryHeader extends React.Component {
             {this.state.mode === 'txt' ? this.renderInput() : this.renderSqlBox()}
           </div>
           <div className='col-xs-1 profile'>
-            <img src='avatar.png' width={32} />
+            <img src={this.props.avatarUrl} width={36} />
           </div>
         </div>
       </header>

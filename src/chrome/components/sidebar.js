@@ -11,8 +11,7 @@ const style = {
     height: '100%',
     background: '#F7F7F7',
     boxShadow: '0px 2px 4px 0px rgba(0,0,0,0.50)',
-    padding: '10px',
-    zIndex: 9999 // over 9000!
+    padding: '10px'
   },
   actionButtons: {
     textAlign: 'right'

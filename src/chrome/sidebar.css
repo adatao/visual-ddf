@@ -1,6 +1,7 @@
 .vddf-sidebar {
     font-size: 14px;
     color: #9B9B9B;
+    z-index: 9999999999; /* over 9m ...  */
 }
 
 .vddf-sidebar h4 {

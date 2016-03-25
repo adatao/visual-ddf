@@ -9,7 +9,7 @@ import * as Storage from './storage';
 import * as SQL from './sql';
 import Manager from 'src/vddf-react/manager';
 import FileLoader from 'src/vddf-react/loaders/file';
-import { getServerUrl } from './config';
+import { getServerUrl, getAvatarUrl } from './config';
 
 // styles
 import 'flexboxgrid';
@@ -35,10 +35,15 @@ function getManager() {
 
 function gogoVDDF(active) {
   let manager;
+  let avatarUrl;
 
-  getManager()
+  Promise.all([
+    getManager(),
+    getAvatarUrl()
+  ])
     .then(res => {
-      manager = res;
+      manager = res[0];
+      avatarUrl = res[1];
 
       return Storage.list();
     })
@@ -48,6 +53,7 @@ function gogoVDDF(active) {
                    screenHeight={window.innerHeight}
                    storage={Storage}
                    manager={manager}
+                   avatarUrl={avatarUrl}
                    charts={charts}
                    reload={gogoVDDF} />,
 
