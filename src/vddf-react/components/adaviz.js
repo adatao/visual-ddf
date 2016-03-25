@@ -38,6 +38,11 @@ export default class AdaVizChart extends React.Component {
       }
     };
 
+    // bar chart does not render color correctly
+    if (spec.input.type === 'bar' && spec.input.color) {
+      spec.input.type = 'bar.stacked';
+    }
+
     // spec.input.theme = 'arimoSunlight';
 
     // AdaViz does not clean up data table properly

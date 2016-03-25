@@ -143,9 +143,9 @@ export default class Chart extends React.Component {
     if (this.props.mode !== 'chartonly') {
       height = height - 32; // header
 
-      if (this.vddf.isModified()) {
-        height -= 22; // footer modification notice
-      }
+      // if (this.vddf.isModified()) {
+      //   height -= 22; // footer modification notice
+      // }
     }
 
     return height;
@@ -163,7 +163,7 @@ export default class Chart extends React.Component {
     }
 
     if (viz.type !== 'datatable') {
-      width = Math.min(800, width);
+      width = Math.min(950, width);
     }
 
     const spec = Immutable.fromJS({
@@ -300,9 +300,11 @@ export default class Chart extends React.Component {
       <MenuItem key={i} primaryText={m.title} onClick={m.action} />
     ));
 
+    toolbarButtons.push({icon: 'mdi-share-variant', action: this.exportChart, title: 'Share ...'});
+
     const buttonElements = toolbarButtons.map((b,i) => {
       return (
-        <span data-class='vddf-tip' data-tip={b.title} key={i} style={{ marginRight: '12px', display: 'inline-block' }}>
+        <span data-class='vddf-tip' data-tip={b.title} key={i} style={{ marginLeft: '12px', display: 'inline-block' }}>
           <FontIcon style={style.menuIcon}
                     onClick={b.action}
                     className={'mdi ' + b.icon} />
@@ -342,9 +344,6 @@ export default class Chart extends React.Component {
           </div>
           <div style={style.toolbarRight}>
             {buttonElements}
-            <DropdownMenu iconStyle={style.menuIcon} icon='mdi-share-variant'>
-              {menuElements}
-            </DropdownMenu>
           </div>
         </div>
       );
@@ -424,13 +423,13 @@ export default class Chart extends React.Component {
 
   getNotificationNotice() {
     // TODO: need a better notification when not in active mode
-    if (this.vddf.isModified() && this.isActive()) {
-      return (
-        <div style={style.modificationNotice}>
-          You have customized this visualization. <span style={style.noticeLink} onClick={this.revertChange}>Revert</span> or <span onClick={this.exportChart} style={style.noticeLink}>Export</span>.
-        </div>
-      );
-    }
+    // if (this.vddf.isModified() && this.isActive()) {
+    //   return (
+    //     <div style={style.modificationNotice}>
+    //       You have customized this visualization. <span style={style.noticeLink} onClick={this.revertChange}>Revert</span> or <span onClick={this.exportChart} style={style.noticeLink}>Export</span>.
+    //     </div>
+    //   );
+    // }
   }
 
   activate() {
@@ -459,7 +458,7 @@ export default class Chart extends React.Component {
   };
 
   isActive() {
-    return this.props.active || this.state.active
+    return this.props.active || this.state.active;
   }
 
   render() {
