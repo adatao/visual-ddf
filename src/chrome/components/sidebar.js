@@ -92,7 +92,7 @@ export default class Sidebar extends React.Component {
           <RaisedButton
              backgroundColor='#07AE88'
              labelColor='white'
-             label='Save'
+             label='Export'
              onClick={this.save} />
         </div>
       </div>

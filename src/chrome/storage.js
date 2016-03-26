@@ -105,12 +105,6 @@ function prepareViz(vddf, props = {}) {
         measurement: 'Percentage',
         category2: 'Field'
       });
-    } else if (/cs-degrees|cs-bachelor-total-by-gender/.test(name)) {
-      viz.mapping = Object.assign(viz.mapping, {
-        category: 'Year',
-        measurement: 'Number of Recipients',
-        category2: 'Degree Type'
-      });
     } else {
       vddf.schema.forEach((c) => {
         if (!viz.mapping.category && (c.name === 'Year' || c.type === 'String')) {
@@ -129,18 +123,60 @@ function prepareViz(vddf, props = {}) {
     viz.color = viz.mapping.category2;
     viz.type = 'datatable';
 
+    // post magic ...
+    if (/police[-_]shootings/.test(name)) {
+      viz.mapping = Object.assign(viz.mapping, {
+        category: 'manner_of_death',
+        measurement: '',
+        category2: '',
+        aggregation: 'count'
+      });
+
+      viz.previousType = 'pie';
+      viz.size = 'value';
+      viz.color = 'manner_of_death';
+
+      delete viz.x;
+      delete viz.y;
+    } else if (/cs-degrees|cs-bachelor-total-by-gender/.test(name)) {
+      viz.mapping = Object.assign(viz.mapping, {
+        category: 'Year',
+        measurement: 'Graduates',
+        category2: '',
+        aggregation: 'sum'
+      });
+
+      viz.aggregation = 'sum';
+
+      delete viz.color;
+    } else if (/states of the united states in/i.test(name)) {
+      viz.mapping = Object.assign(viz.mapping, {
+        category: 'State',
+        measurement: 'Population_2013_est',
+        category2: '',
+        aggregation: ''
+      });
+
+      viz.previousType = 'treemap';
+      viz.size = 'State';
+      viz.color = 'Population_2013_est';
+
+      delete viz.x;
+      delete viz.y;
+    }
+
     if (viz.seriesMagic) {
       viz.type = 'bar';
 
       viz.series = [
         {
-          name: 'Percentage of Women Recipients',
+          name: 'Percentage of Women Graduates',
           axis: 'secondary',
           type: 'line'
         }
       ];
 
-      viz.yLabel = 'Number of Recipients';
+      viz.yLabel = 'Graduates';
       viz.yLabel2 = 'Percentage';
       viz.legendSort = 'none';
 
@@ -184,7 +220,7 @@ export function create(data) {
       const newData = vddf.fetch().map(r => {
         numericFields.forEach(i => {
           if (typeof r[i] !== 'number') {
-            r[i] = parseFloat(r[i].replace(/,/, ''));
+            r[i] = parseFloat(r[i].replace(/,/g, ''));
           }
         });
 
