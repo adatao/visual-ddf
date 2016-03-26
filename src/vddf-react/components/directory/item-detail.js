@@ -19,7 +19,9 @@ export default class ItemDetail extends React.Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    return this.props.chart.uuid !== nextProps.chart.uuid;
+    const shouldUpdate = this.props.vddf.uuid !== nextProps.vddf.uuid;
+
+    return shouldUpdate;
   }
 
   renderVDDF(props) {

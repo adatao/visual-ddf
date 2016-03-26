@@ -54,6 +54,8 @@ export default class DirectoryContent extends React.Component {
       const manager = this.context.manager;
       const chart = this.props.charts[selected];
 
+      console.log('load chart', chart.uuid);
+
       // TODO: we may want to cache the vddf so we don't have to reload every time it click
       // and we need to use this list to use as preview in Item
       this.context.manager.load(manager.config.baseUrl + '/vddf/' + chart.uuid)

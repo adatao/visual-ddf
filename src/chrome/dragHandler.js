@@ -1,4 +1,4 @@
-import $ from 'jQuery';
+import $ from 'jquery';
 import uuid from 'uuid';
 import chrome from 'chrome';
 import { extractD3Data } from './extractor';
