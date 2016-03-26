@@ -37,8 +37,8 @@ export default class ItemDetail extends React.Component {
   renderPreview() {
     const vddf = this.props.vddf;
     const props = {
-      width: 600,
-      height: 360
+      width: 720,
+      height: 480
     };
 
     props.onRendered = this.onChartRendererd;

@@ -17,6 +17,14 @@ const charts = {
     previewUrl: 'https://s3.amazonaws.com/vddf/police-shootings.svg',
     dataUrl: 'https://s3.amazonaws.com/vddf/police-shootings.csv',
     type: 'magic'
+  },
+
+  obama_care: {
+    title: 'Obama’s Health Law: Who Was Helped Most',
+    name: 'obama_health_law',
+    previewUrl: 'https://s3.amazonaws.com/vddf/obama-care.png',
+    dataUrl: 'https://s3.amazonaws.com/vddf/obama-care.csv',
+    type: 'magic'
   }
 };
 
@@ -28,6 +36,9 @@ export function detect(document) {
     sources.push(charts.women_coding);
   } else if (/washingtonpost.com.*police-shootings/.test(location)) {
     sources.push(charts.police_shooting);
+  } else if (/nytimes.com.*obamacare/.test(location)) {
+    // http://www.nytimes.com/interactive/2014/10/29/upshot/obamacare-who-was-helped-most.html
+    sources.push(charts.obama_care);
   }
 
   return sources;

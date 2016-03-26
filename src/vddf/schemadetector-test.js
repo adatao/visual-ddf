@@ -73,6 +73,9 @@ describe('SchemaDetector', () => {
 
       type = detector.detectValue("1e+05");
       assert.equal(Types.Integer, type);
+
+      assert.equal(Types.Integer, detector.detectValue("1,234"));
+      assert.equal(Types.Integer, detector.detectValue("1,234,567"));
     });
 
     it('should detect string type correctly', () => {

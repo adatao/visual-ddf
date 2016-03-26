@@ -8,7 +8,7 @@ export const Types = {
   }
 };
 
-const NumberTest = /^-?\d+(\.\d+)?(e[+-]?\d+)?$/;
+const NumberTest = /^-?[\d,]+(\.\d+)?(e[+-]?\d+)?$/;
 
 export default class SchemaDetector {
   detect(data, schema) {
@@ -65,8 +65,15 @@ export default class SchemaDetector {
   detectValue(value) {
     let m;
 
-    if (typeof value == 'number' || (m = NumberTest.exec(value))) {
-      if ((m && m[1]) || value % 1 !== 0) {
+    if (typeof value === 'number') {
+      if (value % 1 !== 0) {
+        return Types.Float;
+      } else {
+        return Types.Integer;
+      }
+    }
+    else if (m = NumberTest.exec(value)) {
+      if (m && m[1]) {
         return Types.Float;
       } else {
         return Types.Integer;

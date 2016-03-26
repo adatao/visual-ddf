@@ -142,6 +142,7 @@ function prepareViz(vddf, props = {}) {
 
       viz.yLabel = 'Number of Recipients';
       viz.yLabel2 = 'Percentage';
+      viz.legendSort = 'none';
 
       // no more magic here...
       delete viz.seriesMagic;
@@ -161,6 +162,7 @@ export function create(data) {
     if (!c.name) c.name = `c${i}`;
   });
 
+
   return config.getServerUrl()
     .then(baseUrl => {
       manager = new Manager({ baseUrl });
@@ -169,6 +171,27 @@ export function create(data) {
     })
     .then(result => {
       vddf = result;
+
+      // XXX: this should be in vddf
+      const numericFields = [];
+
+      vddf.schema.forEach((c,i) => {
+        if (c.type === 'Integer' || c.type === 'Float') {
+          numericFields.push(i);
+        }
+      });
+
+      const newData = vddf.fetch().map(r => {
+        numericFields.forEach(i => {
+          if (typeof r[i] !== 'number') {
+            r[i] = parseFloat(r[i].replace(/,/, ''));
+          }
+        });
+
+        return r;
+      });
+
+      vddf.updateData(newData);
 
       prepareViz(vddf, data);
 

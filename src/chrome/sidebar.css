@@ -11,7 +11,7 @@
 }
 
 .vddf-sidebar .charts-container {
-    height: calc(100% - 145px);
+    height: calc(100% - 160px);
     margin-bottom: 8px;
     overflow: auto
 }
