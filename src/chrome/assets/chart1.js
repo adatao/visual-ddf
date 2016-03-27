@@ -688,7 +688,7 @@ const CHART = {
          "measurement":"Graduates",
          "category2":"Category"
       },
-      "previousType":"line",
+      "previousType":"bar.grouped",
       "x":"Year",
       "y":"Graduates",
       "color":"Category"

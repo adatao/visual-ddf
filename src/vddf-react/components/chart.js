@@ -396,7 +396,7 @@ export default class Chart extends React.Component {
       } else {
         el = (
           <div style={{width: input.width, height: input.height, margin: '0 auto'}}>
-            <AdaVizChart spec={this.state.adaviz} onRendered={this.props.onRendered} />
+            <AdaVizChart spec={this.state.adaviz} onRendered={this.props.onRendered} onLegendClick={this.props.onLegendClick} />
           </div>
         );
       }

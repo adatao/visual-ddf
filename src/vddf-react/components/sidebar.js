@@ -77,7 +77,7 @@ export default class Sidebar extends React.Component {
     return (
       <FlatButton key={type} backgroundColor={background} style={buttonStyle} onClick={() => this.changeChartType(type)}>
         <img style={style.chartIcon} src={`${baseUrl}chart-icons/${type}.svg`} />
-        <span style={{verticalAlign: 'middle', textTransform: 'none'}}>{title}</span>
+        <span style={{verticalAlign: 'middle', textTransform: 'none', fontWeight: 300}}>{title}</span>
       </FlatButton>
     );
   }

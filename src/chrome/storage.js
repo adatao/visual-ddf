@@ -166,7 +166,7 @@ function prepareViz(vddf, props = {}) {
     }
 
     if (viz.seriesMagic) {
-      viz.type = 'bar';
+      viz.type = 'bar.grouped';
 
       viz.series = [
         {

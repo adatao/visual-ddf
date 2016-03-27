@@ -28,6 +28,7 @@ export default class ItemDetail extends React.Component {
     const vddf = this.props.vddf;
 
     props.key = vddf.uuid;
+    props.onLegendClick = this.onLegendClick;
     props.active = true;
 
     // XXX: don't refer to manager here directly ...
@@ -52,6 +53,36 @@ export default class ItemDetail extends React.Component {
       vddf, props
     );
   }
+
+  onLegendClick = (series) => {
+    let viz = this.props.vddf.visualization;
+    const seriesSettings = viz.series || [];
+    let index = -1;
+
+    seriesSettings.some((s,i) => {
+      if (s.name === series.name) {
+        index = i;
+      }
+
+      // keep searching until the end
+      return index !== -1;
+    });
+
+    if (index === -1) {
+      index = seriesSettings.length;
+
+      seriesSettings.push({
+        name: series.name
+      });
+    }
+
+    seriesSettings[index].visibility = seriesSettings[index].visibility === 'hidden' ? 'visible' : 'hidden';
+
+    console.log('request toggle', index, seriesSettings[index]);
+
+    viz.series = seriesSettings;
+    this.props.vddf.visualization = viz;
+  };
 
   onChartRendererd = _.debounce((el) => {
     const vddf = this.props.vddf;

@@ -12,7 +12,9 @@ export default class AdaVizChart extends React.Component {
 
   shouldComponentUpdate(nextProps) {
     return nextProps.spec !== this.props.spec
-      || nextProps.spec.onRendered !== this.props.onRendered;
+      || nextProps.spec.onRendered !== this.props.onRendered
+      || nextProps.spec.onLegendClick !== this.props.onLegendClick
+    ;
   }
 
   componentDidUpdate() {
@@ -73,6 +75,12 @@ export default class AdaVizChart extends React.Component {
     this.refs.chart.__adaviz__ = spec;
     try {
       AdaViz.render(this.refs.chart, spec, (view) => {
+        if (this.props.onLegendClick) {
+          view.on('legendClick', (e,d) => {
+            this.props.onLegendClick(d);
+          });
+        }
+
         if (this.props.onRendered) {
           this.props.onRendered(this.refs.chart);
         }
