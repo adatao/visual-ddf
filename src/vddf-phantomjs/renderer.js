@@ -51,7 +51,7 @@ export default class PhantomJsRenderer {
       `${this.config.rootDir}/scripts/phantom-screenshot.js`,
       `${this.config.baseUrl}/vddf/${vddf.uuid}?mode=chartonly`,
       tmpFile,
-      '1400px*1000px', // the chart is always rendered at 700x500
+      '1600px*1200px', // the chart is always rendered at 800x600
       2
     ];
 
