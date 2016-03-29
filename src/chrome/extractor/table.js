@@ -7,6 +7,7 @@ export function detect(document) {
                        && (t.className !== '' && t.className.indexOf('vddf-table') === -1)
                        && t.querySelectorAll('tr').length > 0
                        && t.querySelectorAll('thead').length > 0
+                       && t.querySelectorAll('caption').length > 0 // this rule may not be necessary
                       )
     .map(dom => {
       const caption = dom.querySelector(':scope > caption');

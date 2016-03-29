@@ -118,8 +118,8 @@ export default class ChartSettings extends React.Component {
       break;
     default:
       fields = [
-        {label: 'X', key: 'category', type: 'category'},
-        {label: 'Y', key: 'measurement', type: 'number'},
+        {label: 'Category (X)', key: 'category'},
+        {label: 'Value (Y)', key: 'measurement', type: 'number'},
         {label: 'Group By', key: 'category2', type: 'category'}
       ];
     }

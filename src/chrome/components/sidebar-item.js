@@ -28,7 +28,7 @@ export default class SidebarItem extends React.Component {
       preview = (
         <div style={{margin: '24px 16px 16px 16px', textAlign: 'center'}}>
           <img style={{width: 64, margin: '0 auto', display: 'inline-block'}} src={baseUrl + '/table.png'}/>
-          <p style={{marginTop: 16, height: 32, overflow: 'hidden', textOverflow: 'ellipsis'}}>{chart.title}</p>
+          <p style={{marginTop: 16, height: '32px', lineHeight: '32px', overflow: 'hidden', textOverflow: 'ellipsis'}}>{chart.title}</p>
         </div>
       );
     } else {

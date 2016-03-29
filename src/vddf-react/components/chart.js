@@ -266,6 +266,15 @@ export default class Chart extends React.Component {
     this.vddf.revert();
   };
 
+  shareToExtension = () => {
+    const event = new CustomEvent('share-to-extension', {
+      detail: { vddf: this.vddf }
+    });
+
+    document.dispatchEvent(event);
+  };
+
+
   getToolbar(active) {
     // TODO: move to a separate component
     let toolbarStyle = Object.assign({}, style.toolbar);
@@ -276,15 +285,14 @@ export default class Chart extends React.Component {
 
     // TODO: cache menus
     const menus = [
-      {title: 'Edit title ...', action: () => this.toggleModal('title')},
-      {title: 'Embed ...', action: this.embedChart},
+      // {title: 'Edit title ...', action: () => this.toggleModal('title')},
+      {title: 'To Arimo', action: this.shareToExtension}
     ];
 
     if (this.vddf.isModified) {
-      menus.splice(3, 0, {
-        title: 'Export ...',
-        action: this.exportChart
-      });
+      menus.push({title: 'Export ...', action: this.exportChart});
+    } else {
+      menus.push({title: 'Embed ...', action: this.embedChart});
     }
 
     // TODO: google spreadsheet ?
@@ -300,7 +308,7 @@ export default class Chart extends React.Component {
       <MenuItem key={i} primaryText={m.title} onClick={m.action} />
     ));
 
-    toolbarButtons.push({icon: 'mdi-share-variant', action: this.exportChart, title: 'Share ...'});
+    // toolbarButtons.push({icon: 'mdi-share-variant', action: this.exportChart, title: 'Share ...'});
 
     const buttonElements = toolbarButtons.map((b,i) => {
       return (
@@ -324,6 +332,13 @@ export default class Chart extends React.Component {
       );
     });
 
+    const menu = (
+      <span style={{display: 'inline-block', marginLeft: 12}}>
+        <DropdownMenu iconStyle={style.menuIcon} icon='mdi-share-variant'>
+          {menuElements}
+        </DropdownMenu>
+      </span>
+    );
 
     if (!active) {
       return (
@@ -344,6 +359,7 @@ export default class Chart extends React.Component {
           </div>
           <div style={style.toolbarRight}>
             {buttonElements}
+            {menu}
           </div>
         </div>
       );

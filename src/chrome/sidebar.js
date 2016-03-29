@@ -88,9 +88,23 @@ document.addEventListener(Events.PageActionClicked, (e) => {
   renderSidebar();
 });
 
+document.addEventListener('share-to-extension', (e) => {
+  const vddf = e.detail.vddf;
+
+  // submit then go to workspace
+  submit({
+    sourceId: UUID.v4(),
+    schema: vddf.schema,
+    data: vddf.fetch(),
+    title: vddf.title,
+    visualization: vddf.visualization
+  }).then(() => {
+    Events.dispatch(Events.SubmissionDone);
+  });
+});
+
 document.addEventListener(Events.MenuActionClicked, (e) => {
   let target = null, source;
-
 
   // only support 1 source for now
   for (let i in store.sources) {
@@ -111,6 +125,7 @@ document.addEventListener(Events.MenuActionClicked, (e) => {
         source = Object.assign(source, result);
         source.sourceId = UUID.v4();
         source.embed = true;
+        source.save = false;
 
         return submit(source);
       })
@@ -131,11 +146,12 @@ document.addEventListener(Events.MenuActionClicked, (e) => {
         // jquery solves the problem of inline script
         // i will fix that later
         const embedCode = submitResult.embedResult.embedCode
-                .replace('<div ', `<div data-height="${target.offsetHeight}"`);
+                .replace('<div ', `<div data-height="${target.offsetHeight}" data-active="1"`);
 
         const iframeHtml = `<iframe class='vddf-iframe' src="${submitResult.embedResult.link}?mode=fullscreen" scrollbar=no frameBorder=0 width="${width}" height="${height}" style='visibility: hidden'></iframe>`;
 
-        $(placeholder).html(iframeHtml);
+        // iframe won't work with current event system :(
+        $(placeholder).html(embedCode);
 
         $('iframe', placeholder).on('load', function() {
           setTimeout(() => {

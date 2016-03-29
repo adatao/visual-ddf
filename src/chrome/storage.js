@@ -108,7 +108,7 @@ function prepareViz(vddf, props = {}) {
       });
     } else {
       vddf.schema.forEach((c) => {
-        if (!viz.mapping.category && (c.name === 'Year' || c.type === 'String')) {
+        if (!viz.mapping.category && (/years?/i.test(c.name) || c.type === 'String')) {
           viz.mapping.category = c.name;
         } else if (!viz.mapping.category2 && c.type === 'String') {
           viz.mapping.category2 = c.name;
@@ -258,6 +258,7 @@ export function create(data) {
       return vddf;
     })
     .then(() => {
+      // a quick hack flag to not to store to workspace ...
       return createFromVDDF(vddf, data);
     });
 }
@@ -275,13 +276,17 @@ export function createFromVDDF(vddf, props = {}) {
     }
   })
   .then(result => {
-    return _create({
-        ...props,
-      title: vddf.title,
-      uuid: vddf.uuid,
-      schema: vddf.schema,
-      data: vddf.fetch()
-    });
+    if (props.save !== false) {
+      return _create({
+          ...props,
+        title: vddf.title,
+        uuid: vddf.uuid,
+        schema: vddf.schema,
+        data: vddf.fetch()
+      });
+    } else {
+      return result;
+    }
   })
     .then(result => {
       if (props.embed) {
