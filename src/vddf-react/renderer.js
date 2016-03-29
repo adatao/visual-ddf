@@ -42,6 +42,11 @@ export default class ReactRenderer {
         height = width * 3/4;
       }
 
+      if (mode === 'fullscreen') {
+        width = window.innerWidth;
+        height = window.innerHeight;
+      }
+
       // cleanup
       ReactDOM.unmountComponentAtNode(el);
       el.innerHTML = '';

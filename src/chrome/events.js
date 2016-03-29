@@ -1,6 +1,7 @@
 const Events = {
   DetectionReady: 'detection-ready',
   PageActionClicked: 'page-action-clicked',
+  MenuActionClicked: 'menu-action-clicked',
   SaveChart: 'save-chart',
   SaveChartDone: 'save-chart-done',
   SubmissionDone: 'submission-done',

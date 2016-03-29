@@ -13,3 +13,7 @@
 .vddf-tip {
     padding: 8px 12px !important;
 }
+
+.vddf-chart svg .bar {
+    animation-duration: 0ms;
+}

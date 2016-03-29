@@ -36,7 +36,9 @@ import fetch from 'fetch';
 
   chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     // just proxy the event to document
-    if (request.msg == Events.PageActionClicked) {
+    if (request.msg === Events.MenuActionClicked) {
+      Events.dispatch(request.msg, null, request.data);
+    } else if (request.msg === Events.PageActionClicked) {
       getServerUrl()
         .then(serverUrl => {
           Events.dispatch(request.msg, null, {

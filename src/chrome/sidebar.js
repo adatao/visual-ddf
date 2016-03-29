@@ -1,4 +1,5 @@
 // import { createDragHandle } from './dragHandler';
+import $ from 'jquery';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Sidebar from './components/sidebar';
@@ -10,8 +11,11 @@ import '../vddf-react/common.css';
 import './sidebar.css';
 
 let store = {
-  sources: []
+  sources: [],
+  selectedElement: null
 };
+
+let selectedItem;
 
 loadMaterialFonts();
 
@@ -20,6 +24,10 @@ function submit(payload) {
 
   listener = (e) => {
     if (e.detail.sourceId === payload.sourceId) {
+      payload = Object.assign(payload, {
+        embedResult: e.detail.embedResult
+      });
+
       done(payload);
       document.removeEventListener(Events.SaveChartDone, listener);
       listener = null;
@@ -35,6 +43,10 @@ function submit(payload) {
   });
 }
 
+document.addEventListener("mousemove", (e) => {
+  selectedItem = e.target;
+});
+
 document.addEventListener(Events.PageActionClicked, (e) => {
   store.baseUrl = e.detail.baseUrl;
   store.serverUrl = e.detail.serverUrl;
@@ -45,6 +57,67 @@ document.addEventListener(Events.PageActionClicked, (e) => {
 
   renderSidebar();
 });
+
+document.addEventListener(Events.MenuActionClicked, (e) => {
+  let target = null, source;
+
+
+  // only support 1 source for now
+  for (let i in store.sources) {
+    const check = store.sources[i];
+    if (!check.selector && !check.node) continue;
+
+    // TODO: check if the context item is "near" the source
+    // then conver that, for now we hardcode the selector
+    source = check;
+    target = source.node || document.querySelector(source.selector);
+  }
+
+  if (target) {
+    // get the preview
+    source = Object.assign({}, previewSource(source));
+    extractSource(source)
+      .then(result => {
+        source = Object.assign(source, result);
+        source.sourceId = UUID.v4();
+        source.embed = true;
+
+        return submit(source);
+      })
+      .then(submitResult => {
+        const width = target.offsetWidth;
+        const height = target.offsetHeight + 20; // 20 is for the demo ....
+
+        let placeholder  = document.createElement('div');
+        placeholder.style.position = 'absolute';
+        placeholder.style.left = target.offsetLeft + 'px';
+        placeholder.style.top = target.offsetTop + 'px';
+        placeholder.style.width = width  + 'px';
+        placeholder.style.height = height  + 'px';
+        placeholder.style.zIndex = 10;
+
+        target.parentElement.appendChild(placeholder);
+
+        // jquery solves the problem of inline script
+        // i will fix that later
+        const embedCode = submitResult.embedResult.embedCode
+                .replace('<div ', `<div data-height="${target.offsetHeight}"`);
+
+        const iframeHtml = `<iframe class='vddf-iframe' src="${submitResult.embedResult.link}?mode=fullscreen" scrollbar=no frameBorder=0 width="${width}" height="${height}" style='visibility: hidden'></iframe>`;
+
+        $(placeholder).html(iframeHtml);
+
+        $('iframe', placeholder).on('load', function() {
+          setTimeout(() => {
+            $(this).css('visibility', 'visible');
+          }, 1000);
+        });
+      });
+  } else {
+    console.log('Unable to detect source');
+  }
+});
+
 
 function closeSidebar() {
   let el = document.getElementById('vddf-sidebar');

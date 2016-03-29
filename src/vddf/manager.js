@@ -38,8 +38,10 @@ export default class Manager {
     let result = null;
 
     if (this.handlers[name]) {
-      for (let i in this.handlers[name]) {
-        let handle = this.handlers[name][i];
+      const handlers = this.handlers[name];
+
+      for (let i = 0; i < handlers.length; i++) {
+        let handle = handlers[i];
         result = handle(...args);
       }
     }

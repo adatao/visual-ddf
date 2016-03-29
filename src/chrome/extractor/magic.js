@@ -1,6 +1,8 @@
 import fetch from 'fetch';
 import PapaParse from 'papaparse';
 
+import chart2 from 'src/chrome/assets/chart2.js';
+
 // all the chart magic go here!
 const charts = {
   women_coding: {
@@ -8,7 +10,8 @@ const charts = {
     name: 'when_women_stopped_coding',
     previewUrl: 'https://s3.amazonaws.com/vddf/women-coding.svg',
     dataUrl: 'https://s3.amazonaws.com/vddf/women-coding.csv',
-    type: 'magic'
+    type: 'magic',
+    selector: '#responsive-embed-women-cs iframe'
   },
 
   police_shooting: {
@@ -16,7 +19,8 @@ const charts = {
     name: 'police_shootings',
     previewUrl: 'https://s3.amazonaws.com/vddf/police-shootings.svg',
     dataUrl: 'https://s3.amazonaws.com/vddf/police-shootings.csv',
-    type: 'magic'
+    type: 'magic',
+    // selector: '#map-wrap'
   },
 
   obama_care: {
@@ -24,7 +28,17 @@ const charts = {
     name: 'obama_health_law',
     previewUrl: 'https://s3.amazonaws.com/vddf/obama-care.png',
     dataUrl: 'https://s3.amazonaws.com/vddf/obama-care.csv',
-    type: 'magic'
+    type: 'magic',
+    selector: '#g-change-map'
+  },
+
+  corporate_taxes: {
+    title: 'Across U.S. Companies, Tax Rates Vary Greatly',
+    name: 'corporate_taxes',
+    previewUrl: 'https://s3.amazonaws.com/vddf/corporate-taxes.png',
+    // dataUrl: 'https://s3.amazonaws.com/vddf/corporate-taxes.csv?v=1',
+    type: 'magic',
+    selector: '.g-graphic svg'
   }
 };
 
@@ -39,6 +53,10 @@ export function detect(document) {
   } else if (/nytimes.com.*obamacare/.test(location)) {
     // http://www.nytimes.com/interactive/2014/10/29/upshot/obamacare-who-was-helped-most.html
     sources.push(charts.obama_care);
+  } else if (/nytimes.com.*corporate-taxes/.test(location)) {
+    // http://www.nytimes.com/interactive/2013/05/25/sunday-review/corporate-taxes.html?_r=1&
+    const data = Object.assign(charts.corporate_taxes, chart2);
+    sources.push(charts.corporate_taxes);
   }
 
   return sources;
@@ -50,6 +68,9 @@ export function preview(source) {
 }
 
 export function extract(source) {
+  if (!source.dataUrl)
+    return Promise.resolve(source);
+
   // TODO: backend should accept data url and extract it
   return fetch(source.dataUrl, {})
     .then(res => res.text())

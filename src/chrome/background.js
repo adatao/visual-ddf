@@ -30,11 +30,12 @@ chrome.extension.onMessage.addListener(function (request, sender, sendResponse) 
     const data = request.data;
 
     Storage.create(data)
-      .then(() => {
+      .then(result => {
         chrome.tabs.sendMessage(sender.tab.id, {
           msg: Events.SaveChartDone,
           data: {
-            sourceId: data.sourceId
+            sourceId: data.sourceId,
+            embedResult: result.embedResult
           }
         });
       });
@@ -54,6 +55,16 @@ chrome.contextMenus.create({
   contexts: ["page_action"],
   onclick: function() {
     openAppTab();
+  }
+});
+
+chrome.contextMenus.create({
+  title: "Convert to VDDF",
+  contexts: ["page"],
+  onclick: function(e, tab) {
+    chrome.tabs.sendMessage(tab.id, {
+      msg: Events.MenuActionClicked
+    });
   }
 });
 

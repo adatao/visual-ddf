@@ -220,7 +220,9 @@ export function create(data) {
       const newData = vddf.fetch().map(r => {
         numericFields.forEach(i => {
           if (typeof r[i] !== 'number') {
-            r[i] = parseFloat(r[i].replace(/,/g, ''));
+            r[i] = r[i] !== null && r[i] !== undefined ?
+              parseFloat(r[i].replace(/,/g, '')) :
+              null;
           }
         });
 
@@ -243,7 +245,7 @@ export function create(data) {
       return vddf;
     })
     .then(() => {
-      return createFromVDDF(vddf, _.pick(data, ['preview', 'svg', 'title', 'name']));
+      return createFromVDDF(vddf, data);
     });
 }
 
@@ -258,7 +260,8 @@ export function createFromVDDF(vddf, props = {}) {
     } else {
       resolve(vddf.manager.export(vddf));
     }
-  }).then(result => {
+  })
+  .then(result => {
     return _create({
         ...props,
       title: vddf.title,
@@ -266,7 +269,17 @@ export function createFromVDDF(vddf, props = {}) {
       schema: vddf.schema,
       data: vddf.fetch()
     });
-  });
+  })
+    .then(result => {
+      if (props.embed) {
+        return vddf.manager.embed(vddf)
+          .then(embedResult => {
+            result.embedResult = embedResult;
+
+            return result;
+          });
+      } else return result;
+    });
 }
 
 export function updatePreview(uuid, preview) {
