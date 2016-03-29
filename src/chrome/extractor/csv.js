@@ -8,7 +8,11 @@ export function detect(document) {
     const pathname = Atag.pathname;
 
     if (/\.csv\??/i.test(pathname)) {
-      const fileName = pathname.split('/').pop().replace(/\?.*$/, '');
+      let fileName = pathname.split('/').pop().replace(/\?.*$/, '');
+
+      if (fileName === 'rows.csv') {
+        fileName = window.title.split('-')[0].trim();
+      }
 
       sources.push({
         title: fileName,

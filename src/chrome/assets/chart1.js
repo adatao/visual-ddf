@@ -1,698 +1,1440 @@
 const CHART = {
-   "title":"What Happened To Women In Computer Science?",
-   "source":"http://vddf.arimo.com/vddf/157a4a30-4a39-47ea-a108-c645d80bd23c",
-   "data":[
-      [
-         "Percentage of Women Graduates",
-         "1966",
-         "0.146"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "1967",
-         "0.108"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "1968",
-         "0.12"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "1969",
-         "0.13"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "1970",
-         "0.129"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "1971",
-         "0.136"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "1972",
-         "0.136"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "1973",
-         "0.149"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "1974",
-         "0.164"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "1975",
-         "0.19"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "1976",
-         "0.198"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "1977",
-         "0.239"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "1978",
-         "0.258"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "1979",
-         "0.281"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "1980",
-         "0.303"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "1981",
-         "0.325"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "1982",
-         "0.348"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "1983",
-         "0.364"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "1984",
-         "0.372"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "1985",
-         "0.369"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "1986",
-         "0.358"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "1987",
-         "0.348"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "1988",
-         "0.325"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "1989",
-         "0.308"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "1990",
-         "0.302"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "1991",
-         "0.296"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "1992",
-         "0.289"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "1993",
-         "0.283"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "1994",
-         "0.286"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "1995",
-         "0.285"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "1996",
-         "0.276"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "1997",
-         "0.272"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "1998",
-         "0.269"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "1999",
-         "0.281"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "2000",
-         "0.28"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "2001",
-         "0.276"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "2002",
-         "0.275"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "2003",
-         "0.27"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "2004",
-         "0.251"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "2005",
-         "0.223"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "2006",
-         "0.207"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "2007",
-         "0.186"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "2008",
-         "0.177"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "2009",
-         "0.179"
-      ],
-      [
-         "Percentage of Women Graduates",
-         "2010",
-         "0.182"
-      ],
-      [
-         "Number of Men Graduates",
-         "1966",
-         "76.006"
-      ],
-      [
-         "Number of Men Graduates",
-         "1967",
-         "198.024"
-      ],
-      [
-         "Number of Men Graduates",
-         "1968",
-         "403.92"
-      ],
-      [
-         "Number of Men Graduates",
-         "1969",
-         "811.71"
-      ],
-      [
-         "Number of Men Graduates",
-         "1970",
-         "1344.824"
-      ],
-      [
-         "Number of Men Graduates",
-         "1971",
-         "2063.232"
-      ],
-      [
-         "Number of Men Graduates",
-         "1972",
-         "2939.328"
-      ],
-      [
-         "Number of Men Graduates",
-         "1973",
-         "3663.555"
-      ],
-      [
-         "Number of Men Graduates",
-         "1974",
-         "3976.852"
-      ],
-      [
-         "Number of Men Graduates",
-         "1975",
-         "4081.59"
-      ],
-      [
-         "Number of Men Graduates",
-         "1976",
-         "4542.528"
-      ],
-      [
-         "Number of Men Graduates",
-         "1977",
-         "4890.186"
-      ],
-      [
-         "Number of Men Graduates",
-         "1978",
-         "5360.208"
-      ],
-      [
-         "Number of Men Graduates",
-         "1979",
-         "6304.911"
-      ],
-      [
-         "Number of Men Graduates",
-         "1980",
-         "7815.461000000001"
-      ],
-      [
-         "Number of Men Graduates",
-         "1981",
-         "10282.275000000001"
-      ],
-      [
-         "Number of Men Graduates",
-         "1982",
-         "13321.012"
-      ],
-      [
-         "Number of Men Graduates",
-         "1983",
-         "15697.752"
-      ],
-      [
-         "Number of Men Graduates",
-         "1984",
-         "20369.18"
-      ],
-      [
-         "Number of Men Graduates",
-         "1985",
-         "24685.351"
-      ],
-      [
-         "Number of Men Graduates",
-         "1986",
-         "27089.190000000002"
-      ],
-      [
-         "Number of Men Graduates",
-         "1987",
-         "26032.404000000002"
-      ],
-      [
-         "Number of Men Graduates",
-         "1988",
-         "23554.800000000003"
-      ],
-      [
-         "Number of Men Graduates",
-         "1989",
-         "21426.395999999997"
-      ],
-      [
-         "Number of Men Graduates",
-         "1990",
-         "19331.109999999997"
-      ],
-      [
-         "Number of Men Graduates",
-         "1991",
-         "17888.64"
-      ],
-      [
-         "Number of Men Graduates",
-         "1992",
-         "17745.138000000003"
-      ],
-      [
-         "Number of Men Graduates",
-         "1993",
-         "17623.86"
-      ],
-      [
-         "Number of Men Graduates",
-         "1994",
-         "17530.842"
-      ],
-      [
-         "Number of Men Graduates",
-         "1995",
-         "17709.835000000003"
-      ],
-      [
-         "Number of Men Graduates",
-         "1996",
-         "17770.579999999998"
-      ],
-      [
-         "Number of Men Graduates",
-         "1997",
-         "18486.104"
-      ],
-      [
-         "Number of Men Graduates",
-         "1998",
-         "20229.694"
-      ],
-      [
-         "Number of Men Graduates",
-         "2000",
-         "27013.68"
-      ],
-      [
-         "Number of Men Graduates",
-         "2001",
-         "31564.228"
-      ],
-      [
-         "Number of Men Graduates",
-         "2002",
-         "36036.85"
-      ],
-      [
-         "Number of Men Graduates",
-         "2003",
-         "42285.979999999996"
-      ],
-      [
-         "Number of Men Graduates",
-         "2004",
-         "44916.032"
-      ],
-      [
-         "Number of Men Graduates",
-         "2005",
-         "42414.876000000004"
-      ],
-      [
-         "Number of Men Graduates",
-         "2006",
-         "38064"
-      ],
-      [
-         "Number of Men Graduates",
-         "2007",
-         "34673.144"
-      ],
-      [
-         "Number of Men Graduates",
-         "2008",
-         "32032.805999999997"
-      ],
-      [
-         "Number of Men Graduates",
-         "2009",
-         "31605.215999999997"
-      ],
-      [
-         "Number of Men Graduates",
-         "2010",
-         "32807.526000000005"
-      ],
-      [
-         "Number of Women Graduates",
-         "1966",
-         "12.994"
-      ],
-      [
-         "Number of Women Graduates",
-         "1967",
-         "23.976"
-      ],
-      [
-         "Number of Women Graduates",
-         "1968",
-         "55.08"
-      ],
-      [
-         "Number of Women Graduates",
-         "1969",
-         "121.29"
-      ],
-      [
-         "Number of Women Graduates",
-         "1970",
-         "199.17600000000002"
-      ],
-      [
-         "Number of Women Graduates",
-         "1971",
-         "324.76800000000003"
-      ],
-      [
-         "Number of Women Graduates",
-         "1972",
-         "462.672"
-      ],
-      [
-         "Number of Women Graduates",
-         "1973",
-         "641.4449999999999"
-      ],
-      [
-         "Number of Women Graduates",
-         "1974",
-         "780.148"
-      ],
-      [
-         "Number of Women Graduates",
-         "1975",
-         "957.41"
-      ],
-      [
-         "Number of Women Graduates",
-         "1976",
-         "1121.472"
-      ],
-      [
-         "Number of Women Graduates",
-         "1977",
-         "1535.8139999999999"
-      ],
-      [
-         "Number of Women Graduates",
-         "1978",
-         "1863.7920000000001"
-      ],
-      [
-         "Number of Women Graduates",
-         "1979",
-         "2464.0890000000004"
-      ],
-      [
-         "Number of Women Graduates",
-         "1980",
-         "3397.5389999999998"
-      ],
-      [
-         "Number of Women Graduates",
-         "1981",
-         "4950.725"
-      ],
-      [
-         "Number of Women Graduates",
-         "1982",
-         "7109.987999999999"
-      ],
-      [
-         "Number of Women Graduates",
-         "1983",
-         "8984.248"
-      ],
-      [
-         "Number of Women Graduates",
-         "1984",
-         "12065.82"
-      ],
-      [
-         "Number of Women Graduates",
-         "1985",
-         "14435.649"
-      ],
-      [
-         "Number of Women Graduates",
-         "1986",
-         "15105.81"
-      ],
-      [
-         "Number of Women Graduates",
-         "1987",
-         "13894.596"
-      ],
-      [
-         "Number of Women Graduates",
-         "1988",
-         "11341.2"
-      ],
-      [
-         "Number of Women Graduates",
-         "1989",
-         "9536.604"
-      ],
-      [
-         "Number of Women Graduates",
-         "1990",
-         "8363.89"
-      ],
-      [
-         "Number of Women Graduates",
-         "1991",
-         "7521.36"
-      ],
-      [
-         "Number of Women Graduates",
-         "1992",
-         "7212.861999999999"
-      ],
-      [
-         "Number of Women Graduates",
-         "1993",
-         "6956.139999999999"
-      ],
-      [
-         "Number of Women Graduates",
-         "1994",
-         "7022.157999999999"
-      ],
-      [
-         "Number of Women Graduates",
-         "1995",
-         "7059.164999999999"
-      ],
-      [
-         "Number of Women Graduates",
-         "1996",
-         "6774.420000000001"
-      ],
-      [
-         "Number of Women Graduates",
-         "1997",
-         "6906.896000000001"
-      ],
-      [
-         "Number of Women Graduates",
-         "1998",
-         "7444.3060000000005"
-      ],
-      [
-         "Number of Women Graduates",
-         "2000",
-         "10505.320000000002"
-      ],
-      [
-         "Number of Women Graduates",
-         "2001",
-         "12032.772"
-      ],
-      [
-         "Number of Women Graduates",
-         "2002",
-         "13669.150000000001"
-      ],
-      [
-         "Number of Women Graduates",
-         "2003",
-         "15640.02"
-      ],
-      [
-         "Number of Women Graduates",
-         "2004",
-         "15051.968"
-      ],
-      [
-         "Number of Women Graduates",
-         "2005",
-         "12173.124"
-      ],
-      [
-         "Number of Women Graduates",
-         "2006",
-         "9936"
-      ],
-      [
-         "Number of Women Graduates",
-         "2007",
-         "7922.856"
-      ],
-      [
-         "Number of Women Graduates",
-         "2008",
-         "6889.1939999999995"
-      ],
-      [
-         "Number of Women Graduates",
-         "2009",
-         "6890.784"
-      ],
-      [
-         "Number of Women Graduates",
-         "2010",
-         "7299.474"
-      ]
-   ],
-   "schema":[
+  "title":"My query",
+  "source":"http://localhost:5001/vddf/e90e7bde-54c2-4883-9956-ac26a27515f2",
+  "data":[
+    [
+      1966,
+      "Computer Science",
+      0.146
+    ],
+    [
+      1967,
+      "Computer Science",
+      0.108
+    ],
+    [
+      1968,
+      "Computer Science",
+      0.12
+    ],
+    [
+      1969,
+      "Computer Science",
+      0.13
+    ],
+    [
+      1970,
+      "Computer Science",
+      0.129
+    ],
+    [
+      1971,
+      "Computer Science",
+      0.136
+    ],
+    [
+      1972,
+      "Computer Science",
+      0.136
+    ],
+    [
+      1973,
+      "Computer Science",
+      0.149
+    ],
+    [
+      1974,
+      "Computer Science",
+      0.164
+    ],
+    [
+      1975,
+      "Computer Science",
+      0.19
+    ],
+    [
+      1976,
+      "Computer Science",
+      0.198
+    ],
+    [
+      1977,
+      "Computer Science",
+      0.239
+    ],
+    [
+      1978,
+      "Computer Science",
+      0.258
+    ],
+    [
+      1979,
+      "Computer Science",
+      0.281
+    ],
+    [
+      1980,
+      "Computer Science",
+      0.303
+    ],
+    [
+      1981,
+      "Computer Science",
+      0.325
+    ],
+    [
+      1982,
+      "Computer Science",
+      0.348
+    ],
+    [
+      1983,
+      "Computer Science",
+      0.364
+    ],
+    [
+      1984,
+      "Computer Science",
+      0.372
+    ],
+    [
+      1985,
+      "Computer Science",
+      0.369
+    ],
+    [
+      1986,
+      "Computer Science",
+      0.358
+    ],
+    [
+      1987,
+      "Computer Science",
+      0.348
+    ],
+    [
+      1988,
+      "Computer Science",
+      0.325
+    ],
+    [
+      1989,
+      "Computer Science",
+      0.308
+    ],
+    [
+      1990,
+      "Computer Science",
+      0.302
+    ],
+    [
+      1991,
+      "Computer Science",
+      0.296
+    ],
+    [
+      1992,
+      "Computer Science",
+      0.289
+    ],
+    [
+      1993,
+      "Computer Science",
+      0.283
+    ],
+    [
+      1994,
+      "Computer Science",
+      0.286
+    ],
+    [
+      1995,
+      "Computer Science",
+      0.285
+    ],
+    [
+      1996,
+      "Computer Science",
+      0.276
+    ],
+    [
+      1997,
+      "Computer Science",
+      0.272
+    ],
+    [
+      1998,
+      "Computer Science",
+      0.269
+    ],
+    [
+      1999,
+      "Computer Science",
+      0.281
+    ],
+    [
+      2000,
+      "Computer Science",
+      0.28
+    ],
+    [
+      2001,
+      "Computer Science",
+      0.276
+    ],
+    [
+      2002,
+      "Computer Science",
+      0.275
+    ],
+    [
+      2003,
+      "Computer Science",
+      0.27
+    ],
+    [
+      2004,
+      "Computer Science",
+      0.251
+    ],
+    [
+      2005,
+      "Computer Science",
+      0.223
+    ],
+    [
+      2006,
+      "Computer Science",
+      0.207
+    ],
+    [
+      2007,
+      "Computer Science",
+      0.186
+    ],
+    [
+      2008,
+      "Computer Science",
+      0.177
+    ],
+    [
+      2009,
+      "Computer Science",
+      0.179
+    ],
+    [
+      2010,
+      "Computer Science",
+      0.182
+    ],
+    [
+      2011,
+      "Computer Science",
+      0.177
+    ],
+    [
+      2012,
+      "Computer Science",
+      0.182
+    ],
+    [
+      2013,
+      "Computer Science",
+      0.179
+    ],
+    [
+      1966,
+      "Law School",
+      0.04
+    ],
+    [
+      1967,
+      "Law School",
+      0.04
+    ],
+    [
+      1968,
+      "Law School",
+      0.05
+    ],
+    [
+      1969,
+      "Law School",
+      0.07
+    ],
+    [
+      1970,
+      "Law School",
+      0.07
+    ],
+    [
+      1971,
+      "Law School",
+      0.1
+    ],
+    [
+      1972,
+      "Law School",
+      0.12
+    ],
+    [
+      1973,
+      "Law School",
+      0.16
+    ],
+    [
+      1974,
+      "Law School",
+      0.2
+    ],
+    [
+      1975,
+      "Law School",
+      0.24
+    ],
+    [
+      1976,
+      "Law School",
+      0.27
+    ],
+    [
+      1977,
+      "Law School",
+      0.28
+    ],
+    [
+      1978,
+      "Law School",
+      0.3
+    ],
+    [
+      1979,
+      "Law School",
+      0.33
+    ],
+    [
+      1980,
+      "Law School",
+      0.33
+    ],
+    [
+      1981,
+      "Law School",
+      0.36
+    ],
+    [
+      1982,
+      "Law School",
+      0.37
+    ],
+    [
+      1983,
+      "Law School",
+      0.38
+    ],
+    [
+      1984,
+      "Law School",
+      0.39
+    ],
+    [
+      1985,
+      "Law School",
+      0.4
+    ],
+    [
+      1986,
+      "Law School",
+      0.4
+    ],
+    [
+      1987,
+      "Law School",
+      0.36
+    ],
+    [
+      1988,
+      "Law School",
+      0.43
+    ],
+    [
+      1989,
+      "Law School",
+      0.43
+    ],
+    [
+      1990,
+      "Law School",
+      0.43
+    ],
+    [
+      1991,
+      "Law School",
+      0.42
+    ],
+    [
+      1992,
+      "Law School",
+      0.43
+    ],
+    [
+      1993,
+      "Law School",
+      0.43
+    ],
+    [
+      1994,
+      "Law School",
+      0.44
+    ],
+    [
+      1995,
+      "Law School",
+      0.44
+    ],
+    [
+      1996,
+      "Law School",
+      0.45
+    ],
+    [
+      1997,
+      "Law School",
+      0.45
+    ],
+    [
+      1998,
+      "Law School",
+      0.46
+    ],
+    [
+      1999,
+      "Law School",
+      0.47
+    ],
+    [
+      2000,
+      "Law School",
+      0.49
+    ],
+    [
+      2001,
+      "Law School",
+      0.49
+    ],
+    [
+      2002,
+      "Law School",
+      0.49
+    ],
+    [
+      2003,
+      "Law School",
+      0.44
+    ],
+    [
+      2004,
+      "Law School",
+      0.45
+    ],
+    [
+      2005,
+      "Law School",
+      0.49
+    ],
+    [
+      2006,
+      "Law School",
+      0.47
+    ],
+    [
+      2007,
+      "Law School",
+      0.46
+    ],
+    [
+      2008,
+      "Law School",
+      0.47
+    ],
+    [
+      2009,
+      "Law School",
+      0.47
+    ],
+    [
+      2010,
+      "Law School",
+      0.47
+    ],
+    [
+      1966,
+      "Medical School",
+      0.09
+    ],
+    [
+      1967,
+      "Medical School",
+      0.1
+    ],
+    [
+      1968,
+      "Medical School",
+      0.1
+    ],
+    [
+      1969,
+      "Medical School",
+      0.09
+    ],
+    [
+      1970,
+      "Medical School",
+      0.09
+    ],
+    [
+      1971,
+      "Medical School",
+      0.11
+    ],
+    [
+      1972,
+      "Medical School",
+      0.14
+    ],
+    [
+      1973,
+      "Medical School",
+      0.17
+    ],
+    [
+      1974,
+      "Medical School",
+      0.2
+    ],
+    [
+      1975,
+      "Medical School",
+      0.22
+    ],
+    [
+      1976,
+      "Medical School",
+      0.24
+    ],
+    [
+      1977,
+      "Medical School",
+      0.25
+    ],
+    [
+      1978,
+      "Medical School",
+      0.25
+    ],
+    [
+      1979,
+      "Medical School",
+      0.25
+    ],
+    [
+      1980,
+      "Medical School",
+      0.28
+    ],
+    [
+      1981,
+      "Medical School",
+      0.29
+    ],
+    [
+      1982,
+      "Medical School",
+      0.31
+    ],
+    [
+      1983,
+      "Medical School",
+      0.31
+    ],
+    [
+      1984,
+      "Medical School",
+      0.33
+    ],
+    [
+      1985,
+      "Medical School",
+      0.33
+    ],
+    [
+      1986,
+      "Medical School",
+      0.34
+    ],
+    [
+      1987,
+      "Medical School",
+      0.35
+    ],
+    [
+      1988,
+      "Medical School",
+      0.36
+    ],
+    [
+      1989,
+      "Medical School",
+      0.37
+    ],
+    [
+      1990,
+      "Medical School",
+      0.38
+    ],
+    [
+      1991,
+      "Medical School",
+      0.38
+    ],
+    [
+      1992,
+      "Medical School",
+      0.4
+    ],
+    [
+      1993,
+      "Medical School",
+      0.42
+    ],
+    [
+      1994,
+      "Medical School",
+      0.42
+    ],
+    [
+      1995,
+      "Medical School",
+      0.42
+    ],
+    [
+      1996,
+      "Medical School",
+      0.43
+    ],
+    [
+      1997,
+      "Medical School",
+      0.43
+    ],
+    [
+      1998,
+      "Medical School",
+      0.43
+    ],
+    [
+      1999,
+      "Medical School",
+      0.44
+    ],
+    [
+      2000,
+      "Medical School",
+      0.46
+    ],
+    [
+      2001,
+      "Medical School",
+      0.46
+    ],
+    [
+      2002,
+      "Medical School",
+      0.48
+    ],
+    [
+      2003,
+      "Medical School",
+      0.45
+    ],
+    [
+      2004,
+      "Medical School",
+      0.47
+    ],
+    [
+      2005,
+      "Medical School",
+      0.49
+    ],
+    [
+      2006,
+      "Medical School",
+      0.48
+    ],
+    [
+      2007,
+      "Medical School",
+      0.49
+    ],
+    [
+      2008,
+      "Medical School",
+      0.48
+    ],
+    [
+      2009,
+      "Medical School",
+      0.48
+    ],
+    [
+      2010,
+      "Medical School",
+      0.48
+    ],
+    [
+      2011,
+      "Medical School",
+      0.47
+    ],
+    [
+      2012,
+      "Medical School",
+      0.47
+    ],
+    [
+      2013,
+      "Medical School",
+      0.46
+    ],
+    [
+      1966,
+      "Physical Science",
+      0.14
+    ],
+    [
+      1967,
+      "Physical Science",
+      0.14
+    ],
+    [
+      1968,
+      "Physical Science",
+      0.14
+    ],
+    [
+      1969,
+      "Physical Science",
+      0.14
+    ],
+    [
+      1970,
+      "Physical Science",
+      0.14
+    ],
+    [
+      1971,
+      "Physical Science",
+      0.15
+    ],
+    [
+      1972,
+      "Physical Science",
+      0.16
+    ],
+    [
+      1973,
+      "Physical Science",
+      0.16
+    ],
+    [
+      1974,
+      "Physical Science",
+      0.17
+    ],
+    [
+      1975,
+      "Physical Science",
+      0.19
+    ],
+    [
+      1976,
+      "Physical Science",
+      0.2
+    ],
+    [
+      1977,
+      "Physical Science",
+      0.2
+    ],
+    [
+      1978,
+      "Physical Science",
+      0.22
+    ],
+    [
+      1979,
+      "Physical Science",
+      0.23
+    ],
+    [
+      1980,
+      "Physical Science",
+      0.24
+    ],
+    [
+      1981,
+      "Physical Science",
+      0.25
+    ],
+    [
+      1982,
+      "Physical Science",
+      0.26
+    ],
+    [
+      1983,
+      "Physical Science",
+      0.28
+    ],
+    [
+      1984,
+      "Physical Science",
+      0.29
+    ],
+    [
+      1985,
+      "Physical Science",
+      0.3
+    ],
+    [
+      1986,
+      "Physical Science",
+      0.3
+    ],
+    [
+      1987,
+      "Physical Science",
+      0.3
+    ],
+    [
+      1988,
+      "Physical Science",
+      0.32
+    ],
+    [
+      1989,
+      "Physical Science",
+      0.31
+    ],
+    [
+      1990,
+      "Physical Science",
+      0.32
+    ],
+    [
+      1991,
+      "Physical Science",
+      0.32
+    ],
+    [
+      1992,
+      "Physical Science",
+      0.33
+    ],
+    [
+      1993,
+      "Physical Science",
+      0.34
+    ],
+    [
+      1994,
+      "Physical Science",
+      0.35
+    ],
+    [
+      1995,
+      "Physical Science",
+      0.36
+    ],
+    [
+      1996,
+      "Physical Science",
+      0.37
+    ],
+    [
+      1997,
+      "Physical Science",
+      0.39
+    ],
+    [
+      1998,
+      "Physical Science",
+      0.39
+    ],
+    [
+      1999,
+      "Physical Science",
+      0.4
+    ],
+    [
+      2000,
+      "Physical Science",
+      0.41
+    ],
+    [
+      2001,
+      "Physical Science",
+      0.42
+    ],
+    [
+      2002,
+      "Physical Science",
+      0.43
+    ],
+    [
+      2003,
+      "Physical Science",
+      0.42
+    ],
+    [
+      2004,
+      "Physical Science",
+      0.42
+    ],
+    [
+      2005,
+      "Physical Science",
+      0.43
+    ],
+    [
+      2006,
+      "Physical Science",
+      0.42
+    ],
+    [
+      2007,
+      "Physical Science",
+      0.41
+    ],
+    [
+      2008,
+      "Physical Science",
+      0.41
+    ],
+    [
+      2009,
+      "Physical Science",
+      0.42
+    ],
+    [
+      2010,
+      "Physical Science",
+      0.41
+    ],
+        [
+      1966,
+      "Bachelor's Female",
+      13
+    ],
+    [
+      1967,
+      "Bachelor's Female",
+      24
+    ],
+    [
+      1968,
+      "Bachelor's Female",
+      55
+    ],
+    [
+      1969,
+      "Bachelor's Female",
+      121
+    ],
+    [
+      1970,
+      "Bachelor's Female",
+      199
+    ],
+    [
+      1971,
+      "Bachelor's Female",
+      324
+    ],
+    [
+      1972,
+      "Bachelor's Female",
+      461
+    ],
+    [
+      1973,
+      "Bachelor's Female",
+      640
+    ],
+    [
+      1974,
+      "Bachelor's Female",
+      780
+    ],
+    [
+      1975,
+      "Bachelor's Female",
+      956
+    ],
+    [
+      1976,
+      "Bachelor's Female",
+      1124
+    ],
+    [
+      1977,
+      "Bachelor's Female",
+      1539
+    ],
+    [
+      1978,
+      "Bachelor's Female",
+      1864
+    ],
+    [
+      1979,
+      "Bachelor's Female",
+      2463
+    ],
+    [
+      1980,
+      "Bachelor's Female",
+      3399
+    ],
+    [
+      1981,
+      "Bachelor's Female",
+      4953
+    ],
+    [
+      1982,
+      "Bachelor's Female",
+      7115
+    ],
+    [
+      1983,
+      "Bachelor's Female",
+      8992
+    ],
+    [
+      1984,
+      "Bachelor's Female",
+      12066
+    ],
+    [
+      1985,
+      "Bachelor's Female",
+      14431
+    ],
+    [
+      1986,
+      "Bachelor's Female",
+      15126
+    ],
+    [
+      1987,
+      "Bachelor's Female",
+      13889
+    ],
+    [
+      1988,
+      "Bachelor's Female",
+      11353
+    ],
+    [
+      1989,
+      "Bachelor's Female",
+      9545
+    ],
+    [
+      1990,
+      "Bachelor's Female",
+      8374
+    ],
+    [
+      1991,
+      "Bachelor's Female",
+      7514
+    ],
+    [
+      1992,
+      "Bachelor's Female",
+      7210
+    ],
+    [
+      1993,
+      "Bachelor's Female",
+      6951
+    ],
+    [
+      1994,
+      "Bachelor's Female",
+      7020
+    ],
+    [
+      1995,
+      "Bachelor's Female",
+      7063
+    ],
+    [
+      1996,
+      "Bachelor's Female",
+      6772
+    ],
+    [
+      1997,
+      "Bachelor's Female",
+      6903
+    ],
+    [
+      1998,
+      "Bachelor's Female",
+      7439
+    ],
+    [
+      2000,
+      "Bachelor's Female",
+      10522
+    ],
+    [
+      2001,
+      "Bachelor's Female",
+      12048
+    ],
+    [
+      2002,
+      "Bachelor's Female",
+      13690
+    ],
+    [
+      2003,
+      "Bachelor's Female",
+      15668
+    ],
+    [
+      2004,
+      "Bachelor's Female",
+      15066
+    ],
+    [
+      2005,
+      "Bachelor's Female",
+      12159
+    ],
+    [
+      2006,
+      "Bachelor's Female",
+      9939
+    ],
+    [
+      2007,
+      "Bachelor's Female",
+      7944
+    ],
+    [
+      2008,
+      "Bachelor's Female",
+      6884
+    ],
+    [
+      2009,
+      "Bachelor's Female",
+      6894
+    ],
+    [
+      2010,
+      "Bachelor's Female",
+      7306
+    ],
+    [
+      1966,
+      "Bachelor's Male",
+      76
+    ],
+    [
+      1967,
+      "Bachelor's Male",
+      198
+    ],
+    [
+      1968,
+      "Bachelor's Male",
+      404
+    ],
+    [
+      1969,
+      "Bachelor's Male",
+      812
+    ],
+    [
+      1970,
+      "Bachelor's Male",
+      1345
+    ],
+    [
+      1971,
+      "Bachelor's Male",
+      2064
+    ],
+    [
+      1972,
+      "Bachelor's Male",
+      2941
+    ],
+    [
+      1973,
+      "Bachelor's Male",
+      3665
+    ],
+    [
+      1974,
+      "Bachelor's Male",
+      3977
+    ],
+    [
+      1975,
+      "Bachelor's Male",
+      4083
+    ],
+    [
+      1976,
+      "Bachelor's Male",
+      4540
+    ],
+    [
+      1977,
+      "Bachelor's Male",
+      4887
+    ],
+    [
+      1978,
+      "Bachelor's Male",
+      5360
+    ],
+    [
+      1979,
+      "Bachelor's Male",
+      6306
+    ],
+    [
+      1980,
+      "Bachelor's Male",
+      7814
+    ],
+    [
+      1981,
+      "Bachelor's Male",
+      10280
+    ],
+    [
+      1982,
+      "Bachelor's Male",
+      13316
+    ],
+    [
+      1983,
+      "Bachelor's Male",
+      15690
+    ],
+    [
+      1984,
+      "Bachelor's Male",
+      20369
+    ],
+    [
+      1985,
+      "Bachelor's Male",
+      24690
+    ],
+    [
+      1986,
+      "Bachelor's Male",
+      27069
+    ],
+    [
+      1987,
+      "Bachelor's Male",
+      26038
+    ],
+    [
+      1988,
+      "Bachelor's Male",
+      23543
+    ],
+    [
+      1989,
+      "Bachelor's Male",
+      21418
+    ],
+    [
+      1990,
+      "Bachelor's Male",
+      19321
+    ],
+    [
+      1991,
+      "Bachelor's Male",
+      17896
+    ],
+    [
+      1992,
+      "Bachelor's Male",
+      17748
+    ],
+    [
+      1993,
+      "Bachelor's Male",
+      17629
+    ],
+    [
+      1994,
+      "Bachelor's Male",
+      17533
+    ],
+    [
+      1995,
+      "Bachelor's Male",
+      17706
+    ],
+    [
+      1996,
+      "Bachelor's Male",
+      17773
+    ],
+    [
+      1997,
+      "Bachelor's Male",
+      18490
+    ],
+    [
+      1998,
+      "Bachelor's Male",
+      20235
+    ],
+    [
+      2000,
+      "Bachelor's Male",
+      26997
+    ],
+    [
+      2001,
+      "Bachelor's Male",
+      31549
+    ],
+    [
+      2002,
+      "Bachelor's Male",
+      36016
+    ],
+    [
+      2003,
+      "Bachelor's Male",
+      42258
+    ],
+    [
+      2004,
+      "Bachelor's Male",
+      44902
+    ],
+    [
+      2005,
+      "Bachelor's Male",
+      42429
+    ],
+    [
+      2006,
+      "Bachelor's Male",
+      38061
+    ],
+    [
+      2007,
+      "Bachelor's Male",
+      34652
+    ],
+    [
+      2008,
+      "Bachelor's Male",
+      32038
+    ],
+    [
+      2009,
+      "Bachelor's Male",
+      31602
+    ],
+    [
+      2010,
+      "Bachelor's Male",
+      32801
+    ]
+  ],
+  "schema":[
+    {
+      "name":"Year",
+      "type":"Integer"
+    },
+    {
+      "name":"Category",
+      "type":"String"
+    },
+    {
+      "name":"Value",
+      "type":"Float"
+    }
+  ],
+  "visualization":{
+    "type":"bar.grouped",
+    "legendSort": "none",
+    "mapping":{
+      "category":"Year",
+      "category2":"Category",
+      "measurement":"Value"
+    },
+    "yLabel": "Graduates",
+    "yLabel2": "Percentage",
+    "series":[
       {
-         "name":"Category",
-         "type":"String"
+        "name":"Bachelor's Female",
+        "visibility":"visible"
       },
       {
-         "name":"Year",
-         "type":"Integer"
+        "name":"Bachelor's Male",
+        "visibility":"visible"
       },
       {
-         "name":"Graduates",
-         "type":"Float"
+        "name":"Computer Science",
+        "visibility":"visible",
+        "axis": "secondary",
+        "type": "line"
+      },
+      {
+        "name":"Law School",
+        "visibility":"visible",
+        "axis": "secondary",
+        "type": "line"
+      },
+      {
+        "name":"Medical School",
+        "visibility":"visible",
+        "axis": "secondary",
+        "type": "line"
+      },
+      {
+        "name":"Physical Science",
+        "visibility":"visible",
+        "axis": "secondary",
+        "type": "line"
       }
-   ],
-   "visualization":{
-      "mapping":{
-         "category":"Year",
-         "measurement":"Graduates",
-         "category2":"Category"
-      },
-      "previousType":"bar.grouped",
-      "x":"Year",
-      "y":"Graduates",
-      "color":"Category"
-   }
+    ],
+    "x":"Year",
+    "y":"Value",
+    "color":"Category"
+  }
 };
 
 export default CHART;
