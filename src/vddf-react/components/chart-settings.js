@@ -90,7 +90,7 @@ export default class ChartSettings extends React.Component {
       fields = [
         {label: 'X', key: 'category'},
         {label: 'Y', key: 'measurement', type: 'number'},
-        {label: 'Group By', key: 'category2', type: 'category'}
+        {label: 'Color By', key: 'category2', type: 'category'}
       ];
       break;
     case 'treemap':

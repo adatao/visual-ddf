@@ -117,7 +117,10 @@ export default class DataTable extends React.Component {
       return <th key={i} style={style.th}>{c.name}</th>;
     });
 
-    const body = data.map((c,j) => {
+    // TODO: do paging later
+    const limit = 1000; // it is too slow now :(
+
+    const body = data.slice(0, limit).map((c,j) => {
       const tds = c.map((v,i) => {
         let tdStyle = {...style.td};
 
