@@ -21,7 +21,7 @@ function save_options() {
 function restore_options() {
   // Use default value color = 'red' and likesColor = true.
   chrome.storage.sync.get({
-    serverUrl: 'http://vddf.arimo.com',
+    serverUrl: 'https://vddf.arimo.com',
     bigAppsUrl: '',
     avatarUrl: ''
   }, function(items) {

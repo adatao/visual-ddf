@@ -72,7 +72,7 @@ export async function embed(app, request, ctx) {
 
   return {
     status: 'success',
-    result: getEmbedCode(uuid, request.origin)
+    result: getEmbedCode(uuid, app.config.baseUrl || request.origin)
   };
 }
 
@@ -90,7 +90,7 @@ export async function create(app, request) {
 
   return {
     status: 'success',
-    result: getEmbedCode(vddf.uuid, request.origin)
+    result: getEmbedCode(vddf.uuid, app.config.baseUrl || request.origin)
   };
 }
 

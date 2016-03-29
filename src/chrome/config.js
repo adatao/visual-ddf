@@ -1,5 +1,5 @@
 import chrome from 'chrome';
-const defaultServerUrl = 'http://vddf.arimo.com';
+const defaultServerUrl = 'https://vddf.arimo.com';
 const defaultBigAppsUrl = '';
 const defaultAvatarUrl = 'avatar.png';
 
