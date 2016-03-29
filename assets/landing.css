@@ -15,6 +15,10 @@ body {
     position: relative;
 }
 
+.pg-demo .arimo__container__form h3, .pg-demo .arimo__container__form p {
+    width: 40%;
+}
+
 .header__logo svg#arimo-logo #arimo-logo__upperstroke {
     fill: #B41E1E;
 }

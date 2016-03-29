@@ -28,21 +28,21 @@
 				  form.onSuccess(function(values, followUpUrl){
 				   //get the form's jQuery element and hide it
 				  	form.getFormElem().hide();
-				   	document.getElementById('form_title').innerHTML = 'Thank you!';
-				   	document.getElementById('form_message').innerHTML = 'We have received your request and will contact you as soon as possible. Meanwhile, tell us your specific needs and help us tailor your demo to your application.';
+   					document.getElementById('form_title').innerHTML = 'Thank You!';
+	 			   	document.getElementById('form_message').innerHTML = 'We will get in touch with you shortly.';
 						
 						//load follow up form
-						document.getElementById('mktoForm_1192').style.display = 'block';
-						MktoForms2.loadForm("//app-ab11.marketo.com", "244-WCG-617", 1192);
+						/*document.getElementById('mktoForm_1214').style.display = 'block';
+						MktoForms2.loadForm("//app-ab11.marketo.com", "244-WCG-617", 1214);
 						MktoForms2.whenReady(function (followup_form){
 							followup_form.onSuccess(function(values, followUpUrl) {
 								// followup_form.getFormElem().hide();
-								document.getElementById('mktoForm_1192').style.display = 'none';
+								document.getElementById('mktoForm_1214').style.display = 'none';
 
 								document.getElementById('form_title').innerHTML = 'Thanks!';
 						   	document.getElementById('form_message').innerHTML = 'We will get in touch with you shortly.';
 							})
-						});
+						});*/
 
 				   	return false;
 				 });
