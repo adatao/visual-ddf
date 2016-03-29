@@ -112,6 +112,7 @@ body {
 }
 
 .pg-demo form ul {
+    padding: 0;
     color: #9E9E9E;
     list-style: inside;
 }

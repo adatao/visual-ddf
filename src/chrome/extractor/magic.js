@@ -9,7 +9,10 @@ const charts = {
     previewUrl: 'https://s3.amazonaws.com/vddf/women-coding.svg',
     dataUrl: 'https://s3.amazonaws.com/vddf/women-coding.csv',
     type: 'magic',
-    selector: '#responsive-embed-women-cs iframe'
+    selector: '#responsive-embed-women-cs iframe',
+    visualization: {
+      previousType: 'line'
+    }
   },
 
   police_shooting: {
@@ -17,7 +20,7 @@ const charts = {
     name: 'police_shootings',
     previewUrl: 'https://s3.amazonaws.com/vddf/police-shootings.svg',
     dataUrl: 'https://s3.amazonaws.com/vddf/police-shootings.csv',
-    type: 'magic',
+    type: 'magic'
     // selector: '#map-wrap'
   },
 

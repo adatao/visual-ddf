@@ -57,6 +57,8 @@ export function preview(source) {
  * Implement a heuristic ranking to pick the best schema from deconstruct schemas
  */
 export function extract(source) {
+  // TODO: we can guess the visualization base on the type of marks
+
   const node = source.node;
   const raw = D3Deconstruct.Deconstruct.deconstruct(node);
   const candidates = raw.groups.filter(s => {

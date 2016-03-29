@@ -63,13 +63,15 @@ export default class DataTable extends React.Component {
   }
 
   componentDidMount() {
-    this.updateColumnWidth();
+    setTimeout(() => {
+      this.updateColumnWidth();
+    }, 200);
   }
 
   componentDidUpdate() {
     setTimeout(() => {
       this.updateColumnWidth();
-    }, 100);
+    }, 200);
   }
 
   updateColumnWidth() {
@@ -85,8 +87,8 @@ export default class DataTable extends React.Component {
     for (let i = 0; i < header.children.length; i++) {
       const cellWidth = header.children[i].offsetWidth;
 
-      fixedHeadRow.children[i].style.width = cellWidth;
-      header.children[i].style.width = cellWidth;
+      fixedHeadRow.children[i].style.width = cellWidth + 'px';
+      header.children[i].style.width = cellWidth + 'px';
 
       totalWidth += cellWidth;
     }
@@ -95,7 +97,7 @@ export default class DataTable extends React.Component {
     this.refs.fixedHeader.style.display = 'block';
 
     // set width
-    this.refs.fixedHeader.style.width = totalWidth;
+    this.refs.fixedHeader.style.width = totalWidth + 'px';
     // this.refs.tableContainer.style.width = totalWidth;
     // this.refs.tableContainer.style.height = this.props.height - (container.offsetHeight - container.clientHeight);
   }
