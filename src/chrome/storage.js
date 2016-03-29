@@ -2,6 +2,7 @@ import * as SQL from './sql';
 import * as config from './config';
 import Manager from 'src/vddf/manager';
 import _ from 'lodash';
+import { parseCsvLink } from './csv';
 
 function init() {
   SQL.run(
@@ -191,17 +192,29 @@ function prepareViz(vddf, props = {}) {
 export function create(data) {
   let manager, vddf;
 
-  // sanitize column names before creating vddf
-  data.schema.forEach((c,i) => {
-    c.name = cleanString(c.name);
-
-    if (!c.name) c.name = `c${i}`;
-  });
-
-
   return config.getServerUrl()
     .then(baseUrl => {
       manager = new Manager({ baseUrl });
+
+      if (data.dataUrl) {
+        return parseCsvLink(data.dataUrl)
+          .then(result => {
+            data.schema = result.schema;
+            data.data = result.data;
+
+            return data;
+          });
+      }
+
+      return data;
+    })
+    .then(() => {
+      // sanitize column names before creating vddf
+      data.schema.forEach((c,i) => {
+        c.name = cleanString(c.name);
+
+        if (!c.name) c.name = `c${i}`;
+      });
 
       return manager.load(_.pick(data, ['title', 'schema', 'source', 'data', 'visualization']));
     })

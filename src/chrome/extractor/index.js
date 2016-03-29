@@ -3,9 +3,10 @@ import * as magic from './magic';
 import * as d3 from './d3';
 import * as table from './table';
 import * as vddf from './vddf';
+import * as csv from './csv';
 
 const detectors = {
-  magic, d3, table, vddf
+  magic, d3, table, csv, vddf
 };
 
 export function detectSources(document) {

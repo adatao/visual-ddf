@@ -1,7 +1,5 @@
-import fetch from 'fetch';
-import PapaParse from 'papaparse';
-
 import chart2 from 'src/chrome/assets/chart2.js';
+import { parseCsvLink } from './csv';
 
 // all the chart magic go here!
 const charts = {
@@ -68,28 +66,5 @@ export function preview(source) {
 }
 
 export function extract(source) {
-  if (!source.dataUrl)
-    return Promise.resolve(source);
-
-  // TODO: backend should accept data url and extract it
-  return fetch(source.dataUrl, {})
-    .then(res => res.text())
-    .then(text => {
-      const raw = PapaParse.parse(text);
-      const schema = raw.data[0].map(name => ({name}));
-      const data = raw.data.slice(1);
-
-      // remove the last empty row
-      if (data) {
-        const lastRow = data[data.length - 1];
-
-        if (lastRow.length == 1 && lastRow[0] === '') {
-          data.pop();
-        }
-      }
-
-      return {
-        data, schema
-      };
-    });
+  return Promise.resolve(source);
 }

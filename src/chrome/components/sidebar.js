@@ -88,7 +88,7 @@ export default class Sidebar extends React.Component {
              labelColor='white'
              label='Close'
              onClick={this.props.closeSidebar} />
-          &nbsp;&nbsp;
+          <span style={{marginLeft: '8px'}}></span>
           <RaisedButton
              backgroundColor='#07AE88'
              labelColor='white'

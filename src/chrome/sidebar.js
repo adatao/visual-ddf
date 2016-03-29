@@ -174,6 +174,7 @@ function submitCharts(charts) {
           visualization: result.visualization,
           source: window.location + '',
           svg: source.svg,
+          dataUrl: source.dataUrl,
           data,
           schema
         };
