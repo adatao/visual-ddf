@@ -17,15 +17,15 @@ export default function setupRoutes(app) {
       `http://localhost:8080/build/${script}`;
   }
 
+  // router.get('/', async function() {
+  //   const template = swig.renderFile(`${app.rootDir}/templates/home.html`, {
+  //     scriptUrl: getBaseScriptUrl('webapp.js', getBaseUrl(this.request))
+  //   });
+
+  //   this.body = template;
+  // });
+
   router.get('/', async function() {
-    const template = swig.renderFile(`${app.rootDir}/templates/home.html`, {
-      scriptUrl: getBaseScriptUrl('webapp.js', getBaseUrl(this.request))
-    });
-
-    this.body = template;
-  });
-
-  router.get('/landing', async function() {
     const template = swig.renderFile(`${app.rootDir}/templates/landing.html`, {
       scriptUrl: getBaseScriptUrl('webapp.js', getBaseUrl(this.request))
     });
