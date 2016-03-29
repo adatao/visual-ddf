@@ -1,5 +1,5 @@
 const CHART = {
-  "title":"My query",
+  "title":"What Happened To Women In Computer Science?",
   "source":"http://localhost:5001/vddf/e90e7bde-54c2-4883-9956-ac26a27515f2",
   "data":[
     [

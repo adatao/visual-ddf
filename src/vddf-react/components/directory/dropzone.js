@@ -21,7 +21,12 @@ export default class DropZone extends ReactDropZone {
   }
 
   onDragLeave(e) {
-    super.onDragLeave(e);
+    const dataTransferItems = e.dataTransfer && e.dataTransfer.items ? e.dataTransfer.items : [];
+    const hasFile = [].slice.call(dataTransferItems).filter(x => x.kind === 'file').length;
+
+    if (hasFile) {
+      super.onDragLeave(e);
+    }
   }
 
   componentWillUnmount() {
