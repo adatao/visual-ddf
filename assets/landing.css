@@ -107,6 +107,19 @@ body {
     float: none;
 }
 
+.pg-demo form.mktoForm .mktoFormRow:nth-child(5) .mktoFormCol {
+    float: none;
+    width: 100%;
+}
+
+.pg-demo form.mktoForm .mktoFormRow:nth-child(5) .mktoFormCol .mktoLabel {
+    width: 180px !important;
+}
+
+.pg-demo form.mktoForm .mktoFormRow:nth-child(5) .mktoFormCol input {
+    margin-top: 2px;
+}
+
 .pg-demo form.mktoForm .mktoHtmlText {
     width: 200%!important;
 }

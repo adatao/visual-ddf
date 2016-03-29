@@ -286,7 +286,7 @@ export default class Chart extends React.Component {
     // TODO: cache menus
     const menus = [
       // {title: 'Edit title ...', action: () => this.toggleModal('title')},
-      {title: 'To Arimo', action: this.shareToExtension}
+      {title: 'To My Arimo', action: this.shareToExtension}
     ];
 
     if (this.vddf.isModified) {
