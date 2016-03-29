@@ -5,6 +5,8 @@ const Events = {
   SaveChart: 'save-chart',
   SaveChartDone: 'save-chart-done',
   SubmissionDone: 'submission-done',
+  SqlRequest: 'sql-request',
+  SqlResponse: 'sql-response',
 
   dispatch(event, target, data) {
     const done = new CustomEvent(event, {detail: data});

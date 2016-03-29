@@ -43,6 +43,36 @@ function submit(payload) {
   });
 }
 
+function sql(payload) {
+  let done, listener;
+
+  if (typeof payload === 'string') {
+    payload = { query: payload };
+  }
+
+  if (!payload.uuid) {
+    payload.uuid = UUID.v4();
+  }
+
+  listener = (e) => {
+    if (e.detail.uuid === payload.uuid) {
+      done(e.detail);
+      document.removeEventListener(Events.SqlResponse, listener);
+      listener = null;
+    }
+  };
+
+  return new Promise((resolve, reject) => {
+    done = resolve; // no reject yet ...
+    document.addEventListener(Events.SqlResponse, listener);
+
+    // forward to content page, and wait for the done event
+    Events.dispatch(Events.SqlRequest, null, {data: payload});
+  });
+}
+
+window.__sql = sql;
+
 document.addEventListener("mousemove", (e) => {
   selectedItem = e.target;
 });

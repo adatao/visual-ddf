@@ -20,6 +20,13 @@ import fetch from 'fetch';
     });
   });
 
+  document.addEventListener(Events.SqlRequest, (e) => {
+    chrome.extension.sendMessage({
+      msg: Events.SqlRequest,
+      data: e.detail.data
+    });
+  });
+
   document.addEventListener(Events.SaveChart, (e) => {
     chrome.extension.sendMessage({
       msg: Events.SaveChart,
@@ -46,7 +53,9 @@ import fetch from 'fetch';
             serverUrl
           });
         });
-    } else if (request.msg === Events.SaveChartDone) {
+    } else if (request.msg === Events.SaveChartDone ||
+               request.msg === Events.SqlResponse
+              ) {
       Events.dispatch(request.msg, null, request.data);
     }
   });

@@ -1,6 +1,5 @@
 const CHART = {
-  "title":"Across U.S. Companies, Tax Rates Vary Greatly - Interactive Feature - NYTimes.com",
-  "source":"http://localhost:5001/vddf/fd5b60c1-63aa-4305-8e52-09c6ad3be307",
+  "title":"Across U.S. Companies, Tax Rates Vary Greatly",
   "data":[
     [
       321,

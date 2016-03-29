@@ -20,6 +20,8 @@ function openAppTab(active) {
 }
 
 chrome.extension.onMessage.addListener(function (request, sender, sendResponse) {
+  const data = request.data;
+
   console.log(request, sender);
 
   if (request.msg === Events.DetectionReady && sender.tab) {
@@ -27,8 +29,6 @@ chrome.extension.onMessage.addListener(function (request, sender, sendResponse) 
   } else if (request.msg === Events.SubmissionDone) {
     openAppTab(true);
   } else if (request.msg === Events.SaveChart) {
-    const data = request.data;
-
     Storage.create(data)
       .then(result => {
         chrome.tabs.sendMessage(sender.tab.id, {
@@ -37,6 +37,24 @@ chrome.extension.onMessage.addListener(function (request, sender, sendResponse) 
             sourceId: data.sourceId,
             embedResult: result.embedResult
           }
+        });
+      });
+  } else if (request.msg === Events.SqlRequest) {
+    Storage.sql(data.query, data.parameters || [])
+      .then(res => {
+        data.rows = [].slice.call(res.rows);
+
+        chrome.tabs.sendMessage(sender.tab.id, {
+          msg: Events.SqlResponse,
+          data
+        });
+      })
+      .catch(err => {
+        data.error = err.message;
+
+        chrome.tabs.sendMessage(sender.tab.id, {
+          msg: Events.SqlResponse,
+          data
         });
       });
   }
