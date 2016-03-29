@@ -1,5 +1,4 @@
 import fetch from 'fetch';
-import vDDF from '../vddf';
 
 /**
  * Load a vDDF from a remote URL

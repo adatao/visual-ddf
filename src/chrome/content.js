@@ -1,7 +1,6 @@
 import chrome from 'chrome';
 import Events from './events';
 import { getServerUrl } from './config';
-import fetch from 'fetch';
 
 (function () {
   var head = document.getElementsByTagName('head')[0];
