@@ -11,7 +11,7 @@ export function detect(document) {
       let fileName = pathname.split('/').pop().replace(/\?.*$/, '');
 
       if (fileName === 'rows.csv') {
-        fileName = window.title.split('-')[0].trim();
+        fileName = document.title.split('-')[0].trim();
       }
 
       sources.push({
