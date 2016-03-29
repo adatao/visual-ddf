@@ -25,6 +25,14 @@ export default function setupRoutes(app) {
     this.body = template;
   });
 
+  router.get('/landing', async function() {
+    const template = swig.renderFile(`${app.rootDir}/templates/landing.html`, {
+      scriptUrl: getBaseScriptUrl('webapp.js', getBaseUrl(this.request))
+    });
+
+    this.body = template;
+  });
+
   router.get('/vddf/:uuid', async function() {
     this.set('Access-Control-Allow-Origin', '*');
 

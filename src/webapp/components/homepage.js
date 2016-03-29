@@ -74,6 +74,7 @@ export default class Homepage extends React.Component {
         });
 
         let el = ReactDOM.findDOMNode(this.refs.vddf);
+        el.setAttribute('data-active', '1');
         vddf.render(el);
       })
       .catch(err => {
