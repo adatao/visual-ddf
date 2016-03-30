@@ -67,7 +67,8 @@ export default class AdaVizChart extends React.Component {
       }
     }
 
-    // spec.input.theme = 'demo';
+    spec.input.theme = 'demo';
+    spec.input.maxCat = 12;
 
     // AdaViz does not clean up data table properly
     // so we need to do this trick

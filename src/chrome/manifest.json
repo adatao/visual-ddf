@@ -6,6 +6,7 @@
   "version": "1.0",
 
   "icons": {
+    "16": "menu.png",
     "64": "icon64.png"
   },
 

@@ -76,12 +76,31 @@ chrome.contextMenus.create({
   }
 });
 
+const parentMenu = chrome.contextMenus.create({
+  title: "Arimo vDDF",
+  contexts: ['page']
+});
+
 chrome.contextMenus.create({
-  title: "Convert to VDDF",
-  contexts: ["page"],
+  title: "View as vDDF",
+  contexts: ['page'],
+  parentId: parentMenu,
   onclick: function(e, tab) {
     chrome.tabs.sendMessage(tab.id, {
-      msg: Events.MenuActionClicked
+      msg: Events.MenuActionClicked,
+      data: { action: 'view' }
+    });
+  }
+});
+
+chrome.contextMenus.create({
+  title: "Send to My Arimo",
+  contexts: ['page'],
+  parentId: parentMenu,
+  onclick: function(e, tab) {
+    chrome.tabs.sendMessage(tab.id, {
+      msg: Events.MenuActionClicked,
+      data: { action: 'submit' }
     });
   }
 });

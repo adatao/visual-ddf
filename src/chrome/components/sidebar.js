@@ -84,15 +84,9 @@ export default class Sidebar extends React.Component {
         </div>
         <div style={style.actionButtons}>
           <RaisedButton
-             backgroundColor='#D9D9D9'
-             labelColor='white'
-             label='Close'
-             onClick={this.props.closeSidebar} />
-          <span style={{marginLeft: '8px'}}></span>
-          <RaisedButton
              backgroundColor='#07AE88'
              labelColor='white'
-             label='Export'
+             label='Send to My Arimo'
              onClick={this.save} />
         </div>
       </div>

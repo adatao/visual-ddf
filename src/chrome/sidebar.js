@@ -78,14 +78,22 @@ document.addEventListener("mousemove", (e) => {
 });
 
 document.addEventListener(Events.PageActionClicked, (e) => {
-  store.baseUrl = e.detail.baseUrl;
-  store.serverUrl = e.detail.serverUrl;
+  const isSidebarVisible = !!document.querySelector('#vddf-sidebar .vddf-sidebar');
 
-  // now preview source
-  store.charts = store.sources
-    .map(previewSource);
+  // toggle the sidebar on click
+  if (isSidebarVisible) {
+    closeSidebar();
+  } else {
+    store.baseUrl = e.detail.baseUrl;
+    store.serverUrl = e.detail.serverUrl;
 
-  renderSidebar();
+    // now preview source
+    store.charts = store.sources
+      .map(previewSource);
+
+    renderSidebar();
+  }
+
 });
 
 document.addEventListener('share-to-extension', (e) => {
@@ -104,7 +112,7 @@ document.addEventListener('share-to-extension', (e) => {
 });
 
 document.addEventListener(Events.MenuActionClicked, (e) => {
-  let target = null, source;
+  let target = null, source, action = e.detail.action;
 
   // only support 1 source for now
   for (let i in store.sources) {
@@ -124,12 +132,20 @@ document.addEventListener(Events.MenuActionClicked, (e) => {
       .then(result => {
         source = Object.assign(source, result);
         source.sourceId = UUID.v4();
-        source.embed = true;
-        source.save = false;
+
+        if (action === 'view') {
+          source.embed = true;
+          source.save = false;
+        }
 
         return submit(source);
       })
       .then(submitResult => {
+        if (action === 'submit') {
+          Events.dispatch(Events.SubmissionDone);
+          return;
+        }
+
         const width = target.offsetWidth;
         const height = target.offsetHeight + 20; // 20 is for the demo ....
 

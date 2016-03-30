@@ -25,6 +25,7 @@ devConfig.plugins.push(new CopyWebpackPlugin([
   {from: 'src/chrome/icon64.png'},
   {from: 'src/chrome/icon38.png'},
   {from: 'src/chrome/icon19.png'},
+  {from: 'src/chrome/menu.png'},
   {from: 'src/chrome/assets', to: 'assets'}
 ]));
 

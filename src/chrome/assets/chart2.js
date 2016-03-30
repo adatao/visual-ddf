@@ -6927,14 +6927,15 @@ const CHART = {
     }
   ],
   "visualization":{
+    "detailVariables": ['name'],
     "type":"datatable",
     "mapping":{
       "measurement":"earnings",
-      "category":"capitalization",
+      "category":"rate",
       "category2":""
     },
     "x":"earnings",
-    "y":"capitalization",
+    "y":"rate",
     "color":"",
     "previousType": "scatterplot",
     "hasPreview":true
