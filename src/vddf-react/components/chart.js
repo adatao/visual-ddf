@@ -163,7 +163,7 @@ export default class Chart extends React.Component {
     }
 
     if (viz.type !== 'datatable') {
-      width = Math.min(950, width);
+      width = Math.min(1000, width);
     }
 
     const spec = Immutable.fromJS({
