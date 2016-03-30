@@ -126,6 +126,23 @@ document.addEventListener(Events.MenuActionClicked, (e) => {
   }
 
   if (target) {
+    const assetUrl = e.detail.assetUrl;
+    const width = target.offsetWidth;
+    const height = target.offsetHeight + 20; // 20 is for the demo ....
+
+    let placeholder  = document.createElement('div');
+    placeholder.style.position = 'absolute';
+    placeholder.style.left = target.offsetLeft + 'px';
+    placeholder.style.top = target.offsetTop + 'px';
+    placeholder.style.width = width  + 'px';
+    placeholder.style.height = height  + 'px';
+    placeholder.style.zIndex = 10;
+    placeholder.style.background = 'rgba(0,0,0,0.3)';
+
+    placeholder.innerHTML = `<img class='loader' src="${assetUrl}/rolling-white.svg" style='position: absolute; left: 50%; top: 50%; margin-left: -24; margin-right: -24;' />`;
+
+    target.parentElement.appendChild(placeholder);
+
     // get the preview
     source = Object.assign({}, previewSource(source));
     extractSource(source)
@@ -146,34 +163,21 @@ document.addEventListener(Events.MenuActionClicked, (e) => {
           return;
         }
 
-        const width = target.offsetWidth;
-        const height = target.offsetHeight + 20; // 20 is for the demo ....
-
-        let placeholder  = document.createElement('div');
-        placeholder.style.position = 'absolute';
-        placeholder.style.left = target.offsetLeft + 'px';
-        placeholder.style.top = target.offsetTop + 'px';
-        placeholder.style.width = width  + 'px';
-        placeholder.style.height = height  + 'px';
-        placeholder.style.zIndex = 10;
-
-        target.parentElement.appendChild(placeholder);
-
         // jquery solves the problem of inline script
         // i will fix that later
         const embedCode = submitResult.embedResult.embedCode
-                .replace('<div ', `<div data-height="${target.offsetHeight}" data-active="1"`);
+                .replace('<div ', `<div data-height="${target.offsetHeight}" data-active="1" style='visibility: hidden'`);
 
-        const iframeHtml = `<iframe class='vddf-iframe' src="${submitResult.embedResult.link}?mode=fullscreen" scrollbar=no frameBorder=0 width="${width}" height="${height}" style='visibility: hidden'></iframe>`;
+        // const iframeHtml = `<iframe class='vddf-iframe' src="${submitResult.embedResult.link}?mode=fullscreen" scrollbar=no frameBorder=0 width="${width}" height="${height}" style='visibility: hidden'></iframe>`;
 
         // iframe won't work with current event system :(
-        $(placeholder).html(embedCode);
+        $(placeholder).append($(embedCode));
 
-        $('iframe', placeholder).on('load', function() {
-          setTimeout(() => {
-            $(this).css('visibility', 'visible');
-          }, 1000);
-        });
+        setTimeout(() => {
+          placeholder.style.background = '';
+          $('> .loader', placeholder).remove();
+          $('> div', placeholder).css('visibility', 'visible');
+        }, 1500);
       });
   } else {
     console.log('Unable to detect source');

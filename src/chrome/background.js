@@ -88,7 +88,10 @@ chrome.contextMenus.create({
   onclick: function(e, tab) {
     chrome.tabs.sendMessage(tab.id, {
       msg: Events.MenuActionClicked,
-      data: { action: 'view' }
+      data: {
+        action: 'view',
+        assetUrl: chrome.extension.getURL('assets')
+      }
     });
   }
 });
@@ -100,7 +103,10 @@ chrome.contextMenus.create({
   onclick: function(e, tab) {
     chrome.tabs.sendMessage(tab.id, {
       msg: Events.MenuActionClicked,
-      data: { action: 'submit' }
+      data: {
+        action: 'submit',
+        assetUrl: chrome.extension.getURL('assets')
+      }
     });
   }
 });

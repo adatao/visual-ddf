@@ -73,11 +73,13 @@ export default class Sidebar extends React.Component {
 
     return (
       <div className='vddf-sidebar' style={style.container}>
-        <div>
+        <div style={{position: 'relative'}}>
           <h4>
             <img src={this.props.baseUrl + '/logo_black.svg'} />
           </h4>
           <h6>Choose the charts you want:</h6>
+
+          <img onClick={this.props.closeSidebar} title='Close' style={{position: 'absolute', top: 8, right: 8, cursor: 'pointer'}} src={this.props.baseUrl + '/close.png'} width={16} height={16}  />
         </div>
         <div className='charts-container'>
           {charts}
