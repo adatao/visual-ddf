@@ -15,7 +15,8 @@
     <div class="arimo__container pg-demo">
       <div class="arimo__container__form">
         <img title="SIGN UP NOW! GET YOUR OWN ARIMO VDDF PLUGIN!" class="heading" src="/img/heading@2x.png" height=152 />
-      <!-- <h3 id="form_title">Be the First to Get Visual DDF</h3> -->
+        <!-- <h3 id="form_title">Be the First to Get Visual DDF</h3> -->
+      <p style='display: none' id='form_title'></p>
       <p id="form_message"></p>
       <!-- <div style="display:none;"><p><strong>Thank you. Check your email for details on your request.</strong></p></div> -->
       <script src="//app-ab11.marketo.com/js/forms2/js/forms2.min.js"></script>
@@ -29,9 +30,10 @@
 				 //Add an onSuccess handler
 				  form.onSuccess(function(values, followUpUrl){
 				   //get the form's jQuery element and hide it
-				  	form.getFormElem().hide();
-   					document.getElementById('form_title').innerHTML = 'Thank You!';
-	 			   	document.getElementById('form_message').innerHTML = 'We will get in touch with you shortly.';
+    				form.getFormElem().hide();
+            document.getElementById('form_title').style.display = 'block';
+   					document.getElementById('form_title').innerHTML = 'The Data Will Be Liberated! You are now signed up for the vDDF Notification.';
+	 			   	document.getElementById('form_message').innerHTML = 'Learn more about Arimo <a href="https://arimo.com">arimo.com</a>';
 						
 						//load follow up form
 						/*document.getElementById('mktoForm_1214').style.display = 'block';
