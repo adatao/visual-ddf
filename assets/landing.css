@@ -1,5 +1,6 @@
 body {
     font-family: "Titillium Web","Helvetica Neue Light",HelveticaNeue-Light,"Helvetica Neue",Calibri,Helvetica,Arial,sans-serif;
+    background: #6ccfe3;
 }
 
 .arimo__container {
@@ -29,8 +30,8 @@ body {
 
 .arimo__container__form {
     margin: 5% 0;
-    min-height: 400px;
-    background: url(/img/bg-request-demo@2x.png) right 55%/55% auto no-repeat;
+    min-height: 620px;
+    background: url(/img/bg-request-demo@2x.png) right 70%/55% auto no-repeat;
 }
 
 .pg-demo h3 {
@@ -38,6 +39,10 @@ body {
     letter-spacing: 0;
     font-weight: 300;
     margin: 0;
+}
+
+.pg-demo .heading {
+    margin-bottom: 30px;
 }
 
 .pg-demo form {
@@ -79,6 +84,7 @@ body {
 
 .pg-demo form>div.mktoFormRow label {
     width: 100%!important;
+    margin-bottom: 0.5em;
 }
 
 .pg-demo form.mktoForm .mktoGutter, .pg-demo form.mktoForm .mktoOffset {
@@ -111,6 +117,10 @@ body {
     float: none;
 }
 
+.pg-demo form.mktoForm .mktoFormRow:nth-child(5) {
+    margin-bottom: 0;
+}
+
 .pg-demo form.mktoForm .mktoFormRow:nth-child(5) .mktoFormCol {
     float: none;
     width: 100%;
@@ -130,7 +140,7 @@ body {
 
 .pg-demo form ul {
     padding: 0;
-    color: #9E9E9E;
+    color: black;
     list-style: inside;
 }
 
@@ -142,7 +152,7 @@ body {
     border-radius: 4px;
     width: 200px;
     color: #fff;
-    background: #07AE88;
+    background: #E1241B;
     padding: 9px 8px;
     border: none;
     outline: 0;
