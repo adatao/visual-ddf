@@ -128,7 +128,7 @@ document.addEventListener(Events.MenuActionClicked, (e) => {
   if (target) {
     const assetUrl = e.detail.assetUrl;
     const width = target.offsetWidth;
-    const height = target.offsetHeight + 20; // 20 is for the demo ....
+    const height = target.offsetHeight + 25; // 20 is for the demo ....
 
     let placeholder  = document.createElement('div');
     placeholder.style.position = 'absolute';
@@ -159,6 +159,7 @@ document.addEventListener(Events.MenuActionClicked, (e) => {
       })
       .then(submitResult => {
         if (action === 'submit') {
+          placeholder.remove();
           Events.dispatch(Events.SubmissionDone);
           return;
         }

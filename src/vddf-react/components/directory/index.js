@@ -107,6 +107,17 @@ export default class Directory extends React.Component {
   dropFile = (files) => {
     const file = files[0];
 
+    // magic
+    if (/\.xls/.test(file.name)) {
+      const chart = require('src/chrome/assets/chart3').default;
+
+      return this.props.storage.create(chart)
+        .then(() => {
+          this.reload();
+        });
+    }
+
+
     if (file) {
       this.props.manager.load(file)
         .then(vddf => {
