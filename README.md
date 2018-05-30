@@ -44,3 +44,5 @@ For some linux distro, you may need to install **libfontconfig** to make phantom
     * Click on the menu icon, then choose Export.
     * BigApps will give you the embeded code for the vDDF.
   * Chart rendered by codecell is also exportable.
+
+Khang test
